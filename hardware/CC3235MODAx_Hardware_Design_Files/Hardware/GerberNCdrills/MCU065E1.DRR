@@ -1,0 +1,30 @@
+----------------------------------------------------------------------------------------------------------------------------------
+NCDrill File Report For: MCU065E1_LAUNCHCC3235MODA_PCB.PcbDoc   10/2/2019  3:11:06 PM
+----------------------------------------------------------------------------------------------------------------------------------
+
+Layer Pair : TOP to BOTTOM
+ASCII Plated RoundHoles File : MCU065E1-RoundHoles-Plated.TXT
+ASCII Non-Plated RoundHoles File : MCU065E1-RoundHoles-NonPlated.TXT
+ASCII Plated SlotHoles File : MCU065E1-SlotHoles-Plated.TXT
+
+Tool       Hole Size               Hole Tolerance               Hole Type       Hole Count   Plated         Tool Travel
+----------------------------------------------------------------------------------------------------------------------------------
+T1      8mil (0.2mm)            +0mil (0mm)/-8mil (0.2mm)         Round             4         PTH        0.00inch (0.00mm)
+T2      8mil (0.2mm)                                              Round             36        PTH        0.00inch (0.00mm)
+T3      8mil (0.203mm)          +0mil (0mm)/-4mil (0.102mm)       Round             270       PTH        0.00inch (0.00mm)
+T4      12mil (0.305mm)         +0mil (0mm)/-4mil (0.102mm)       Round             142       PTH        0.00inch (0.00mm)
+T5      15mil (0.381mm)         +0mil (0mm)/-4mil (0.102mm)       Round             23        PTH        0.00inch (0.00mm)
+T6      24mil (0.6mm)           +/-3mil (0.076mm)                 Slot              2         PTH        0.00inch (0.00mm)
+T7      28mil (0.71mm)          +/-3mil (0.076mm)                 Round             20        PTH        0.00inch (0.00mm)
+T8      38mil (0.965mm)         +/-3mil (0.076mm)                 Round             1         PTH        0.00inch (0.00mm)
+T9      40mil (1.016mm)         +/-3mil (0.076mm)                 Round             6         PTH        0.00inch (0.00mm)
+T10     40mil (1.02mm)          +/-3mil (0.076mm)                 Round             40        PTH        0.00inch (0.00mm)
+T11     43mil (1.1mm)           +/-3mil (0.076mm)                 Round             8         PTH        0.00inch (0.00mm)
+T12     45mil (1.15mm)          +/-3mil (0.076mm)                 Round             43        PTH        0.00inch (0.00mm)
+T13     39mil (0.991mm)         +/-2mil (0.051mm)                 Round             6         NPTH       0.00inch (0.00mm)
+T14     118mil (3mm)            +/-0mil (0mm)                     Round             4         NPTH       0.00inch (0.00mm)
+T15     125mil (3.175mm)        +/-2mil (0.051mm)                 Round             4         NPTH       0.00inch (0.00mm)
+----------------------------------------------------------------------------------------------------------------------------------
+Totals                                                                              609
+
+Total Processing Time (hh:mm:ss) : 00:00:00

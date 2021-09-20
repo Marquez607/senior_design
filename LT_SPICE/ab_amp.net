@@ -1,0 +1,25 @@
+* C:\Users\Marqu\OneDrive\Desktop\senior_prep_workspace\senior_repo\senior_prep\LT_SPICE\ab_amp.asc
+Q1 N001 N002 N003 0 2N2222
+D1 N002 N005 1N4148
+D2 N005 N008 1N4148
+R1 N001 N002 1k
+R2 N008 0 1k
+R3 N006 N003 4.7
+R4 N006 N007 4.7
+C1 output N006 220µF
+R6 N005 N004 1k
+C2 N004 input 15µF
+V1 input 0 SINE(2.5 2.5 2K)
+C3 N001 0 10µF
+C4 N001 0 100µF
+V2 N001 0 5V
+R5 output 0 8
+Q2 0 N008 N007 0 2N2907
+.model D D
+.lib C:\Users\Marqu\OneDrive\Documents\LTspiceXVII\lib\cmp\standard.dio
+.model NPN NPN
+.model PNP PNP
+.lib C:\Users\Marqu\OneDrive\Documents\LTspiceXVII\lib\cmp\standard.bjt
+.tran 20ms
+.backanno
+.end

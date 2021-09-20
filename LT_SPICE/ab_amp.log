@@ -1,0 +1,21 @@
+Circuit: * C:\Users\Marqu\OneDrive\Desktop\senior_prep_workspace\senior_repo\senior_prep\LT_SPICE\ab_amp.asc
+
+Direct Newton iteration for .op point succeeded.
+
+Date: Thu Sep 09 09:30:42 2021
+Total elapsed time: 0.104 seconds.
+
+tnom = 27
+temp = 27
+method = modified trap
+totiter = 4491
+traniter = 4484
+tranpoints = 1648
+accept = 1289
+rejected = 359
+matrix size = 20
+fillins = 19
+solver = Normal
+Matrix Compiler1: 2.08 KB object code size  0.5/0.5/[0.2]
+Matrix Compiler2: 1.87 KB object code size  0.3/0.4/[0.2]
+

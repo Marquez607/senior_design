@@ -1,0 +1,3 @@
+the outer headers on both sides 
+need to be 1800mil from each other ( 45.72mm )
+measured from their centers

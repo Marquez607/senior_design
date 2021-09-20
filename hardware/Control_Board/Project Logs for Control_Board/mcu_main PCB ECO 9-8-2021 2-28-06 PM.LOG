@@ -1,0 +1,14 @@
+Added Component: Designator=IC?(QFN50P300X300X100-17N-D)
+Add component. Clean all parameters for all variants
+Add component (AddParameter): Name = "Arrow Part Number"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Arrow Price/Stock"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Datasheet Link"; Value = "https://www.melexis.com/-/media/files/documents/datasheets/mlx90393-datasheet-melexis.pdf"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Height"; Value = "1mm"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer_Name"; Value = "Melexis"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer_Part_Number"; Value = "MLX90393ELW-ABA-011-SP"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Mouser Part Number"; Value = "482-90393ELWABA011SP"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Mouser Price/Stock"; Value = "https://www.mouser.co.uk/ProductDetail/Melexis/MLX90393ELW-ABA-011-SP?qs=eDRjYdeUVVnKyn0pSFybgg%3D%3D"; VariantName = "[No Variations]"
+Added Member To Class: ClassName=mcu_main Member=Component IC? MLX90393ELW-ABA-011-SP
+Added Member To Class: ClassName=mcu_main Member=Component IC BMI055
+Added Member To Class: ClassName=mcu_main Member=Component IC BMI055
+Added Member To Class: ClassName=mcu_main Member=Component P? SSQ-110-03-T-D

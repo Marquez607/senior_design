@@ -1,0 +1,21 @@
+Removed Member From Class: ClassName=mcu_main Member=IC?
+Change Component Footprint: Designator=R? Old Footprint=0402 New Footprint=0402
+Change Component Footprint: Designator=R? Old Footprint=0402 New Footprint=0402
+Added Component: Designator=U?(LGA28R55P7X7_500X500X100)
+Add component. Clean all parameters for all variants
+Add component (AddParameter): Name = "Availability"; Value = "In Stock"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Check_prices"; Value = "https://www.snapeda.com/parts/LSM303DLH/STMicroelectronics/view-part/499714/?ref=eda"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "STMicroelectronics"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "LSM303DLH"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "LGA-28 STMicroelectronics"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/LSM303DLH/STMicroelectronics/view-part/499714/?ref=snap"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Member To Class: ClassName=mcu_main Member=Component IC BMI055
+Added Member To Class: ClassName=mcu_main Member=Component P? MHDR1X4
+Added Member To Class: ClassName=mcu_main Member=Component P? SSQ-110-03-T-D
+Added Member To Class: ClassName=mcu_main Member=Component P? SSQ-110-03-T-D
+Added Member To Class: ClassName=mcu_main Member=Component P? ArduCAM
+Added Member To Class: ClassName=mcu_main Member=Component R? CRCW04023K30JNED
+Added Member To Class: ClassName=analog Member=Component U? LT1632CN8
+Added Member To Class: ClassName=mcu_main Member=Component U? LSM303DLH

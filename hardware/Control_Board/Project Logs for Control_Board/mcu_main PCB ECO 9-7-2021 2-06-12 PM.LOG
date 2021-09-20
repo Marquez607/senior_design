@@ -1,0 +1,13 @@
+Added Component: Designator=IC(QFN50P300X450X100-16N)
+Add component. Clean all parameters for all variants
+Add component (AddParameter): Name = "Digi-Key_Part_Number"; Value = "828-1043-1-ND"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Digi-Key_Purchase_URL"; Value = "https://www.digikey.com.cn/product-detail/zh/bosch-sensortec/BMI055/828-1043-1-ND/4196679?utm_source=snapeda&utm_medium=aggregator&utm_campaign=symbol"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "Bosch"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "BMI055"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "LGA-16 Bosch"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/BMI055/Bosch%20Sensortec/view-part/48228/?ref=snap"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Member To Class: ClassName=mcu_main Member=Component IC BMI055
+Added Member To Class: ClassName=mcu_main Member=Component IC BMI055
+Added Member To Class: ClassName=mcu_main Member=Component P? SSQ-110-03-T-D
+Added Room: Name=mcu_main
