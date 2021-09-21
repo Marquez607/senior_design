@@ -40,9 +40,14 @@
 /* Driver Header files */
 #include <ti/drivers/GPIO.h>
 #include <ti/display/Display.h>
+
 #include <ti/drivers/utils/RingBuf.h>
 #include <ti/drivers/apps/LED.h>
 #include <ti/drivers/apps/Button.h>
+
+#include <ti/display/Display.h>
+#include <ti/sysbios/knl/Clock.h>
+#include <ti/sysbios/knl/Task.h>
 
 /* Driver Configuration */
 #include "ti_drivers_config.h"
@@ -82,105 +87,6 @@ buttonStats      bStats;
 RingBuf_Object   ringObj;
 uint8_t          eventBuf[EVENTBUFSIZE];
 
-
-/*
- *  ======== doEventLogs ========
- */
-void doEventLogs(void)
-{
-    uint8_t event;
-    while(RingBuf_get(&ringObj, &event) >= 0)
-    {
-        if(event & Button_EV_CLICKED)
-        {
-            Display_print0(display, 0, 0, "Button:Click");
-        }
-        if(event & Button_EV_DOUBLECLICKED)
-        {
-            Display_print0(display, 0, 0, "Button:Double Click");
-        }
-        if(event & Button_EV_LONGPRESSED)
-        {
-            Display_print0(display, 0, 0, "Button:Long Pressed");
-        }
-    }
-}
-
-/*
- *  ======== handleButtonCallback ========
- */
-void handleButtonCallback(Button_Handle handle, Button_EventMask events)
-{
-    uint_least8_t ledIndex = (buttonHandle[CONFIG_BUTTON_0] == handle) ?
-                              CONFIG_LED_0 : CONFIG_LED_1;
-    LED_Handle led = ledHandle[ledIndex];
-
-    if(Button_EV_PRESSED == (events & Button_EV_PRESSED))
-    {
-        bStats.pressed++;
-    }
-
-    if(Button_EV_RELEASED == (events & Button_EV_RELEASED))
-    {
-        bStats.released++;
-    }
-
-    if(Button_EV_CLICKED == (events & Button_EV_CLICKED))
-    {
-        bStats.clicked++;
-        bStats.lastpressedduration =
-                Button_getLastPressedDuration(handle);
-
-        /* Put event in ring buffer for printing */
-        RingBuf_put(&ringObj, events);
-
-        if(LED_STATE_BLINKING == LED_getState(led))
-        {
-            LED_stopBlinking(led);
-            LED_setOff(led);
-        }
-        else
-        {
-            LED_toggle(led);
-        }
-    }
-
-    if(Button_EV_LONGPRESSED == (events & Button_EV_LONGPRESSED))
-    {
-        bStats.longPress++;
-
-        /* Put event in ring buffer for printing */
-        RingBuf_put(&ringObj, events);
-
-        LED_startBlinking(led, SLOWBLINK, LED_BLINK_FOREVER);
-    }
-
-    if(Button_EV_LONGCLICKED == (events & Button_EV_LONGCLICKED))
-    {
-        bStats.longClicked++;
-        bStats.lastpressedduration = Button_getLastPressedDuration(handle);
-        LED_stopBlinking(led);
-    }
-
-    if(Button_EV_DOUBLECLICKED == (events & Button_EV_DOUBLECLICKED))
-    {
-        bStats.doubleclicked++;
-
-        /* Put event in ring buffer for printing */
-        RingBuf_put(&ringObj, events);
-
-        if(LED_STATE_BLINKING != LED_getState(led))
-        {
-            LED_startBlinking(led, FASTBLINK, BLINKCOUNT);
-        }
-        else
-        {
-            LED_stopBlinking(led);
-            LED_setOff(led);
-        }
-    }
-}
-
 /*
  *  ======== mainThread ========
  */
@@ -196,9 +102,6 @@ void *mainThread(void *arg0)
     Button_init();
     LED_init();
 
-    /* Create ring buffer to store button events */
-    RingBuf_construct(&ringObj, eventBuf, EVENTBUFSIZE);
-
     /* Open the UART display for output */
     display = Display_open(Display_Type_UART, NULL);
     if(display == NULL)
@@ -211,65 +114,11 @@ void *mainThread(void *arg0)
                    "double click to fast blink three times, "
                    "hold the button to slow blink.\n");
 
-    /* Open button 1 and button 2 */
-    Button_Params_init(&buttonParams);
-    buttonHandle[CONFIG_BUTTON_0] = Button_open(CONFIG_BUTTON_0,
-                                              handleButtonCallback,
-                                              &buttonParams);
-    buttonHandle[CONFIG_BUTTON_1] = Button_open(CONFIG_BUTTON_1,
-                                              handleButtonCallback,
-                                              &buttonParams);
-
-    /* Check if the button open is successful */
-    if((buttonHandle[CONFIG_BUTTON_1]  == NULL) ||
-        (buttonHandle[CONFIG_BUTTON_0]  == NULL))
-    {
-        Display_print0(display, 0, 0, "Button Open Failed!");
-    }
-
-    /* Open LED0 and LED1 with default params */
-    LED_Params_init(&ledParams);
-    ledHandle[CONFIG_LED_0] = LED_open(CONFIG_LED_0, &ledParams);
-    ledHandle[CONFIG_LED_1] = LED_open(CONFIG_LED_1, &ledParams);
-    if((ledHandle[CONFIG_LED_0] == NULL) || (ledHandle[CONFIG_LED_1] == NULL))
-    {
-        Display_print0(display, 0, 0, "LED Open Failed!");
-    }
-
-#if CONFIG_LEDCOUNT > 2
-    /* Open a PWM LED if our board has one */
-    ledParams.setState = LED_STATE_ON;
-    ledHandle[CONFIG_LED_2] = LED_open(CONFIG_LED_2, &ledParams);
-    if(ledHandle[CONFIG_LED_2] == NULL)
-    {
-        Display_print0(display, 0, 0, "PWM LED Open Failed!");
-    }
-#endif
-
-
     while(1)
     {
-
-        /* Does a "heart beat" effect for the PWM LED if we opened one */
-        for(inc = 0; inc < 100; inc += 5)
-        {
-#if CONFIG_LEDCOUNT > 2
-            int duty;
-            if(dir)
-            {
-                duty = inc;
-            }
-            else
-            {
-                duty = 100 - inc;
-            }
-            LED_setOn(ledHandle[CONFIG_LED_2], duty);
-#endif
-
-            /* Print out button events */
-            doEventLogs();
-            usleep(FIFTYMS);
-        }
-        dir = !dir;
+        GPIO_write(CONFIG_GPIO_0, 1);
+        Task_sleep(500);
+        GPIO_write(CONFIG_GPIO_0, 0);
+        Task_sleep(500);
     }
 }
