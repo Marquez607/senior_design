@@ -1,0 +1,69 @@
+Added Component: Designator=U?(LGA28R55P7X7_500X500X100)
+Add component. Clean all parameters for all variants
+Add component (AddParameter): Name = "Availability"; Value = "In Stock"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Check_prices"; Value = "https://www.snapeda.com/parts/LSM303DLH/STMicroelectronics/view-part/499714/?ref=eda"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "STMicroelectronics"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "LSM303DLH"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "LGA-28 STMicroelectronics"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/LSM303DLH/STMicroelectronics/view-part/499714/?ref=snap"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Pin To Net: NetName=GND Pin=U?-1
+Added Pin To Net: NetName=GND Pin=U?-2
+Added Pin To Net: NetName=GND Pin=U?-3
+Added Pin To Net: NetName=GND Pin=U?-4
+Added Pin To Net: NetName=3V3 Pin=U?-5
+Added Pin To Net: NetName=3V3 Pin=U?-6
+Added Pin To Net: NetName=3V3 Pin=U?-7
+Added Pin To Net: NetName=GND Pin=U?-17
+Added Pin To Net: NetName=DRDY Pin=U?-18
+Added Pin To Net: NetName=I2C_SDA Pin=U?-19
+Added Pin To Net: NetName=I2C_SCL Pin=U?-20
+Added Pin To Net: NetName=3V3 Pin=U?-21
+Added Pin To Net: NetName=3V3 Pin=U?-22
+Added Pin To Net: NetName=3V3 Pin=U?-23
+Added Pin To Net: NetName=I2C_SCL Pin=U?-24
+Added Pin To Net: NetName=I2C_SDA Pin=U?-25
+Added Pin To Net: NetName=GND Pin=U?-28
+Added Member To Class: ClassName=analog Member=Component C? Cap
+Added Member To Class: ClassName=analog Member=Component C? Cap
+Added Member To Class: ClassName=analog Member=Component C? Cap
+Added Member To Class: ClassName=analog Member=Component C? Cap
+Added Member To Class: ClassName=analog Member=Component C? Cap
+Added Member To Class: ClassName=analog Member=Component C? Cap
+Added Member To Class: ClassName=sensors Member=Component C? Cap
+Added Member To Class: ClassName=sensors Member=Component C? Cap
+Added Member To Class: ClassName=sensors Member=Component C? Cap
+Added Member To Class: ClassName=analog Member=Component D 1N4148
+Added Member To Class: ClassName=mcu_main Member=Component P? MHDR1X4
+Added Member To Class: ClassName=mcu_main Member=Component P? HC-SR04 ULTRASONIC
+Added Member To Class: ClassName=mcu_main Member=Component P? HC-SR04 ULTRASONIC
+Added Member To Class: ClassName=mcu_main Member=Component P? SSQ-110-03-T-D
+Added Member To Class: ClassName=mcu_main Member=Component P? ArduCAM
+Added Member To Class: ClassName=mcu_main Member=Component P? SSQ-110-03-T-D
+Added Member To Class: ClassName=analog Member=Component Q? 2N2222A
+Added Member To Class: ClassName=analog Member=Component Q? IRF3205
+Added Member To Class: ClassName=analog Member=Component Q? 2N2222A
+Added Member To Class: ClassName=analog Member=Component R? Res
+Added Member To Class: ClassName=analog Member=Component R? Res
+Added Member To Class: ClassName=analog Member=Component R? Res
+Added Member To Class: ClassName=analog Member=Component R? Res
+Added Member To Class: ClassName=analog Member=Component R? Res
+Added Member To Class: ClassName=analog Member=Component R? Res
+Added Member To Class: ClassName=analog Member=Component R? Res
+Added Member To Class: ClassName=analog Member=Component R? Res
+Added Member To Class: ClassName=analog Member=Component R? Res
+Added Member To Class: ClassName=analog Member=Component R? Res
+Added Member To Class: ClassName=analog Member=Component R? Res
+Added Member To Class: ClassName=analog Member=Component R? Res
+Added Member To Class: ClassName=analog Member=Component R? Res
+Added Member To Class: ClassName=analog Member=Component R? Res
+Added Member To Class: ClassName=analog Member=Component R? Res
+Added Member To Class: ClassName=mcu_main Member=Component R? CRCW04023K30JNED
+Added Member To Class: ClassName=mcu_main Member=Component R? CRCW04023K30JNED
+Added Member To Class: ClassName=mcu_main Member=Component R? CRCW04023K30JNED
+Added Member To Class: ClassName=mcu_main Member=Component R? CRCW04023K30JNED
+Added Member To Class: ClassName=mcu_main Member=Component R? CRCW04023K30JNED
+Added Member To Class: ClassName=mcu_main Member=Component R? CRCW04023K30JNED
+Added Member To Class: ClassName=mcu_main Member=Component R? CRCW04023K30JNED
+Added Member To Class: ClassName=sensors Member=Component U? LSM303DLH

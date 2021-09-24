@@ -1,0 +1,125 @@
+Removed Member From Class: ClassName=sensors Member=C?
+Removed Member From Class: ClassName=analog Member=P?
+Removed Member From Class: ClassName=analog Member=R?
+Change Component Designator: OldDesignator=C? NewDesignator=C1
+Change Component Designator: OldDesignator=C? NewDesignator=C2
+Change Component Designator: OldDesignator=C? NewDesignator=C3
+Change Component Designator: OldDesignator=C? NewDesignator=C4
+Change Component Designator: OldDesignator=C? NewDesignator=C5
+Change Component Designator: OldDesignator=C? NewDesignator=C6
+Change Component Designator: OldDesignator=C? NewDesignator=C7
+Change Component Designator: OldDesignator=C? NewDesignator=C8
+Change Component Designator: OldDesignator=C? NewDesignator=C9
+Change Component Designator: OldDesignator=C? NewDesignator=C10
+Change Component Designator: OldDesignator=C? NewDesignator=C11
+Change Component Designator: OldDesignator=IC? NewDesignator=IC1
+Change Component Designator: OldDesignator=LS? NewDesignator=LS1
+Change Component Designator: OldDesignator=P? NewDesignator=P1
+Change Component Designator: OldDesignator=P? NewDesignator=P2
+Change Component Designator: OldDesignator=P? NewDesignator=P3
+Change Component Designator: OldDesignator=P? NewDesignator=P4
+Change Component Designator: OldDesignator=P? NewDesignator=P5
+Change Component Designator: OldDesignator=P? NewDesignator=P6
+Change Component Designator: OldDesignator=P? NewDesignator=P7
+Change Component Designator: OldDesignator=P? NewDesignator=P8
+Change Component Designator: OldDesignator=Q? NewDesignator=Q1
+Change Component Designator: OldDesignator=Q? NewDesignator=Q2
+Change Component Designator: OldDesignator=Q? NewDesignator=Q3
+Change Component Designator: OldDesignator=Q? NewDesignator=Q4
+Change Component Designator: OldDesignator=R? NewDesignator=R1
+Change Component Designator: OldDesignator=R? NewDesignator=R2
+Change Component Designator: OldDesignator=R? NewDesignator=R3
+Change Component Designator: OldDesignator=R? NewDesignator=R4
+Change Component Designator: OldDesignator=R? NewDesignator=R5
+Change Component Designator: OldDesignator=R? NewDesignator=R6
+Change Component Designator: OldDesignator=R? NewDesignator=R7
+Change Component Designator: OldDesignator=R? NewDesignator=R8
+Change Component Designator: OldDesignator=R? NewDesignator=R9
+Change Component Designator: OldDesignator=R? NewDesignator=R10
+Change Component Designator: OldDesignator=R? NewDesignator=R11
+Change Component Designator: OldDesignator=R? NewDesignator=R12
+Change Component Designator: OldDesignator=R? NewDesignator=R13
+Change Component Designator: OldDesignator=R? NewDesignator=R14
+Change Component Designator: OldDesignator=R? NewDesignator=R15
+Change Component Designator: OldDesignator=R? NewDesignator=R16
+Change Component Designator: OldDesignator=R? NewDesignator=R17
+Change Component Designator: OldDesignator=R? NewDesignator=R18
+Change Component Designator: OldDesignator=R? NewDesignator=R19
+Change Component Designator: OldDesignator=R? NewDesignator=R20
+Change Component Designator: OldDesignator=R? NewDesignator=R21
+Change Component Designator: OldDesignator=R? NewDesignator=R22
+Change Component Designator: OldDesignator=R? NewDesignator=R23
+Change Component Designator: OldDesignator=R? NewDesignator=R24
+Change Component Designator: OldDesignator=S? NewDesignator=S1
+Change Component Designator: OldDesignator=U? NewDesignator=U1
+Change Net Name : Old Net Name=NetC?_1 New Net Name=NetC4_1
+Change Net Name : Old Net Name=NetC?_2 New Net Name=NetC5_2
+Change Net Name : Old Net Name=NetIC?_2 New Net Name=NetIC1_2
+Change Net Name : Old Net Name=NetIC?_5 New Net Name=NetIC1_5
+Change Net Name : Old Net Name=NetLS?_1 New Net Name=NetLS1_1
+Change Net Name : Old Net Name=NetP?_2 New Net Name=NetP3_2
+Change Net Name : Old Net Name=NetQ?_1 New Net Name=NetQ3_1
+Change Net Name : Old Net Name=NetQ?_3 New Net Name=NetQ1_3
+Added Pin To Net: NetName=NetC2_1 Pin=C2-1
+Added Pin To Net: NetName=NetC2_1 Pin=R3-1
+Added Net: Name=NetC2_1
+Added Pin To Net: NetName=NetC10_1 Pin=C10-1
+Added Pin To Net: NetName=NetC10_1 Pin=U1-16
+Added Net: Name=NetC10_1
+Added Pin To Net: NetName=NetC10_2 Pin=C10-2
+Added Pin To Net: NetName=NetC10_2 Pin=U1-12
+Added Net: Name=NetC10_2
+Added Pin To Net: NetName=NetC11_2 Pin=C11-2
+Added Pin To Net: NetName=NetC11_2 Pin=U1-15
+Added Net: Name=NetC11_2
+Added Pin To Net: NetName=NetP4_2 Pin=P4-2
+Added Pin To Net: NetName=NetP4_2 Pin=R18-2
+Added Net: Name=NetP4_2
+Added Pin To Net: NetName=NetP5_2 Pin=P5-2
+Added Pin To Net: NetName=NetP5_2 Pin=R19-2
+Added Net: Name=NetP5_2
+Added Member To Class: ClassName=analog Member=Component C1 Cap
+Added Member To Class: ClassName=analog Member=Component C2 Cap
+Added Member To Class: ClassName=analog Member=Component C3 Cap
+Added Member To Class: ClassName=analog Member=Component C5 Cap
+Added Member To Class: ClassName=analog Member=Component C6 Cap
+Added Member To Class: ClassName=analog Member=Component C7 Cap
+Added Member To Class: ClassName=sensors Member=Component C8 Cap
+Added Member To Class: ClassName=sensors Member=Component C9 Cap
+Added Member To Class: ClassName=sensors Member=Component C10 Cap
+Added Member To Class: ClassName=sensors Member=Component C11 Cap
+Added Member To Class: ClassName=analog Member=Component D 1N4148
+Added Member To Class: ClassName=analog Member=Component P1 MHDR1X2
+Added Member To Class: ClassName=mcu_main Member=Component P2 ArduCAM
+Added Member To Class: ClassName=mcu_main Member=Component P3 HC-SR04 ULTRASONIC
+Added Member To Class: ClassName=mcu_main Member=Component P4 HC-SR04 ULTRASONIC
+Added Member To Class: ClassName=mcu_main Member=Component P5 HC-SR04 ULTRASONIC
+Added Member To Class: ClassName=mcu_main Member=Component P6 SSQ-110-03-T-D
+Added Member To Class: ClassName=mcu_main Member=Component P8 MHDR1X4
+Added Member To Class: ClassName=analog Member=Component Q2 2N2222A
+Added Member To Class: ClassName=analog Member=Component Q3 IRF3205
+Added Member To Class: ClassName=analog Member=Component Q4 IRF3205
+Added Member To Class: ClassName=analog Member=Component R1 Res
+Added Member To Class: ClassName=analog Member=Component R2 Res
+Added Member To Class: ClassName=analog Member=Component R3 Res
+Added Member To Class: ClassName=analog Member=Component R4 Res
+Added Member To Class: ClassName=analog Member=Component R5 Res
+Added Member To Class: ClassName=analog Member=Component R6 Res
+Added Member To Class: ClassName=analog Member=Component R7 Res
+Added Member To Class: ClassName=analog Member=Component R8 Res
+Added Member To Class: ClassName=analog Member=Component R9 Res
+Added Member To Class: ClassName=analog Member=Component R10 Res
+Added Member To Class: ClassName=analog Member=Component R11 Res
+Added Member To Class: ClassName=analog Member=Component R12 Res
+Added Member To Class: ClassName=analog Member=Component R13 Res
+Added Member To Class: ClassName=analog Member=Component R14 Res
+Added Member To Class: ClassName=analog Member=Component R15 Res
+Added Member To Class: ClassName=analog Member=Component R16 Res
+Added Member To Class: ClassName=mcu_main Member=Component R17 CRCW04023K30JNED
+Added Member To Class: ClassName=mcu_main Member=Component R18 CRCW04023K30JNED
+Added Member To Class: ClassName=mcu_main Member=Component R19 CRCW04023K30JNED
+Added Member To Class: ClassName=mcu_main Member=Component R20 CRCW04023K30JNED
+Added Member To Class: ClassName=mcu_main Member=Component R21 CRCW04023K30JNED
+Added Member To Class: ClassName=mcu_main Member=Component R22 CRCW04023K30JNED
+Added Member To Class: ClassName=mcu_main Member=Component R24 CRCW04023K30JNED
+Added Member To Class: ClassName=sensors Member=Component U1 LSM303DLH

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?ccsproject version="1.0"?>
+<projectOptions>
+	<ccsVersion value="11.0.0"/>
+	<deviceVariant value="MSP430FR4133"/>
+	<deviceFamily value="MSP430"/>
+	<deviceEndianness value="little"/>
+	<codegenToolVersion value="20.2.5.LTS"/>
+	<isElfFormat value="true"/>
+	<linkerCommandFile value="lnk_msp430fr4133.cmd"/>
+	<rts value="libc.a"/>
+	<createSlaveProjects value=""/>
+	<templateProperties value="id=eusci_b_i2c_ex4_slaveRxSingle.projectspec.eusci_b_i2c_ex4_slaveRxSingle"/>
+	<origin value="C:\ti\msp430ware_3_80_14_01\driverlib\examples\MSP430FR2xx_4xx\eusci_b_i2c\CCS\eusci_b_i2c_ex4_slaveRxSingle.projectspec"/>
+	<filesToOpen value=""/>
+</projectOptions>

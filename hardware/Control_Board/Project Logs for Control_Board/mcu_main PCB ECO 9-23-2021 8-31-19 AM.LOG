@@ -1,0 +1,4 @@
+Added Pin To Net: NetName=NetLabel231 Pin=D-A
+Added Pin To Net: NetName=NetLabel231 Pin=D-C
+Added Net: Name=NetLabel231
+Added Member To Class: ClassName=analog Member=Component D 1N4148

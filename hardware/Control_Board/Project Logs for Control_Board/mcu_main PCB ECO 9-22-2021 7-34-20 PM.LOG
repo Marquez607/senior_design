@@ -1,0 +1,58 @@
+Removed Pin From Net: NetName=GND Pin=U?-1
+Removed Pin From Net: NetName=GND Pin=U?-2
+Removed Pin From Net: NetName=GND Pin=U?-3
+Removed Pin From Net: NetName=GND Pin=U?-4
+Removed Pin From Net: NetName=3V3 Pin=U?-5
+Removed Pin From Net: NetName=3V3 Pin=U?-6
+Removed Pin From Net: NetName=3V3 Pin=U?-7
+Removed Pin From Net: NetName=GND Pin=U?-17
+Removed Pin From Net: NetName=DRDY Pin=U?-18
+Removed Pin From Net: NetName=I2C_SDA Pin=U?-19
+Removed Pin From Net: NetName=I2C_SCL Pin=U?-20
+Removed Pin From Net: NetName=3V3 Pin=U?-21
+Removed Pin From Net: NetName=3V3 Pin=U?-22
+Removed Pin From Net: NetName=3V3 Pin=U?-23
+Removed Pin From Net: NetName=I2C_SCL Pin=U?-24
+Removed Pin From Net: NetName=I2C_SDA Pin=U?-25
+Removed Pin From Net: NetName=GND Pin=U?-28
+Added Member To Class: ClassName=analog Member=Component C? Cap
+Added Member To Class: ClassName=analog Member=Component C? Cap
+Added Member To Class: ClassName=analog Member=Component C? Cap
+Added Member To Class: ClassName=analog Member=Component C? Cap
+Added Member To Class: ClassName=analog Member=Component C? Cap
+Added Member To Class: ClassName=analog Member=Component C? Cap
+Added Member To Class: ClassName=sensors Member=Component C? Cap
+Added Member To Class: ClassName=sensors Member=Component C? Cap
+Added Member To Class: ClassName=sensors Member=Component C? Cap
+Added Member To Class: ClassName=analog Member=Component D 1N4148
+Added Member To Class: ClassName=mcu_main Member=Component P? HC-SR04 ULTRASONIC
+Added Member To Class: ClassName=mcu_main Member=Component P? HC-SR04 ULTRASONIC
+Added Member To Class: ClassName=mcu_main Member=Component P? MHDR1X4
+Added Member To Class: ClassName=mcu_main Member=Component P? SSQ-110-03-T-D
+Added Member To Class: ClassName=mcu_main Member=Component P? ArduCAM
+Added Member To Class: ClassName=mcu_main Member=Component P? SSQ-110-03-T-D
+Added Member To Class: ClassName=analog Member=Component Q? IRF3205
+Added Member To Class: ClassName=analog Member=Component Q? 2N2222A
+Added Member To Class: ClassName=analog Member=Component Q? 2N2222A
+Added Member To Class: ClassName=analog Member=Component R? Res
+Added Member To Class: ClassName=analog Member=Component R? Res
+Added Member To Class: ClassName=analog Member=Component R? Res
+Added Member To Class: ClassName=analog Member=Component R? Res
+Added Member To Class: ClassName=analog Member=Component R? Res
+Added Member To Class: ClassName=analog Member=Component R? Res
+Added Member To Class: ClassName=analog Member=Component R? Res
+Added Member To Class: ClassName=analog Member=Component R? Res
+Added Member To Class: ClassName=analog Member=Component R? Res
+Added Member To Class: ClassName=analog Member=Component R? Res
+Added Member To Class: ClassName=analog Member=Component R? Res
+Added Member To Class: ClassName=analog Member=Component R? Res
+Added Member To Class: ClassName=analog Member=Component R? Res
+Added Member To Class: ClassName=analog Member=Component R? Res
+Added Member To Class: ClassName=analog Member=Component R? Res
+Added Member To Class: ClassName=mcu_main Member=Component R? CRCW04023K30JNED
+Added Member To Class: ClassName=mcu_main Member=Component R? CRCW04023K30JNED
+Added Member To Class: ClassName=mcu_main Member=Component R? CRCW04023K30JNED
+Added Member To Class: ClassName=mcu_main Member=Component R? CRCW04023K30JNED
+Added Member To Class: ClassName=mcu_main Member=Component R? CRCW04023K30JNED
+Added Member To Class: ClassName=mcu_main Member=Component R? CRCW04023K30JNED
+Added Member To Class: ClassName=mcu_main Member=Component R? CRCW04023K30JNED

@@ -1,0 +1,4 @@
+Added Pin To Net: NetName=GND Pin=C7-2
+Added Pin To Net: NetName=UART2_TX Pin=P8-2
+Added Pin To Net: NetName=UART2_RX Pin=P8-3
+Added Member To Class: ClassName=analog Member=Component D 1N4148

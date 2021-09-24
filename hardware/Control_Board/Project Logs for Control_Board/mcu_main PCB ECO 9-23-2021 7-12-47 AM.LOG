@@ -1,0 +1,5 @@
+Removed Member From Class: ClassName=mcu_main Member=P1
+Added Member To Class: ClassName=analog Member=Component D 1N4148
+Added Member To Class: ClassName=mcu_main Member=Component P7 SSQ-110-03-T-D
+Added Member To Class: ClassName=analog Member=Component Q1 2N2222A
+Added Member To Class: ClassName=mcu_main Member=Component R23 CRCW04023K30JNED

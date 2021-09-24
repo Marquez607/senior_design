@@ -1,0 +1,51 @@
+Change Component Footprint: Designator=R? Old Footprint=0402 New Footprint=0402
+Change Component Footprint: Designator=R? Old Footprint=0402 New Footprint=0402
+Change Component Footprint: Designator=R? Old Footprint=0402 New Footprint=0402
+Change Component Footprint: Designator=R? Old Footprint=0402 New Footprint=0402
+Change Component Footprint: Designator=R? Old Footprint=0402 New Footprint=0402
+Change Component Footprint: Designator=R? Old Footprint=0402 New Footprint=0402
+Added Pin To Net: NetName=ACCEL_INT Pin=IC-16
+Added Net: Name=ACCEL_INT
+Added Pin To Net: NetName=GYRO_INT Pin=IC-12
+Added Net: Name=GYRO_INT
+Added Member To Class: ClassName=analog Member=Component C? Cap
+Added Member To Class: ClassName=analog Member=Component C? Cap
+Added Member To Class: ClassName=analog Member=Component C? Cap
+Added Member To Class: ClassName=analog Member=Component C? Cap
+Added Member To Class: ClassName=analog Member=Component C? Cap
+Added Member To Class: ClassName=analog Member=Component C? Cap
+Added Member To Class: ClassName=sensors Member=Component C? Cap
+Added Member To Class: ClassName=sensors Member=Component C? Cap
+Added Member To Class: ClassName=sensors Member=Component C? Cap
+Added Member To Class: ClassName=analog Member=Component D 1N4148
+Added Member To Class: ClassName=mcu_main Member=Component P? MHDR1X4
+Added Member To Class: ClassName=mcu_main Member=Component P? HC-SR04 ULTRASONIC
+Added Member To Class: ClassName=mcu_main Member=Component P? SSQ-110-03-T-D
+Added Member To Class: ClassName=mcu_main Member=Component P? SSQ-110-03-T-D
+Added Member To Class: ClassName=mcu_main Member=Component P? ArduCAM
+Added Member To Class: ClassName=mcu_main Member=Component P? HC-SR04 ULTRASONIC
+Added Member To Class: ClassName=analog Member=Component Q? IRF3205
+Added Member To Class: ClassName=analog Member=Component Q? 2N2222A
+Added Member To Class: ClassName=analog Member=Component Q? 2N2222A
+Added Member To Class: ClassName=analog Member=Component R? Res
+Added Member To Class: ClassName=analog Member=Component R? Res
+Added Member To Class: ClassName=analog Member=Component R? Res
+Added Member To Class: ClassName=analog Member=Component R? Res
+Added Member To Class: ClassName=analog Member=Component R? Res
+Added Member To Class: ClassName=analog Member=Component R? Res
+Added Member To Class: ClassName=analog Member=Component R? Res
+Added Member To Class: ClassName=analog Member=Component R? Res
+Added Member To Class: ClassName=analog Member=Component R? Res
+Added Member To Class: ClassName=analog Member=Component R? Res
+Added Member To Class: ClassName=analog Member=Component R? Res
+Added Member To Class: ClassName=analog Member=Component R? Res
+Added Member To Class: ClassName=analog Member=Component R? Res
+Added Member To Class: ClassName=analog Member=Component R? Res
+Added Member To Class: ClassName=analog Member=Component R? Res
+Added Member To Class: ClassName=mcu_main Member=Component R? CRCW04023K30JNED
+Added Member To Class: ClassName=mcu_main Member=Component R? CRCW04023K30JNED
+Added Member To Class: ClassName=mcu_main Member=Component R? CRCW04023K30JNED
+Added Member To Class: ClassName=mcu_main Member=Component R? CRCW04023K30JNED
+Added Member To Class: ClassName=mcu_main Member=Component R? CRCW04023K30JNED
+Added Member To Class: ClassName=mcu_main Member=Component R? CRCW04023K30JNED
+Added Member To Class: ClassName=mcu_main Member=Component R? CRCW04023K30JNED
