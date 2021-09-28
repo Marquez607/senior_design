@@ -1,0 +1,5 @@
+Change Component Designator: OldDesignator=C? NewDesignator=C15
+Change Component Designator: OldDesignator=C? NewDesignator=C16
+Change Component Designator: OldDesignator=U? NewDesignator=U2
+Added Member To Class: ClassName=sensors Member=Component C16 Cap
+Added Member To Class: ClassName=analog Member=Component D 1N4148

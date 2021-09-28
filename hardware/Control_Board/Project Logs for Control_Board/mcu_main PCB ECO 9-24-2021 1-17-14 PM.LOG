@@ -1,0 +1,3 @@
+Added Pin To Net: NetName=5V Pin=C14-2
+Added Member To Class: ClassName=mcu_main Member=Component C14 Cap
+Added Member To Class: ClassName=analog Member=Component D 1N4148

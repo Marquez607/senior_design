@@ -1,0 +1,13 @@
+Removed Pin From Net: NetName=3V3 Pin=C16-1
+Removed Pin From Net: NetName=GND Pin=C16-2
+Removed Pin From Net: NetName=I2C_SDA Pin=U2-1
+Removed Pin From Net: NetName=I2C_SCL Pin=U2-2
+Removed Pin From Net: NetName=GND Pin=U2-4
+Removed Pin From Net: NetName=GND Pin=U2-5
+Removed Pin From Net: NetName=GND Pin=U2-6
+Removed Pin From Net: NetName=GND Pin=U2-7
+Removed Pin From Net: NetName=3V3 Pin=U2-8
+Removed Member From Class: ClassName=sensors Member=C16
+Removed Member From Class: ClassName=sensors Member=U2
+Added Member To Class: ClassName=analog Member=Component D 1N4148
+Added Member To Class: ClassName=msp430 Member=Component R? Res

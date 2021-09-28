@@ -1,0 +1,24 @@
+Removed Pin From Net: NetName=I2C_SCL Pin=R23-1
+Removed Pin From Net: NetName=3V3 Pin=R23-2
+Removed Pin From Net: NetName=I2C_SDA Pin=R24-1
+Removed Pin From Net: NetName=3V3 Pin=R24-2
+Removed Member From Class: ClassName=mcu_main Member=R23
+Removed Member From Class: ClassName=mcu_main Member=R24
+Added Component: Designator=R?(RES0603)
+Add component. Clean all parameters for all variants
+Add component (AddParameter): Name = "Supplier 1"; Value = "Digi-Key"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Supplier Part Number 1"; Value = "RMCF0603JT10K0CT-ND"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = "3.3k"; VariantName = "[No Variations]"
+Added Component: Designator=R?(RES0603)
+Add component. Clean all parameters for all variants
+Add component (AddParameter): Name = "Supplier 1"; Value = "Digi-Key"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Supplier Part Number 1"; Value = "RMCF0603JT10K0CT-ND"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = "3.3k"; VariantName = "[No Variations]"
+Added Pin To Net: NetName=3V3 Pin=R?-1
+Added Pin To Net: NetName=3V3 Pin=R?-1
+Added Pin To Net: NetName=I2C_SCL Pin=R?-2
+Added Pin To Net: NetName=I2C_SDA Pin=R?-2
+Added Member To Class: ClassName=sensors Member=Component C15 Cap
+Added Member To Class: ClassName=analog Member=Component D 1N4148
+Added Member To Class: ClassName=mcu_main Member=Component R? Res
+Added Member To Class: ClassName=mcu_main Member=Component R? Res

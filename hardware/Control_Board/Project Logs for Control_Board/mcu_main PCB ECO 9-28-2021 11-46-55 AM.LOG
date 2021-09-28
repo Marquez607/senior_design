@@ -1,0 +1,5 @@
+Removed Pin From Net: NetName=GND Pin=S2-1
+Removed Pin From Net: NetName=SBWTDIO Pin=S2-2
+Removed Member From Class: ClassName=msp430 Member=S2
+Added Member To Class: ClassName=analog Member=Component D 1N4148
+Added Member To Class: ClassName=msp430 Member=Component R20 Res
