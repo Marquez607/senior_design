@@ -88,45 +88,7 @@ void *masterThread(void *arg0)
     bool            transferOK;
     int32_t         status;
 
-    /*
-     * CONFIG_SPI_MASTER_READY & CONFIG_SPI_SLAVE_READY are GPIO pins connected
-     * between the master & slave.  These pins are used to synchronize
-     * the master & slave applications via a small 'handshake'.  The pins
-     * are later used to synchronize transfers & ensure the master will not
-     * start a transfer until the slave is ready.  These pins behave
-     * differently between spimaster & spislave examples:
-     *
-     * spimaster example:
-     *     * CONFIG_SPI_MASTER_READY is configured as an output pin.  During the
-     *       'handshake' this pin is changed from low to high output.  This
-     *       notifies the slave the master is ready to run the application.
-     *       Afterwards, the pin is used by the master to notify the slave it
-     *       has opened CONFIG_SPI_MASTER.  When CONFIG_SPI_MASTER is opened, this
-     *       pin will be pulled low.
-     *
-     *     * CONFIG_SPI_SLAVE_READY is configured as an input pin. During the
-     *       'handshake' this pin is read & a high value will indicate the slave
-     *       ready to run the application.  Afterwards, a falling edge interrupt
-     *       will be configured on this pin.  When the slave is ready to perform
-     *       a transfer, it will pull this pin low.
-     *
-     * Below we set CONFIG_SPI_MASTER_READY & CONFIG_SPI_SLAVE_READY initial
-     * conditions for the 'handshake'.
-     */
-//    GPIO_setConfig(CONFIG_SPI_MASTER_READY, GPIO_CFG_OUTPUT | GPIO_CFG_OUT_LOW);
-//    GPIO_setConfig(CONFIG_SPI_SLAVE_READY, GPIO_CFG_INPUT);
-//
-//    /*
-//     * Handshake - Set CONFIG_SPI_MASTER_READY high to indicate master is ready
-//     * to run.  Wait CONFIG_SPI_SLAVE_READY to be high.
-//     */
-//    GPIO_write(CONFIG_SPI_MASTER_READY, 1);
-//    while (GPIO_read(CONFIG_SPI_SLAVE_READY) == 0) {}
-//
-//    /* Handshake complete; now configure interrupt on CONFIG_SPI_SLAVE_READY */
-//    GPIO_setConfig(CONFIG_SPI_SLAVE_READY, GPIO_CFG_IN_PU | GPIO_CFG_IN_INT_FALLING);
-//    GPIO_setCallback(CONFIG_SPI_SLAVE_READY, slaveReadyFxn);
-//    GPIO_enableInt(CONFIG_SPI_SLAVE_READY);
+    GPIO_init();
 
     /* Open SPI as master (default) */
     SPI_Params_init(&spiParams);
@@ -151,7 +113,6 @@ void *masterThread(void *arg0)
             transaction.count = 2;
             transaction.txBuf = (void *) masterTxBuffer;
             transaction.rxBuf = (void *) masterRxBuffer;
-
             /* Perform SPI transfer */
             transferOK = SPI_transfer(masterSpi, &transaction);
             if (transferOK) {

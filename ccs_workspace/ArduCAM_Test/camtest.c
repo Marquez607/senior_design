@@ -55,7 +55,8 @@ void *mainThread(void *arg0)
     Display_printf(display,0,0,"Starting ArduCam Test\n");
     ACAM_clear_fifo_flag(&acam);
 
-    // SPI bus check
+
+
     uint32_t avail = 0;
     while(1){
         ACAM_clear_fifo_flag(&acam);

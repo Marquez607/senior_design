@@ -118,8 +118,10 @@ void echoFxn(uint32_t arg0, uint32_t arg1)
         Display_printf(display, 0, 0, "Client Connected.\n");
 
         while ( bytesSent >=0 ) {
+
             sprintf(tx_buffer,"Hello From Server");
             bytesSent = send(client, tx_buffer, TX_SIZE, 0);
+
         }
         Display_printf(display, 0, 0, "Error Occured.\n");
     }

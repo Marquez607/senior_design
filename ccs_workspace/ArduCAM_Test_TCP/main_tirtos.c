@@ -49,72 +49,86 @@
 
 #include "ti_drivers_config.h"
 
-extern void * mainThread(void *arg0);
+#include "board.h"
+
+extern void * networkThread(void *arg0);
+extern void * camThread(void *arg0);
+
+void make_camThread(void);
+void make_networkThread(void);
 
 /* Stack size in bytes */
 #define THREADSTACKSIZE    4096
+
+
 
 /*
  *  ======== main ========
  */
 int main(void)
 {
-    pthread_t thread;
-    pthread_attr_t pAttrs;
-    struct sched_param priParam;
-    int retc;
-    int detachState;
 
     /* Call board init functions */
     Board_init();
+    gator_board_init();
 
-    /* Set priority and stack size attributes */
-    pthread_attr_init(&pAttrs);
-    priParam.sched_priority = 1;
-
-    detachState = PTHREAD_CREATE_DETACHED;
-    retc = pthread_attr_setdetachstate(&pAttrs, detachState);
-    if(retc != 0)
-    {
-        /* pthread_attr_setdetachstate() failed */
-        while(1)
-        {
-            ;
-        }
-    }
-
-    pthread_attr_setschedparam(&pAttrs, &priParam);
-
-    retc |= pthread_attr_setstacksize(&pAttrs, THREADSTACKSIZE);
-    if(retc != 0)
-    {
-        /* pthread_attr_setstacksize() failed */
-        while(1)
-        {
-            ;
-        }
-    }
-
-    retc = pthread_create(&thread, &pAttrs, mainThread, NULL);
-    if(retc != 0)
-    {
-        /* pthread_create() failed */
-        while(1)
-        {
-            ;
-        }
-    }
+    make_camThread();
+    make_networkThread();
 
     BIOS_start();
 
     return (0);
 }
 
-/*
- *  ======== dummyOutput ========
- *  Dummy SysMin output function needed for benchmarks and size comparison
- *  of FreeRTOS and TI-RTOS solutions.
- */
-void dummyOutput(void)
-{
+void make_camThread(void){
+    pthread_t thread;
+    pthread_attr_t pAttrs;
+    struct sched_param priParam;
+    int retc;
+
+    /* Set priority and stack size attributes */
+    pthread_attr_init(&pAttrs);
+    priParam.sched_priority = 1;
+    retc = pthread_attr_setdetachstate(&pAttrs, PTHREAD_CREATE_DETACHED);
+    retc |= pthread_attr_setschedparam(&pAttrs, &priParam);
+    retc |= pthread_attr_setstacksize(&pAttrs, THREADSTACKSIZE);
+    if(retc != 0)
+    {
+        /* pthread_attr_setstacksize() failed */
+        while(1){}
+    }
+    /* main network thread */
+    retc = pthread_create(&thread, &pAttrs, camThread, NULL);
+    if(retc != 0)
+    {
+        /* pthread_create() failed */
+        while(1){}
+    }
+
+}
+void make_networkThread(void){
+    pthread_t thread;
+    pthread_attr_t pAttrs;
+    struct sched_param priParam;
+    int retc;
+
+    /* Set priority and stack size attributes */
+    pthread_attr_init(&pAttrs);
+    priParam.sched_priority = 1;
+    retc = pthread_attr_setdetachstate(&pAttrs, PTHREAD_CREATE_DETACHED);
+    retc |= pthread_attr_setschedparam(&pAttrs, &priParam);
+    retc |= pthread_attr_setstacksize(&pAttrs, THREADSTACKSIZE);
+    if(retc != 0)
+    {
+        /* pthread_attr_setstacksize() failed */
+        while(1){}
+    }
+    /* main network thread */
+    retc = pthread_create(&thread, &pAttrs, networkThread, NULL);
+    if(retc != 0)
+    {
+        /* pthread_create() failed */
+        while(1){}
+    }
+
 }

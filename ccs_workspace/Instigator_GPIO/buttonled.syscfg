@@ -20,7 +20,6 @@ const GPIO6    = GPIO.addInstance();
 const GPIO7    = GPIO.addInstance();
 const GPIO8    = GPIO.addInstance();
 const GPIO9    = GPIO.addInstance();
-const GPIO10   = GPIO.addInstance();
 const RTOS     = scripting.addModule("/ti/drivers/RTOS");
 
 /**
@@ -39,34 +38,31 @@ GPIO2.mode            = "Output";
 GPIO2.$name           = "ULTRA_TRIG0";
 GPIO2.gpioPin.$assign = "boosterpack.13";
 
-GPIO3.$name           = "ULTRA_ECHO0";
-GPIO3.gpioPin.$assign = "boosterpack.11";
+GPIO3.$name           = "ULTRA_TRIG1";
+GPIO3.mode            = "Output";
+GPIO3.gpioPin.$assign = "boosterpack.27";
 
-GPIO4.$name           = "ULTRA_TRIG1";
-GPIO4.mode            = "Output";
-GPIO4.gpioPin.$assign = "boosterpack.27";
+GPIO4.$name           = "ULTRA_ECHO1";
+GPIO4.gpioPin.$assign = "boosterpack.28";
 
-GPIO5.$name           = "ULTRA_ECHO1";
-GPIO5.gpioPin.$assign = "boosterpack.28";
+GPIO5.$name           = "ULTRA_TRIG2";
+GPIO5.mode            = "Output";
+GPIO5.gpioPin.$assign = "boosterpack.29";
+scripting.suppress("Connected to hardware,@@@.+?@@@ is connected to LaunchPad Blue LED on the CC3235S LaunchPad\. Consider selecting it in 'use hardware' above\. @@@.+?@@@",GPIO5.gpioPin);
 
-GPIO6.$name           = "ULTRA_TRIG2";
-GPIO6.mode            = "Output";
-GPIO6.gpioPin.$assign = "boosterpack.29";
-scripting.suppress("Connected to hardware,@@@.+?@@@ is connected to LaunchPad Blue LED on the CC3235S LaunchPad\. Consider selecting it in 'use hardware' above\. @@@.+?@@@",GPIO6.gpioPin);
+GPIO6.$name           = "ULTRA_ECHO2";
+GPIO6.gpioPin.$assign = "boosterpack.30";
 
-GPIO7.$name           = "ULTRA_ECHO2";
-GPIO7.gpioPin.$assign = "boosterpack.30";
+GPIO7.mode            = "Output";
+GPIO7.$name           = "CAM_CS";
+GPIO7.gpioPin.$assign = "boosterpack.18";
 
-GPIO8.mode            = "Output";
-GPIO8.$name           = "CAM_CS";
-GPIO8.gpioPin.$assign = "boosterpack.18";
+GPIO8.$name           = "ULTRA_ECHO_0_ALT";
+GPIO8.gpioPin.$assign = "boosterpack.5";
 
-GPIO9.$name           = "CONFIG_GPIO_1";
-GPIO9.gpioPin.$assign = "boosterpack.5";
-
-GPIO10.$name           = "CONFIG_GPIO_2";
-GPIO10.mode            = "Output";
-GPIO10.gpioPin.$assign = "boosterpack.8";
+GPIO9.mode            = "Output";
+GPIO9.$name           = "ULTRA_TRIG_0_ALT";
+GPIO9.gpioPin.$assign = "boosterpack.8";
 
 const Power          = scripting.addModule("/ti/drivers/Power", {}, false);
 Power.parkPins.$name = "ti_drivers_power_PowerCC32XXPins0";

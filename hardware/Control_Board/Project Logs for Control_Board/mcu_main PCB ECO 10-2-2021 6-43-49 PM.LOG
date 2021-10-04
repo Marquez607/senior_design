@@ -1,0 +1,9 @@
+Change Component Footprint: Designator=P3 Old Footprint=MHDR1X4 New Footprint=HDR1X4
+Change Component Footprint: Designator=P4 Old Footprint=MHDR1X4 New Footprint=HDR1X4
+Change Component Footprint: Designator=P5 Old Footprint=MHDR1X4 New Footprint=HDR1X4
+Change Component Footprint: Designator=P2 Old Footprint=MHDR1X8 New Footprint=HDR1X8
+Change Component Comment : Designator=P3 Old Comment=HC-SR04 ULTRASONIC New Comment=ULTRASONIC HC-SR04
+Change Component Comment : Designator=P4 Old Comment=HC-SR04 ULTRASONIC New Comment=ULTRASONIC HC-SR04
+Change Component Comment : Designator=P5 Old Comment=HC-SR04 ULTRASONIC New Comment=ULTRASONIC HC-SR04
+Change Component Designator: OldDesignator=P? NewDesignator=P11
+Added Member To Class: ClassName=analog Member=Component D 1N4148

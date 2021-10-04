@@ -96,9 +96,8 @@ void *mainThread(void *arg0)
     i2cTransaction.readBuf    = rxBuffer;
     i2cTransaction.readCount  = 0;
 
-
-    Display_printf(display, 0, 0, "\nUsing last known sensor for samples.");
-    i2cTransaction.slaveAddress = 0x1E;
+//    i2cTransaction.slaveAddress = 0x1E;
+    i2cTransaction.slaveAddress = 0x30;
 
     int rc;
     while(1){

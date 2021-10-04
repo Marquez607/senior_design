@@ -16,7 +16,7 @@
 <stringAttribute key="com.ti.ccstudio.debug.debugModel.ATTR_PROGRAM.CC3235S.ccxml.Texas Instruments XDS110 USB Debug Probe/Cortex_M4_0" value="${build_artifact:ArduCAM_Test}"/>
 <stringAttribute key="com.ti.ccstudio.debug.debugModel.ATTR_PROJECT.CC3235S.ccxml.Texas Instruments XDS110 USB Debug Probe/Cortex_M4_0" value="ArduCAM_Test"/>
 <stringAttribute key="com.ti.ccstudio.debug.debugModel.ATTR_TARGET_CONFIG" value="${target_config_active_default:ArduCAM_Test}"/>
-<stringAttribute key="com.ti.ccstudio.debug.debugModel.MRU_PROGRAM.CC3235S.ccxml.Texas Instruments XDS110 USB Debug Probe/Cortex_M4_0" value="C:\Users\Marqu\OneDrive\Desktop\senior_prep_workspace\senior_repo\senior_prep\ccs_workspace\ArduCAM_Test\MCU+Image\ArduCAM_Test.out"/>
+<stringAttribute key="com.ti.ccstudio.debug.debugModel.MRU_PROGRAM.CC3235S.ccxml.Texas Instruments XDS110 USB Debug Probe/Cortex_M4_0" value="C:\Users\Marqu\OneDrive\Desktop\senior_prep_workspace\senior_prep_backup\ccs_workspace\ArduCAM_Test\MCU+Image\ArduCAM_Test.out"/>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
 <listEntry value="/ArduCAM_Test"/>
 </listAttribute>

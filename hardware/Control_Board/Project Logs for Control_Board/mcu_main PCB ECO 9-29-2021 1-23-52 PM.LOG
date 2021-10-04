@@ -1,0 +1,6 @@
+Removed Pin From Net: NetName=U_ALERT Pin=IC2-7
+Removed Pin From Net: NetName=5V Pin=S1-2
+Removed Member From Class: ClassName=mcu_main Member=S1
+Added Pin To Net: NetName=U_ALERT Pin=IC2-24
+Added Pin To Net: NetName=5V Pin=P8-4
+Added Member To Class: ClassName=analog Member=Component D 1N4148

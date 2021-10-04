@@ -1,0 +1,28 @@
+Output: Gerber Files
+Type  : Gerber
+From  : Variant [[No Variations]] of Project [Control_Board.PrjPcb]
+   Generated File[mcu_main.GTO]
+   Generated File[mcu_main.GTP]
+   Generated File[mcu_main.GTS]
+   Generated File[mcu_main.GTL]
+   Generated File[mcu_main.GBL]
+   Generated File[mcu_main.GBS]
+   Generated File[mcu_main.GBP]
+   Generated File[mcu_main.GBO]
+   Generated File[mcu_main.GM1]
+   Generated File[mcu_main.GM3]
+   Generated File[mcu_main.GM6]
+   Generated File[mcu_main.GM13]
+   Generated File[mcu_main.GM15]
+   Generated File[mcu_main.GKO]
+   Generated File[mcu_main.GPT]
+   Generated File[mcu_main.GPB]
+   Generated File[mcu_main.RUL]
+   Generated File[mcu_main.EXTREP]
+   Generated File[mcu_main.REP]
+
+
+Files Generated   : 19
+Documents Printed : 0
+
+Finished Output Generation At 8:13:34 PM On 10/2/2021

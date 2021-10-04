@@ -1,4 +1,12 @@
 /*
+ * NOTES FROM MARQUEZ:
+ * BUNCH OF TI CODE TO SETUP WIFI
+ * GO TO SimpleLinkNetAppEventHandler TO ADD MORE TCP
+ * THREADS
+ *
+ * ALSO INCLUDES ROUTER AND PORT INFORMATION
+ *
+ *
  * Copyright (c) 2015-2018, Texas Instruments Incorporated
  * All rights reserved.
  *
@@ -41,13 +49,13 @@
 #include "ti_drivers_config.h"
 #include "pthread.h"
 
-#define APPLICATION_NAME                      ("UDP Echo")
+#define APPLICATION_NAME                      ("InvestiGator")
 #define APPLICATION_VERSION                   ("1.0.0.0")
 #define DEVICE_ERROR                          ("Device error, please refer \"DEVICE ERRORS CODES\" section in errors.h")
 #define WLAN_ERROR                            ("WLAN error, please refer \"WLAN ERRORS CODES\" section in errors.h")
 #define SL_STOP_TIMEOUT                       (200)
 
-#define UDPPORT 							  (1000)
+#define CAMPORT 							  (1000) // port for camera feed
 #define SPAWN_TASK_PRIORITY                   (9)
 #define TASK_STACK_SIZE                       (2048)
 #define SLNET_IF_WIFI_PRIO                    (5)
@@ -61,7 +69,7 @@ pthread_t spawn_thread = (pthread_t)NULL;
 int32_t             mode;
 Display_Handle display;
 
-extern void echoFxn(uint32_t arg0, uint32_t arg1);
+extern void tcpCamera(uint32_t arg0, uint32_t arg1);
 extern int32_t ti_net_SlNet_initConfig();
 
 /*
@@ -92,6 +100,12 @@ void printError(char *errString, int code)
     \note           For more information, please refer to: user.h in the porting
                     folder of the host driver and the  CC31xx/CC32xx NWP programmer's
                     guide (SWRU455) section 5.7
+
+    RUSH HOUR MODS:
+    the final application will need 3 tcp threads on our 3 ports
+    those all will be added here
+
+    NOTE: ADD NETWORK HANDLER THREADS HERE
 
 */
 void SimpleLinkNetAppEventHandler(SlNetAppEvent_t *pNetAppEvent)
@@ -134,7 +148,7 @@ void SimpleLinkNetAppEventHandler(SlNetAppEvent_t *pNetAppEvent)
                 priParam.sched_priority = 1;
                 status = pthread_attr_setschedparam(&pAttrs, &priParam);
                 status |= pthread_attr_setstacksize(&pAttrs, TASK_STACK_SIZE);
-                status = pthread_create(&udpThread, &pAttrs, (void *(*)(void *))echoFxn, (void*)UDPPORT);
+                status = pthread_create(&udpThread, &pAttrs, (void *(*)(void *))tcpCamera, (void*)CAMPORT);
                 if(status)
                 {
                     printError("Task create failed", status);
@@ -319,7 +333,7 @@ void Connect(void)
     }
 }
 
-void mainThread(void *pvParameters)
+void networkThread(void *pvParameters)
 {
     int32_t             status = 0;
     pthread_attr_t      pAttrs_spawn;
