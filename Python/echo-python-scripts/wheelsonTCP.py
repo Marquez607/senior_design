@@ -36,7 +36,7 @@ class wheelsonTCP():
     def close(self):
         self.socket.close()
 
-    def search_servers(self):
+    def check_server(self):
         pass
 
     def send(self,data_bytes):

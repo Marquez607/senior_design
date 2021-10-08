@@ -66,7 +66,7 @@ extern void *TaskCreate(void (*pFun)(), char *Name, int Priority,
 void echoFxn(uint32_t arg0, uint32_t arg1)
 {
     int                bytesRcvd;
-    int                bytesSent;
+    int                bytesSent = 0;
     int                status;
     int                server;
     int                client;
@@ -98,7 +98,7 @@ void echoFxn(uint32_t arg0, uint32_t arg1)
         goto shutdown;
     }
 
-    status = listen(server, 1);
+    status = listen(server, 3);
     if (status == -1) {
         Display_printf(display, 0, 0, "Error: listen failed.\n");
         goto shutdown;
@@ -117,13 +117,14 @@ void echoFxn(uint32_t arg0, uint32_t arg1)
         client = accept(server,(struct sockaddr *)&localAddr,(socklen_t)&addrlen);
         Display_printf(display, 0, 0, "Client Connected.\n");
 
-        while ( bytesSent >=0 ) {
+        while ( bytesSent >= 0 ) {
 
             sprintf(tx_buffer,"Hello From Server");
             bytesSent = send(client, tx_buffer, TX_SIZE, 0);
 
         }
-        Display_printf(display, 0, 0, "Error Occured.\n");
+        bytesSent = 0;
+        Display_printf(display, 0, 0, "Client Dropped\n");
     }
 
 shutdown:

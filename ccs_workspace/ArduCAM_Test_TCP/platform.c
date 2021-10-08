@@ -64,10 +64,10 @@
 #define SECURITY_TYPE                         SL_WLAN_SEC_TYPE_WPA_WPA2 /* Security type could be SL_WLAN_SEC_TYPE_OPEN */
 #define SECURITY_KEY                          "Tachyon123#"                /* Password of the secured AP */
 
-pthread_t udpThread = (pthread_t)NULL;
+pthread_t tcpCamThread = (pthread_t)NULL;
 pthread_t spawn_thread = (pthread_t)NULL;
 int32_t             mode;
-Display_Handle display;
+extern Display_Handle display;
 
 extern void tcpCamera(uint32_t arg0, uint32_t arg1);
 extern int32_t ti_net_SlNet_initConfig();
@@ -148,7 +148,7 @@ void SimpleLinkNetAppEventHandler(SlNetAppEvent_t *pNetAppEvent)
                 priParam.sched_priority = 1;
                 status = pthread_attr_setschedparam(&pAttrs, &priParam);
                 status |= pthread_attr_setstacksize(&pAttrs, TASK_STACK_SIZE);
-                status = pthread_create(&udpThread, &pAttrs, (void *(*)(void *))tcpCamera, (void*)CAMPORT);
+                status = pthread_create(&tcpCamThread, &pAttrs, (void *(*)(void *))tcpCamera, (void*)CAMPORT);
                 if(status)
                 {
                     printError("Task create failed", status);
@@ -339,13 +339,13 @@ void networkThread(void *pvParameters)
     pthread_attr_t      pAttrs_spawn;
     struct sched_param  priParam;
 
-    SPI_init();
-    Display_init();
-    display = Display_open(Display_Type_UART, NULL);
-    if (display == NULL) {
-        /* Failed to open display driver */
-        while(1);
-    }
+//    SPI_init();
+//    Display_init();
+//    display = Display_open(Display_Type_UART, NULL);
+//    if (display == NULL) {
+//        /* Failed to open display driver */
+//        while(1);
+//    }
 
     /* Start the SimpleLink Host */
     pthread_attr_init(&pAttrs_spawn);
@@ -394,5 +394,6 @@ void networkThread(void *pvParameters)
         printError("Failed to configure device to it's default state", mode);
     }
 
+    Display_printf(display, 0, 0,"About to Connect\n");
     Connect();
 }

@@ -54,13 +54,14 @@
 extern void * networkThread(void *arg0);
 extern void * camThread(void *arg0);
 
+pthread_t camThreadObj;
+pthread_t networkThreadObj;
+
 void make_camThread(void);
 void make_networkThread(void);
 
 /* Stack size in bytes */
 #define THREADSTACKSIZE    4096
-
-
 
 /*
  *  ======== main ========
@@ -81,7 +82,7 @@ int main(void)
 }
 
 void make_camThread(void){
-    pthread_t thread;
+    pthread_t *thread = &camThreadObj;
     pthread_attr_t pAttrs;
     struct sched_param priParam;
     int retc;
@@ -98,7 +99,7 @@ void make_camThread(void){
         while(1){}
     }
     /* main network thread */
-    retc = pthread_create(&thread, &pAttrs, camThread, NULL);
+    retc = pthread_create(thread, &pAttrs, camThread, NULL);
     if(retc != 0)
     {
         /* pthread_create() failed */
@@ -107,7 +108,7 @@ void make_camThread(void){
 
 }
 void make_networkThread(void){
-    pthread_t thread;
+    pthread_t *thread = networkThreadObj;
     pthread_attr_t pAttrs;
     struct sched_param priParam;
     int retc;
@@ -116,7 +117,7 @@ void make_networkThread(void){
     pthread_attr_init(&pAttrs);
     priParam.sched_priority = 1;
     retc = pthread_attr_setdetachstate(&pAttrs, PTHREAD_CREATE_DETACHED);
-    retc |= pthread_attr_setschedparam(&pAttrs, &priParam);
+    pthread_attr_setschedparam(&pAttrs, &priParam);
     retc |= pthread_attr_setstacksize(&pAttrs, THREADSTACKSIZE);
     if(retc != 0)
     {
@@ -124,7 +125,7 @@ void make_networkThread(void){
         while(1){}
     }
     /* main network thread */
-    retc = pthread_create(&thread, &pAttrs, networkThread, NULL);
+    retc = pthread_create(thread, &pAttrs, networkThread, NULL);
     if(retc != 0)
     {
         /* pthread_create() failed */

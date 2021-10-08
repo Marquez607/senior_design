@@ -63,6 +63,7 @@ void tcpCamera(uint32_t arg0, uint32_t arg1)
     char               rx_buffer[RX_SIZE];
     uint32_t           max_ticks = 40E3; //wait 40 thousand cpu ticks
 
+    Display_printf(display,0,0,"TCP Camera Connected");
 
     server = socket(AF_INET,  SOCK_STREAM, 0);
     if (server == -1) {

@@ -38,9 +38,10 @@ I2C1.$hardware = system.deviceData.board.components.LP_I2C;
 const Power          = scripting.addModule("/ti/drivers/Power", {}, false);
 Power.parkPins.$name = "ti_drivers_power_PowerCC32XXPins0";
 
-SPI1.$name     = "CONFIG_SPI_0";
-SPI1.ssControl = "SW";
-SPI1.turboMode = true;
+SPI1.$name       = "CONFIG_SPI_0";
+SPI1.ssControl   = "SW";
+SPI1.turboMode   = true;
+SPI1.spi.$assign = "SPI0";
 
 /**
  * Pinmux solution for unlocked pins/peripherals. This ensures that minor changes to the automatic solver in a future
@@ -53,7 +54,6 @@ Display1.uart.uart.rxPin.$suggestSolution = "57";
 I2C1.i2c.$suggestSolution                 = "I2C0";
 I2C1.i2c.sdaPin.$suggestSolution          = "boosterpack.10";
 I2C1.i2c.sclPin.$suggestSolution          = "boosterpack.9";
-SPI1.spi.$suggestSolution                 = "SPI0";
 SPI1.spi.sclkPin.$suggestSolution         = "boosterpack.7";
 SPI1.spi.misoPin.$suggestSolution         = "boosterpack.14";
 SPI1.spi.mosiPin.$suggestSolution         = "boosterpack.15";

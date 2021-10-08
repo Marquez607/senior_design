@@ -70,6 +70,14 @@ void *mainThread(void *arg0)
     }
 }
 
+void * dummyThread(void *arg0){
+
+    uint8_t i = 0;
+    while(1){
+        Display_printf(display,0,0,"Dummy %d ",i++);
+    }
+}
+
 
 /*
  * read and send full image from camera
