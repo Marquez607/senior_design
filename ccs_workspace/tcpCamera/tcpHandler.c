@@ -67,17 +67,17 @@ extern Display_Handle display;
  */
 void camTCP(uint32_t arg0, uint32_t arg1)
 {
-    int                bytesRcvd;
+//    int                bytesRcvd;
     int                bytesSent = 0;
     int                status;
     int                server;
     int                client;
     struct sockaddr_in localAddr;
-    struct sockaddr_in clientAddr;
+//    struct sockaddr_in clientAddr;
     socklen_t          addrlen;
     int                optval;
     int                optlen = sizeof(optval);
-    char               rx_buffer[RX_SIZE];
+//    char               rx_buffer[RX_SIZE];
 
     Display_printf(display, 0, 0, "TCP Hello Test Started\n");
 

@@ -1,7 +1,7 @@
 '''
 Name: wheelson_handler.py
 Author: Marquez Jones
-Desc: handler for udp connection to wheelson
+Desc: handler for tcp connection to wheelson
 NOTE: Wheelson is a server and this application will 
       be a client
 
@@ -31,7 +31,10 @@ class wheelsonTCP():
                 self.socket = None
                 continue
             break       
-        self.socket.connect(self.sa)    
+        try:
+            self.socket.connect(self.sa)
+        except:
+            self.socket = None    
 
     def close(self):
         self.socket.close()
@@ -59,6 +62,6 @@ class wheelsonTCP():
                 bytes_read += len(data)
                 ret_data += data 
         except socket.error as msg: 
-            print("ERROR")
+            print(msg)
             self.close()
         return ret_data

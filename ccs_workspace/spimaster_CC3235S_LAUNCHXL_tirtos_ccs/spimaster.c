@@ -93,7 +93,7 @@ void *masterThread(void *arg0)
     /* Open SPI as master (default) */
     SPI_Params_init(&spiParams);
     spiParams.frameFormat = SPI_POL0_PHA0;
-    spiParams.bitRate = 4000000;
+    spiParams.bitRate = 8000000;
     spiParams.dataSize = 8;
     masterSpi = SPI_open(CONFIG_SPI_MASTER, &spiParams);
     if (masterSpi == NULL) {
