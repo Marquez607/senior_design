@@ -9,7 +9,8 @@ import time
 import os
 
 #iterate through folder and display contents on website forever
-folder = "../../archive/DATASET/DATASET/TEST/R"
+folder = "./rx_images"
+
 fps = 'FPS'
 stream = "STREAM"
 
@@ -26,4 +27,4 @@ if __name__ == '__main__':
     # pywebio.session.set_env(output_animation=False)  
     # while True:
     #     main()
-    start_server(main, debug=True, port=4040,output_animation=False)     
+    start_server(main, debug=True, port=4041,output_animation=False)     
