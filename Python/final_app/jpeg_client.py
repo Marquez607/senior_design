@@ -11,6 +11,8 @@ import time
 import os
 import multiprocessing as mp
 
+
+
 def wait_for_server(server_ip,port,buffer_size):    
     '''
     Waits for server connection
@@ -45,7 +47,7 @@ def jpeg_client(server_ip,port,
         os.mkdir(outfolder)
 
 
-    RX_SIZE = 20 * 1024
+    RX_SIZE = 10 * 1024
 
     server = wait_for_server(server_ip,port,RX_SIZE)
 
@@ -54,6 +56,8 @@ def jpeg_client(server_ip,port,
     image_index = 0 #keep track of number of files
     header = False 
     new_image = []
+    t0 = time.time() #jpeg start time 
+    t1 = time.time() #jpeg end time
     while True:
 
         data = bytearray()
@@ -72,11 +76,12 @@ def jpeg_client(server_ip,port,
                 if (temp == 0xD9) and (temp_last == 0xFF):
                     header = False 
                     new_image.append(temp) #end of image                     
-                    print("Saving image") 
+                    # print("Saving image") 
 
                     #save/store image 
                     if write_queue is not None: #write to pipe if applicable
                         try:
+                            # print("[DEBUG] writing image to pipe")
                             write_queue.put(new_image)
                         except:
                             print("IPC PIPE FAILED") 
@@ -90,12 +95,16 @@ def jpeg_client(server_ip,port,
                         image_index += 1
                         image_index %= max_num_files
 
+                    t1 = time.time()
+                    # print(f"FPS = {1/(t1-t0)}")
+
                     new_image = [] #clear image
                         
                 else:
                     new_image.append(temp)
 
             elif (temp == 0xD8) and (temp_last==0xFF):
+                t0 = time.time()
                 header = True
                 new_image.append(temp_last)
                 new_image.append(temp)

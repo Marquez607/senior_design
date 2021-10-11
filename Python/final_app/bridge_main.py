@@ -13,6 +13,7 @@ Desc: this is the main entrance for the bridge system which
        this will also setup the tcp connection for video feed from
        InvestiGator/Wheelson
 
+based on
 https://blog.miguelgrinberg.com/post/video-streaming-with-flask
 '''
 
@@ -20,10 +21,10 @@ https://blog.miguelgrinberg.com/post/video-streaming-with-flask
 from flask import Flask, render_template, Response
 import time
 import os
-import subprocess
 import multiprocessing as mp
 import argparse
 import jpeg_client as jCli
+import webStream as bridge
 import atexit
 
 folder = "./rx_images"
@@ -32,22 +33,25 @@ app = Flask(__name__)
 app.debug=False
 
 # IPC FOR GETTING IMAGE DATA
-wheelson_pipe = None
-jpegTCP = None
+camPipe = mp.Queue()
+
+#PROCESSES 
+jpegProc = None   #jpeg tcp connection
+bridgeProc = None #bridge webpage 
 
 def gen():
-    global wheelson_pipe
+    '''
+    Receive and post jpegs to the page
+    '''
+    global camPipe
     while True:
-        frame = wheelson_pipe.get()
+        t0 = time.time()
+        frame = bytearray(camPipe.get())
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
-
-        # for filename in os.listdir(folder):
-        #     if ".jpg" in filename:
-        #         frame = open(os.path.join(folder,filename), 'rb').read() 
-        #         time.sleep(0.05)
-        #         yield (b'--frame\r\n'
-        #             b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+        # time.sleep(0.05) #limite to 20 FPS
+        t1 = time.time()
+        print(f"FPS = {1/(t1-t0)}")
                 
 @app.route('/video_feed')
 def video_feed():
@@ -59,12 +63,16 @@ def parse_args():
     if using as script, you can pass in the ip and port via these flags
     '''
     parser = argparse.ArgumentParser(description='jpeg receiving over socket')
+
+    #PORT/IP FOR INVESTIGATOR/WHEELSON
     parser.add_argument('-p','--port',required=True,dest='port', type=int,
                         help='port number of jpeg server')
+
     parser.add_argument('-i','--ip',required=True,dest='ip',
                         help='IP address of jpeg server')
 
-    parser.add_argument('-w',dest='web_port',type=int,default=4040,
+    #PORTS FOR WEBSERVER
+    parser.add_argument('-b',dest='bridge_port',type=int,default=4040,
                         help='Port for main webpage')
 
     parser.add_argument('-v',dest='vid_port',type=int,default=4041,
@@ -72,29 +80,33 @@ def parse_args():
 
     args = parser.parse_args()
 
-    return args.ip,args.port,args.web_port,args.vid_port
+    return args.ip,args.port,args.bridge_port,args.vid_port
 
 def exit_handler():
     print("exit_handler : killing all processes")
-    if jpegTCP is not None: 
-        jpegTCP.kill()
+    if jpegProc is not None: 
+        jpegProc.terminate()
+
+    if bridgeProc is not None: 
+        bridgeProc.terminate()
 
 def main():
 
-    global wheelson_pipe
-    global jpegTCP
+    global camPipe
+    global jpegProc
+    global bridgeProc
 
     atexit.register(exit_handler)
 
-    server_ip,server_port,_,vid_port = parse_args()
+    server_ip,server_port,bridge_port,vid_port = parse_args()
 
-    #need to fork bridge page here, bridge will handle other Investagor tcp connections
-    bridge = ["python3","webStream.py"] 
-    p = subprocess.Popen(bridge)
+    # #need to fork bridge page here, bridge will handle other Investagor tcp connections
+    bridgeProc = mp.Process(target=bridge.main,args=(bridge_port,))
+    bridgeProc.start()
 
     #start jpeg client for Investigator 
-    jpegTCP = mp.Process(target=jCli.jpeg_client,args=(server_ip,server_port,wheelson_pipe))
-    jpegTCP.start()
+    jpegProc = mp.Process(target=jCli.jpeg_client,args=(server_ip,server_port,camPipe))
+    jpegProc.start()
 
     app.run(host='localhost', port=vid_port,threaded=True,debug=True,use_reloader=False)
 
