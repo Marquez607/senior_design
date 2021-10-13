@@ -64,19 +64,26 @@ def parse_args():
     '''
     parser = argparse.ArgumentParser(description='jpeg receiving over socket')
 
-    #PORT/IP FOR INVESTIGATOR/WHEELSON
-    parser.add_argument('-p','--port',required=True,dest='port', type=int,
-                        help='port number of jpeg server')
-
+    #IP FOR INVESTIGATOR/WHEELSON                
     parser.add_argument('-i','--ip',required=True,dest='ip',
                         help='IP address of jpeg server')
+    
+    #PORTS FOR INVESTIGATOR SERVICES
+    parser.add_argument('-v','--vport',required=False,dest='port', type=int,default=1000,
+                        help='port number of jpeg server on robot')
+                       
+    parser.add_argument('-c','--cport',required=False,dest='port', type=int,default=1001,
+                        help='port number of command server on robot')   
 
+    parser.add_argument('-u','--uport',required=False,dest='port', type=int,default=1002,
+                        help='port number of update server on robot')
+                        
     #PORTS FOR WEBSERVER
-    parser.add_argument('-b',dest='bridge_port',type=int,default=4040,
-                        help='Port for main webpage')
+    parser.add_argument('--ui',dest='bridge_port',type=int,default=4040,
+                        help='port for main web UI')
 
-    parser.add_argument('-v',dest='vid_port',type=int,default=4041,
-                        help='port for video streaming webpage')   
+    parser.add_argument('--video',dest='vid_port',type=int,default=4041,
+                        help='port for video streaming server')   
 
     args = parser.parse_args()
 
@@ -108,7 +115,7 @@ def main():
     jpegProc = mp.Process(target=jCli.jpeg_client,args=(server_ip,server_port,camPipe))
     jpegProc.start()
 
-    app.run(host='localhost', port=vid_port,threaded=True,debug=True,use_reloader=False)
+    app.run(host='127.0.0.1', port=vid_port,threaded=True,debug=False,use_reloader=False)
 
 if __name__ == '__main__':
     # start jpeg client 
