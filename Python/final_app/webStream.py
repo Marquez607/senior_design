@@ -9,9 +9,6 @@ import atexit
 import os 
 import subprocess
 
-# cam_server_ip = "192.168.0.102"
-# cam_port = 1000
-
 def webPage():
     put_markdown("""# Investigator Test Video Stream """,lstrip=True)
     put_html("<iframe src= \"http://localhost:4041/video_feed\" width=\"320\" height=\"240\"></iframe>")

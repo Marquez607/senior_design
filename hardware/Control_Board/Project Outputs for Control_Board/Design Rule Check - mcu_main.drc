@@ -1,7 +1,7 @@
 Protel Design System Design Rule Check
 PCB File : C:\Users\Marqu\OneDrive\Desktop\senior_prep_workspace\senior_prep_backup\hardware\Control_Board\mcu_main.PcbDoc
-Date     : 10/2/2021
-Time     : 8:12:39 PM
+Date     : 10/18/2021
+Time     : 11:24:18 AM
 
 Processing Rule : Clearance Constraint (Gap=7mil) (All),(All)
 Rule Violations :0
@@ -195,4 +195,4 @@ Rule Violations :0
 
 Violations Detected : 150
 Waived Violations : 0
-Time Elapsed        : 00:00:03
+Time Elapsed        : 00:00:01

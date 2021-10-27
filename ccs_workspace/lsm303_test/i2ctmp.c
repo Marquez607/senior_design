@@ -122,9 +122,9 @@ void *mainThread(void *arg0)
 }
 
 static int mag_i2c_write(uint8_t slave_addr, uint8_t *buffer, uint32_t size){
-    i2cTransaction.writeBuf   = buffer;
-    i2cTransaction.writeCount = size;
-    i2cTransaction.readCount  = 0;
+    i2cTransaction.writeBuf     = buffer;
+    i2cTransaction.writeCount   = size;
+    i2cTransaction.readCount    = 0;
     i2cTransaction.slaveAddress = slave_addr;
     if( I2C_transfer(i2c, &i2cTransaction) < 0 ){
         return -1;
@@ -133,9 +133,9 @@ static int mag_i2c_write(uint8_t slave_addr, uint8_t *buffer, uint32_t size){
 }
 
 static int mag_i2c_read(uint8_t slave_addr, uint8_t *buffer, uint32_t size){
-    i2cTransaction.writeCount = 0;
-    i2cTransaction.readBuf    = buffer;
-    i2cTransaction.readCount  = size;
+    i2cTransaction.writeCount   = 0;
+    i2cTransaction.readBuf      = buffer;
+    i2cTransaction.readCount    = size;
     i2cTransaction.slaveAddress = slave_addr;
     if( I2C_transfer(i2c, &i2cTransaction) < 0 ){
         return -1;

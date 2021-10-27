@@ -47,6 +47,10 @@
 
 #define TASKSTACKSIZE       640
 
+#define MAG_ADDR 0x1E //LSM303
+#define ACCEL_ADDR 0x18 //BMI055
+#define GYRO_ADDR 0x68 //BMI055
+
 static uint8_t slaveAddress;
 static Display_Handle display;
 

@@ -267,9 +267,9 @@ void LSM303_getOrientation(lsm303_t *sensor,float *x, float *y, float *z){
 //      	  }
 //		}
 	}
-	*x = sensor->magData.x / sensor->_lsm303Mag_Gauss_LSB_XY * SENSORS_GAUSS_TO_MICROTESLA;
-	*y = sensor->magData.y / sensor->_lsm303Mag_Gauss_LSB_XY * SENSORS_GAUSS_TO_MICROTESLA;
-	*z = sensor->magData.z / sensor->_lsm303Mag_Gauss_LSB_Z * SENSORS_GAUSS_TO_MICROTESLA;
+	*x = sensor->magData.x / sensor->_lsm303Mag_Gauss_LSB_XY * (float)SENSORS_GAUSS_TO_MICROTESLA;
+	*y = sensor->magData.y / sensor->_lsm303Mag_Gauss_LSB_XY * (float)SENSORS_GAUSS_TO_MICROTESLA;
+	*z = sensor->magData.z / sensor->_lsm303Mag_Gauss_LSB_Z * (float)SENSORS_GAUSS_TO_MICROTESLA;
 }
 
 /**************************************************************************/
