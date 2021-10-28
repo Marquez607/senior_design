@@ -11,7 +11,7 @@ import subprocess
 
 def webPage():
     put_markdown("""# Investigator Test Video Stream """,lstrip=True)
-    put_html("<iframe src= \"http://localhost:4041/video_feed\" width=\"320\" height=\"240\"></iframe>")
+    put_html("<iframe src= \"http://localhost:4041/video\" width=\"320\" height=\"240\"></iframe>")
     # put_html("<iframe src=\"https://www.youtube.com/embed/YQHsXMglC9A\" width=\"853\" height=\"480\" frameborder=\"0\" allowfullscreen></iframe>")
 
 def main(port=4040):

@@ -24,6 +24,7 @@ import os
 import multiprocessing as mp
 import argparse
 import jpeg_client as jCli
+import cmd_client as cmdCli
 import webStream as bridge
 import atexit
 
@@ -34,10 +35,14 @@ app.debug=False
 
 # IPC FOR GETTING IMAGE DATA
 camPipe = mp.Queue()
+cmdPipe = mp.Queue()
+updatePipe = mp.Queue()
 
 #PROCESSES 
 jpegProc = None   #jpeg tcp connection
 bridgeProc = None #bridge webpage 
+cmdProc = None 
+updateProc = None
 
 def gen():
     '''
@@ -53,7 +58,7 @@ def gen():
         t1 = time.time()
         print(f"FPS = {1/(t1-t0)}")
                 
-@app.route('/video_feed')
+@app.route('/video')
 def video_feed():
     return Response(gen(),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
@@ -69,25 +74,25 @@ def parse_args():
                         help='IP address of jpeg server')
     
     #PORTS FOR INVESTIGATOR SERVICES
-    parser.add_argument('-v','--vport',required=False,dest='port', type=int,default=1000,
+    parser.add_argument('-v','--vport',required=False,dest='vport', type=int,default=1000,
                         help='port number of jpeg server on robot')
                        
-    parser.add_argument('-c','--cport',required=False,dest='port', type=int,default=1001,
+    parser.add_argument('-c','--cport',required=False,dest='cport', type=int,default=1001,
                         help='port number of command server on robot')   
 
-    parser.add_argument('-u','--uport',required=False,dest='port', type=int,default=1002,
+    parser.add_argument('-u','--uport',required=False,dest='uport', type=int,default=1002,
                         help='port number of update server on robot')
                         
     #PORTS FOR WEBSERVER
-    parser.add_argument('--ui',dest='bridge_port',type=int,default=4040,
-                        help='port for main web UI')
+    parser.add_argument('-b','--bport',dest='bport',type=int,default=4042,
+                        help='port for main web UI ; bridge ')
 
-    parser.add_argument('--video',dest='vid_port',type=int,default=4041,
+    parser.add_argument('-f','--flask',dest='fport',type=int,default=4041,
                         help='port for video streaming server')   
 
     args = parser.parse_args()
 
-    return args.ip,args.port,args.bridge_port,args.vid_port
+    return args
 
 def exit_handler():
     print("exit_handler : killing all processes")
@@ -97,25 +102,47 @@ def exit_handler():
     if bridgeProc is not None: 
         bridgeProc.terminate()
 
+    if cmdProc is not None: 
+        cmdProc.terminate()
+
+    if updateProc is not None: 
+        updateProc.terminate()
+
 def main():
 
     global camPipe
     global jpegProc
     global bridgeProc
+    global cmdProc 
+    global updateProc 
 
     atexit.register(exit_handler)
 
-    server_ip,server_port,bridge_port,vid_port = parse_args()
+    args = parse_args()
+
+    #==================== BRIDGE PAGE ===============================#
 
     # #need to fork bridge page here, bridge will handle other Investagor tcp connections
-    bridgeProc = mp.Process(target=bridge.main,args=(bridge_port,))
+    bridgeProc = mp.Process(target=bridge.main,args=(args.bport,))
     bridgeProc.start()
 
+    #====================== TCP HANDLERS =============================#
+
     #start jpeg client for Investigator 
-    jpegProc = mp.Process(target=jCli.jpeg_client,args=(server_ip,server_port,camPipe))
+    jpegProc = mp.Process(target=jCli.jpeg_client,args=(args.ip,args.vport,camPipe))
     jpegProc.start()
 
-    app.run(host='127.0.0.1', port=vid_port,threaded=True,debug=False,use_reloader=False)
+    # # #need to fork bridge page here, bridge will handle other Investagor tcp connections
+    # cmdProc = mp.Process(target=cmdCli.cmd_process,args=(args.ip,args.cport,cmdPipe))
+    # cmdProc.start()
+
+    # #start jpeg client for Investigator 
+    # updateProc = mp.Process(target=cmdCli.update_process,args=(args.ip,args.uport,updatePipe))
+    # updateProc.start()
+
+    #===================== FLASK RUN ==================================#
+
+    app.run(host='127.0.0.1', port=args.fport,threaded=True,debug=False,use_reloader=False)
 
 if __name__ == '__main__':
     # start jpeg client 

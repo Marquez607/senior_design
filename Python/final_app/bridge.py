@@ -110,7 +110,7 @@ def webpage():
 
     put_markdown("""# Welcome to the Bridge
     The Bridge is an online interface for issuing commands and receiving updates from the Wheelson IoT robot platform""",lstrip=True)
-
+    
     show_cmd_map()
     while True:
         time.sleep(1)
@@ -176,10 +176,10 @@ def wheelson_sim(cmd_fifo,wheelson_loc_fifo):
 def exit_handler():
     print("exit_handler : killing all processes")
     if wheelson_proc is not None: 
-        wheelson_proc.kill()
+        wheelson_proc.terminate()
 
 if __name__ == '__main__':
     atexit.register(exit_handler)
     wheelson_proc = mp.Process(target=wheelson_sim,args=(cmd_fifo,wheelson_loc_fifo))
     wheelson_proc.start()
-    start_server(webpage,port=4040)     
+    start_server(webpage,port=4042)     

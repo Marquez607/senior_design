@@ -30,7 +30,7 @@ def wait_for_server(server_ip,port,buffer_size):
 def jpeg_client(server_ip,port,
                 write_queue = None,
                 save_as_file = True,
-                max_num_files = 5,
+                max_num_files = 1,
                 outfolder = "./rx_images",
                 out_file_name = "snap"):
     '''
