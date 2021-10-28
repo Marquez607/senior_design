@@ -16,10 +16,16 @@
 /* where wheelson is currently in our "world" */
 wheelson_pos_t position_g;
 
+/* " compass " bearing */
+uint32_t heading_g;
+
+/* maybe we'll need to set a relative "north" for ease of use */
+uint32_t heading_offset_g;
+
 /* only needs to get called on boot up or whenever client decides
  * to reset relative coordinate system
  */
-void init_position(wheelson_pos_t *pos,uint8_t x, uint8_y){
+void init_position(wheelson_pos_t *pos,uint8_t x, uint8_t y){
     pos->x = x;
     pos->y = y;
     sem_init(&pos->mutex, 0, 1); /* unlocked at start */
@@ -115,7 +121,7 @@ int pdu_fifo_get(pdu_fifo_t *fifo,pdu_t *out){
     }
 
     /* copy operation */
-    memcpy(output,&fifo->buffer[fifo->tail],sizeof(pdu_t));
+    memcpy(out,&fifo->buffer[fifo->tail],sizeof(pdu_t));
     fifo->tail++;
     fifo->tail%=fifo->size;
 
@@ -124,6 +130,29 @@ int pdu_fifo_get(pdu_fifo_t *fifo,pdu_t *out){
         sem_post(&fifo->full);
     }
     sem_post(&fifo->mutex);
+}
+
+/*
+ * fills buffer with pdu
+ */
+int pdu_fill_buffer(uint8_t *out_buff,pdu_t *in_pdu){
+
+    out_buff[0] = PDU_START_BYTE0;
+    out_buff[1] = PDU_START_BYTE1;
+    memcpy(out_buff+2,in_pdu,PDU_SIZE);
+    return 0;
+}
+
+/*
+ * populates pdu with buffer data
+ */
+int pdu_read_buffer(uint8_t *in_buff,pdu_t *out_pdu){
+
+    if(in_buff[0] != PDU_START_BYTE0 || in_buff[1] != PDU_START_BYTE1){
+        return -1;
+    }
+    memcpy((uint8_t*)out_pdu,in_buff+2,PDU_SIZE);
+    return 0;
 }
 
 /********************************** OTHER IPC DATA **********************************/

@@ -27,6 +27,8 @@ const Timer          = scripting.addModule("/ti/drivers/Timer");
 const Timer1         = Timer.addInstance();
 const Timer2         = Timer.addInstance();
 const Timer3         = Timer.addInstance();
+const UART           = scripting.addModule("/ti/drivers/UART", {}, false);
+const UART1          = UART.addInstance();
 const Watchdog       = scripting.addModule("/ti/drivers/Watchdog");
 const Watchdog1      = Watchdog.addInstance();
 const SimpleLinkWifi = scripting.addModule("/ti/drivers/net/wifi/SimpleLinkWifi");
@@ -46,15 +48,10 @@ const JSON           = scripting.addModule("/ti/utils/JSON");
 /**
  * Write custom configuration values to the imported modules.
  */
-Display1.$name                          = "CONFIG_Display_0";
-Display1.$hardware                      = system.deviceData.board.components.XDS110UART;
-Display1.uart.$name                     = "CONFIG_UART_0";
-Display1.uart.useDMA                    = true;
-Display1.uart.uart.$assign              = "UART0";
-Display1.uart.uart.txPin.$assign        = "55";
-Display1.uart.uart.rxPin.$assign        = "57";
-Display1.uart.uart.txDmaChannel.$assign = "UDMA_CH9";
-Display1.uart.uart.rxDmaChannel.$assign = "UDMA_CH8";
+Display1.$name      = "CONFIG_Display_0";
+Display1.$hardware  = system.deviceData.board.components.XDS110UART;
+Display1.useUART2   = true;
+Display1.uart.$name = "CONFIG_UART2_0";
 
 Crypto1.$name = "CONFIG_Crypto_0";
 
@@ -91,6 +88,12 @@ Timer2.timer.$assign = "Timer1";
 Timer3.$name         = "CONFIG_TIMER_2";
 Timer3.timer.$assign = "Timer1";
 
+UART1.$name              = "CONFIG_UART_0";
+UART1.uart.$assign       = "UART0";
+UART1.uart.txPin.$assign = "boosterpack.4";
+UART1.uart.rxPin.$assign = "boosterpack.3";
+scripting.suppress("Connected to hardware,@@@.+?@@@ is connected to BMA280 Interrupt 1 on the CC3235S LaunchPad\. Consider selecting it in 'use hardware' above\. @@@.+?@@@",UART1.uart.rxPin);
+
 Watchdog1.$name            = "CONFIG_WATCHDOG_0";
 Watchdog1.watchdog.$assign = "WATCHDOG0";
 
@@ -110,6 +113,11 @@ SlNet1.ifName = "CC32xx";
  * version of the tool will not impact the pinmux you originally saw.  These lines can be completely deleted in order to
  * re-solve from scratch.
  */
-I2C1.i2c.$suggestSolution        = "I2C0";
-I2C1.i2c.sdaPin.$suggestSolution = "boosterpack.10";
-I2C1.i2c.sclPin.$suggestSolution = "boosterpack.9";
+Display1.uart.uart.$suggestSolution              = "UART1";
+Display1.uart.uart.txPin.$suggestSolution        = "55";
+Display1.uart.uart.txDmaChannel.$suggestSolution = "UDMA_CH11";
+Display1.uart.uart.rxPin.$suggestSolution        = "57";
+Display1.uart.uart.rxDmaChannel.$suggestSolution = "UDMA_CH10";
+I2C1.i2c.$suggestSolution                        = "I2C0";
+I2C1.i2c.sdaPin.$suggestSolution                 = "boosterpack.10";
+I2C1.i2c.sclPin.$suggestSolution                 = "boosterpack.9";

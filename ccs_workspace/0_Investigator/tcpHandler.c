@@ -51,7 +51,7 @@ void camTCP(uint32_t arg0, uint32_t arg1)
 
     server = socket(AF_INET,  SOCK_STREAM, 0);
     if (server == -1) {
-        Display_printf(display, 0, 0, "Error: socket not created.\n");
+        //Display_printf(display, 0, 0, "Error: socket not created.\n");
         goto shutdown;
     }
 
@@ -62,20 +62,20 @@ void camTCP(uint32_t arg0, uint32_t arg1)
 
     status = bind(server, (struct sockaddr *)&localAddr, sizeof(localAddr));
     if (status == -1) {
-        Display_printf(display, 0, 0, "Error: bind failed.\n");
+        //Display_printf(display, 0, 0, "Error: bind failed.\n");
         goto shutdown;
     }
 
     status = listen(server, 3);
     if (status == -1) {
-        Display_printf(display, 0, 0, "Error: listen failed.\n");
+        //Display_printf(display, 0, 0, "Error: listen failed.\n");
         goto shutdown;
     }
 
     optval = 1;
     status = setsockopt(server, SOL_SOCKET, SO_KEEPALIVE, &optval, optlen);
     if (status == -1) {
-        Display_printf(display, 0, 0, "tcpHandler: setsockopt failed\n");
+        //Display_printf(display, 0, 0, "tcpHandler: setsockopt failed\n");
         goto shutdown;
     }
 
@@ -84,7 +84,7 @@ void camTCP(uint32_t arg0, uint32_t arg1)
 
         addrlen = sizeof(localAddr);
         client = accept(server,(struct sockaddr *)&localAddr,(socklen_t)&addrlen);
-        Display_printf(display, 0, 0, "Camera Client Connected.\n");
+        //Display_printf(display, 0, 0, "Camera Client Connected.\n");
 
         while ( bytesSent >= 0 ) { /* while tcp connection is up */
             cam_buffer = ppipc_get_buffer(&cam_buff_tab,PPIPC_READ); /* get buffer */
@@ -93,7 +93,7 @@ void camTCP(uint32_t arg0, uint32_t arg1)
             Task_sleep(10);
         }
         bytesSent = 0;
-        Display_printf(display, 0, 0, "Camera Client Dropped\n");
+        //Display_printf(display, 0, 0, "Camera Client Dropped\n");
         Task_sleep(1);
     }
 
@@ -109,7 +109,6 @@ shutdown:
  *       to client
  */
 void updateTCP(uint32_t arg0, uint32_t arg1){
-    {
         int                bytesSent = 0;
         int                status;
         int                server;
@@ -119,9 +118,13 @@ void updateTCP(uint32_t arg0, uint32_t arg1){
         int                optval;
         int                optlen = sizeof(optval);
 
+        pdu_t out_pdu;
+        uint8_t out_buff[PDU_SIZE+2];
+
+
         server = socket(AF_INET,  SOCK_STREAM, 0);
         if (server == -1) {
-            Display_printf(display, 0, 0, "Error: socket not created.\n");
+            //Display_printf(display, 0, 0, "Error: socket not created.\n");
             goto shutdown;
         }
 
@@ -132,20 +135,20 @@ void updateTCP(uint32_t arg0, uint32_t arg1){
 
         status = bind(server, (struct sockaddr *)&localAddr, sizeof(localAddr));
         if (status == -1) {
-            Display_printf(display, 0, 0, "Error: bind failed.\n");
+            //Display_printf(display, 0, 0, "Error: bind failed.\n");
             goto shutdown;
         }
 
         status = listen(server, 3);
         if (status == -1) {
-            Display_printf(display, 0, 0, "Error: listen failed.\n");
+            //Display_printf(display, 0, 0, "Error: listen failed.\n");
             goto shutdown;
         }
 
         optval = 1;
         status = setsockopt(server, SOL_SOCKET, SO_KEEPALIVE, &optval, optlen);
         if (status == -1) {
-            Display_printf(display, 0, 0, "tcpHandler: setsockopt failed\n");
+            //Display_printf(display, 0, 0, "tcpHandler: setsockopt failed\n");
             goto shutdown;
         }
 
@@ -154,15 +157,22 @@ void updateTCP(uint32_t arg0, uint32_t arg1){
 
             addrlen = sizeof(localAddr);
             client = accept(server,(struct sockaddr *)&localAddr,(socklen_t)&addrlen);
-            Display_printf(display, 0, 0, "Update Client Connected.\n");
+            //Display_printf(display, 0, 0, "Update Client Connected.\n");
 
             while ( bytesSent >= 0 ) { /* while tcp connection is up */
 
+                /* read pdu from fifo */
+                pdu_fifo_get(&tx_pdu_fifo_g,&out_pdu);
 
+                /* copy to buffer */
+                pdu_fill_buffer(out_buff,&out_pdu);
+
+                /* send buffer */
+                bytesSent = send(client, out_buff, PDU_SIZE+2, 0);
 
             }
             bytesSent = 0;
-            Display_printf(display, 0, 0, "Update Client Dropped\n");
+            //Display_printf(display, 0, 0, "Update Client Dropped\n");
             Task_sleep(1);
         }
 
@@ -170,7 +180,7 @@ void updateTCP(uint32_t arg0, uint32_t arg1){
         if (server != -1) {
             close(server);
         }
-    }
+}
 
 /*
  * Name: commandTCP
@@ -178,7 +188,6 @@ void updateTCP(uint32_t arg0, uint32_t arg1){
  *       from the client
  */
 void commandTCP(uint32_t arg0, uint32_t arg1){
-    {
         int                bytesRcvd;
         int                status;
         int                server;
@@ -188,9 +197,12 @@ void commandTCP(uint32_t arg0, uint32_t arg1){
         int                optval;
         int                optlen = sizeof(optval);
 
+        pdu_t in_pdu;
+        uint8_t in_buff[PDU_SIZE+2];
+
         server = socket(AF_INET,  SOCK_STREAM, 0);
         if (server == -1) {
-            Display_printf(display, 0, 0, "Error: socket not created.\n");
+            //Display_printf(display, 0, 0, "Error: socket not created.\n");
             goto shutdown;
         }
 
@@ -201,20 +213,20 @@ void commandTCP(uint32_t arg0, uint32_t arg1){
 
         status = bind(server, (struct sockaddr *)&localAddr, sizeof(localAddr));
         if (status == -1) {
-            Display_printf(display, 0, 0, "Error: bind failed.\n");
+            //Display_printf(display, 0, 0, "Error: bind failed.\n");
             goto shutdown;
         }
 
         status = listen(server, 3);
         if (status == -1) {
-            Display_printf(display, 0, 0, "Error: listen failed.\n");
+            //Display_printf(display, 0, 0, "Error: listen failed.\n");
             goto shutdown;
         }
 
         optval = 1;
         status = setsockopt(server, SOL_SOCKET, SO_KEEPALIVE, &optval, optlen);
         if (status == -1) {
-            Display_printf(display, 0, 0, "tcpHandler: setsockopt failed\n");
+            //Display_printf(display, 0, 0, "tcpHandler: setsockopt failed\n");
             goto shutdown;
         }
 
@@ -223,15 +235,18 @@ void commandTCP(uint32_t arg0, uint32_t arg1){
 
             addrlen = sizeof(localAddr);
             client = accept(server,(struct sockaddr *)&localAddr,(socklen_t)&addrlen);
-            Display_printf(display, 0, 0, "Cmd Client Connected.\n");
+            //Display_printf(display, 0, 0, "Cmd Client Connected.\n");
 
-            while((bytesRcvd = recv(clientfd, buffer, CMDPACKETSIZE, 0)) > 0){
+            while((bytesRcvd = recv(client, in_buff, PDU_SIZE+2, 0)) > 0){
 
+                /* convert to pdu struct */
+                pdu_read_buffer(in_buff,&in_pdu);
 
+                /* write to fifo */
+                pdu_fifo_put(&rx_pdu_fifo_g,&in_pdu);
 
             }
-            bytesSent = 0;
-            Display_printf(display, 0, 0, "Cmd Client Dropped\n");
+            //Display_printf(display, 0, 0, "Cmd Client Dropped\n");
             Task_sleep(1);
         }
 
@@ -239,6 +254,6 @@ void commandTCP(uint32_t arg0, uint32_t arg1){
         if (server != -1) {
             close(server);
         }
-    }
+}
 
 

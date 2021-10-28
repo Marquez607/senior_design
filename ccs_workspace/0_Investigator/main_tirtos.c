@@ -63,6 +63,9 @@ extern void *camThread(void *arg0);
 pthread_t sensorThreadObj = (pthread_t)NULL;
 extern void *sensorThread(void *arg0);
 
+pthread_t controlThreadObj = (pthread_t)NULL;
+extern void *controlThread(void *arg0);
+
 /* Stack size in bytes */
 #define THREADSTACKSIZE    4096
 
@@ -89,8 +92,8 @@ int main(void)
     init_position(&position_g,0,0);
 
     /* pdu fifo inits */
-    pdu_fifo_init(&tx_pdu_fifo,tx_pdu_buffer_g,PDU_FIFO_SIZE);
-    pdu_fifo_init(&rx_pdu_fifo,rx_pdu_buffer_g,PDU_FIFO_SIZE);
+    pdu_fifo_init(&tx_pdu_fifo_g,tx_pdu_buffer_g,PDU_FIFO_SIZE);
+    pdu_fifo_init(&rx_pdu_fifo_g,rx_pdu_buffer_g,PDU_FIFO_SIZE);
 
     /* cam ipc */
     for(uint32_t i=0;i<NUM_CAM_BUFFERS;i++){

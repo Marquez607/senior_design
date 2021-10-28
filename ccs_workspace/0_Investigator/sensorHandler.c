@@ -40,6 +40,7 @@ void *sensorThread(void *arg0)
     while(1){
         lcd_reset();
         lcd_string("TEST STRING");
+//        Display_printf(display, 0, 0, "TEST STRING\n");
         Task_sleep(500);
     }
 }

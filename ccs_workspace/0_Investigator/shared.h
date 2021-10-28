@@ -19,6 +19,9 @@
 
 /************************** WHEELSON LOCATION **********************************/
 
+/* " compass " bearing */
+extern uint32_t heading_g;
+
 /* current position */
 /* NOTE: this is how wheelson knows where it is */
 /* this should be routinely synced with client software */
@@ -33,7 +36,7 @@ extern wheelson_pos_t position_g;
 /* only needs to get called on boot up or whenever client decides
  * to reset relative coordinate system
  */
-void init_position(wheelson_pos_t *pos,uint8_t x, uint8_y);
+void init_position(wheelson_pos_t *pos,uint8_t x, uint8_t y);
 
 /*
  * get current global position variable
@@ -49,10 +52,12 @@ void change_position(uint8_t *x, uint8_t *y);
 
 #define PDU_FIFO_SIZE 256
 #define PDU_SIZE sizeof(pdu_t)
+#define PDU_START_BYTE0 0x5E
+#define PDU_START_BYTE1 0xFF
 
 /* PDU Codes */
 /* wanted to ensure byte sized commands */
-typedef uint8_t pdu_cmd_t
+typedef uint8_t pdu_cmd_t;
 extern const pdu_cmd_t MOVE;  /* can be queued up */
 extern const pdu_cmd_t STOP;  /* should be heeded immediately */
 extern const pdu_cmd_t RESET; /* reset orientation and stop , can also change position here*/
@@ -101,6 +106,16 @@ int pdu_fifo_put(pdu_fifo_t *fifo,pdu_t *input);
  * returns -1 on failure, 0 on success
  */
 int pdu_fifo_get(pdu_fifo_t *fifo,pdu_t *out);
+
+/*
+ * fills buffer with pdu
+ */
+int pdu_fill_buffer(uint8_t *out_buff,pdu_t *in_pdu);
+
+/*
+ * populates pdu with buffer data
+ */
+int pdu_read_buffer(uint8_t *in_buff,pdu_t *out_pdu);
 
 /********************************** OTHER IPC DATA **********************************/
 

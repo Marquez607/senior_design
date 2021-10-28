@@ -113,11 +113,11 @@ int LSM303_sensor_init(lsm303_t *sensor){
         // if we are connected or not
         //Consider chaning this as the MSB may change based on select read rate
         // if MSBs = 0x5 then data rate is 100Hz
-        uint8_t reg1_a = LSM303_read8(sensor,sensor->accel_addr, LSM303_REGISTER_ACCEL_CTRL_REG1_A);
-        if (reg1_a != 0x57)
-        {
-            return -1;
-        }
+//        uint8_t reg1_a = LSM303_read8(sensor,sensor->accel_addr, LSM303_REGISTER_ACCEL_CTRL_REG1_A);
+//        if (reg1_a != 0x57)
+//        {
+//            return -1;
+//        }
     }
 
 	// Enable the magnetometer
@@ -125,11 +125,11 @@ int LSM303_sensor_init(lsm303_t *sensor){
 
 	// LSM303DLHC has no WHOAMI register so read CRA_REG_M to check
 	// the default value (0b00010000/0x10)
-	uint8_t reg1_m = LSM303_read8(sensor,sensor->mag_addr, LSM303_REGISTER_MAG_CRA_REG_M);
-	if (reg1_m != 0x10)
-	{
-	return -1;
-	}
+//	uint8_t reg1_m = LSM303_read8(sensor,sensor->mag_addr, LSM303_REGISTER_MAG_CRA_REG_M);
+//	if (reg1_m != 0x10)
+//	{
+//	return -1;
+//	}
 
 	// Set the mag gain to a known level
 	LSM303_setMagGain(sensor,LSM303_MAGGAIN_1_3);
@@ -192,10 +192,10 @@ void LSM303_readMagnetometerData(lsm303_t *sensor){
 	/* setup indeces for mag data */
 	uint8_t xhi = 0;
 	uint8_t xlo = 1;
-	uint8_t zhi = 2;
-	uint8_t zlo = 3;
-	uint8_t yhi = 4;
-	uint8_t ylo = 5;
+	uint8_t zhi = 4;
+	uint8_t zlo = 5;
+	uint8_t yhi = 2;
+	uint8_t ylo = 3;
 
 	// Shift values to create properly formed integer (low uint8_t first)
 	sensor->magData.x = (float)( (int16_t)(magDataRaw[xlo] | ((int16_t)magDataRaw[xhi] << 8)) );

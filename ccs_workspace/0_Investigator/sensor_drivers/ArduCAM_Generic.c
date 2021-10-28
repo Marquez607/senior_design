@@ -27,8 +27,8 @@
  ****************************************************************/
 
 #include <stdint.h>
-#include <ov2640_regs.h>
-#include <ArduCAM_Generic.h>
+#include "ov2640_regs.h"
+#include "sensor_drivers/ArduCAM_Generic.h"
 #include <stddef.h>
 
 /*******************************************

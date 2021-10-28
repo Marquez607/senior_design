@@ -10,6 +10,7 @@
 /* Driver Header files */
 #include <ti/drivers/GPIO.h>
 #include <ti/drivers/I2C.h>
+#include <ti/drivers/UART.h>
 #include <ti/drivers/SPI.h>
 #include <ti/display/Display.h>
 #include <ti/sysbios/knl/Clock.h>
@@ -26,10 +27,16 @@
 I2C_Handle      i2c;
 I2C_Params      i2cParams;
 I2C_Transaction i2cTransaction;
+sem_t i2c_mutex;
 
 SPI_Handle      spi;
 SPI_Params      spiParams;
 SPI_Transaction spiTransaction;
+//sem_t spi_mutex;
+
+UART_Handle uart;
+UART_Params uartParams;
+sem_t uart_mutex;
 
 Display_Handle display;
 
@@ -48,6 +55,11 @@ void gator_board_init(void){
     GPIO_init();
     I2C_init();
     SPI_init();
+    UART_init();
+
+    /* sem init */
+    sem_init(&i2c_mutex, 0, 1);
+    sem_init(&uart_mutex, 0, 1);
 
     /* config GPIO */
 //    CAM_CS_HIGH();
@@ -85,6 +97,22 @@ void gator_board_init(void){
     else {
 //        Display_printf(display, 0, 0, "Master SPI initialized\n");
     }
+
+    /* uart init */
+    /* Create a UART with data processing off. */
+    UART_Params_init(&uartParams);
+    uartParams.writeDataMode = UART_DATA_BINARY;
+    uartParams.readDataMode = UART_DATA_BINARY;
+    uartParams.readReturnMode = UART_RETURN_FULL;
+    uartParams.baudRate = 115200;
+    uart = UART_open(CONFIG_UART_0, &uartParams);
+
+    if (uart == NULL) {
+        /* UART_open() failed */
+//        Display_printf(display, 0, 0, "UART FAILED\n");
+        while (1);
+    }
+    Display_printf(display, 0, 0, "Hardware initialized\n");
 }
 /*
  * In compliance with AdruCAM_Generic
@@ -126,29 +154,44 @@ void acam_spi_cs_low(void){
 }
 
 int i2c_write(uint8_t slave_addr,uint8_t *data,uint32_t data_len){
-
+    sem_wait(&i2c_mutex);
     i2cTransaction.writeBuf = data;
     i2cTransaction.writeCount = data_len;
     i2cTransaction.readCount = 0;
     i2cTransaction.slaveAddress = slave_addr;
     if( I2C_transfer(i2c,&i2cTransaction) ){
+        sem_post(&i2c_mutex);
         return 0;
     }
+    sem_post(&i2c_mutex);
     return -1;
 }
 int i2c_read(uint8_t slave_addr,uint8_t *data,uint32_t data_len){
+    sem_wait(&i2c_mutex);
     i2cTransaction.readBuf = data;
     i2cTransaction.readCount = data_len;
     i2cTransaction.writeCount = 0;
     i2cTransaction.slaveAddress = slave_addr;
     if( I2C_transfer(i2c,&i2cTransaction) ){
+        sem_post(&i2c_mutex);
         return 0;
     }
+    sem_post(&i2c_mutex);
     return -1;
 }
 void acam_delay_ms(uint32_t ms){
     Task_sleep(ms); // yield for x amount of ms
 }
 
+int uart_write(uint8_t *data,uint32_t size){
+    sem_wait(&uart_mutex);
+    UART_write(uart, data, size);
+    sem_post(&uart_mutex);
+}
+int uart_read(uint8_t *data,uint32_t size){
+    sem_wait(&uart_mutex);
+    UART_read(uart, data, size);
+    sem_post(&uart_mutex);
+}
 
 

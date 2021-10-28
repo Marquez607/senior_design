@@ -38,6 +38,9 @@ extern Display_Handle display;
  **************************/
 void gator_board_init(void);
 
+int uart_write(uint8_t *data,uint32_t size);
+int uart_read(uint8_t *data,uint32_t size);
+
 /*
  * In compliance with AdruCAM_Generic
  *
@@ -46,8 +49,8 @@ void gator_board_init(void);
  */
 int acam_spi_write(uint8_t *data, uint32_t data_len);
 int acam_spi_read(uint8_t *data, uint32_t data_len);
-int acam_i2c_write(uint8_t slave_addr,uint8_t *data,uint32_t data_len);
-int acam_i2c_read(uint8_t slave_addr,uint8_t *data,uint32_t data_len);
+int i2c_write(uint8_t slave_addr,uint8_t *data,uint32_t data_len);
+int i2c_read(uint8_t slave_addr,uint8_t *data,uint32_t data_len);
 void acam_delay_ms(uint32_t ms);
 void acam_spi_cs_high(void);
 void acam_spi_cs_low(void);

@@ -69,19 +69,20 @@ void *mainThread(void *arg0)
     }
 
     /* init mag sensor params */
-//    LSM303_struct_init(&mag_sensor);
-////    mag_sensor.accel_addr = LSM303_ADDRESS_MAG; //test done on lsm303dlhc which has one i2c line
-//    mag_sensor.i2c_read = i2c_read;
-//    mag_sensor.i2c_write = i2c_write;
-//
-//    /* need to init sensor after adding function pointers */
-//    int rc = 0;
-//    rc = LSM303_sensor_init(&mag_sensor);
-//    if(rc < 0){
-//        rc = LSM303_sensor_init(&mag_sensor);
-//        Display_printf(display, 0, 0, "Error Initializing LM303\n");
-//        while(1);
-//    }
+    LSM303_struct_init(&mag_sensor);
+//    mag_sensor.accel_addr = LSM303_ADDRESS_MAG; //test done on lsm303dlhc which has one i2c line
+    mag_sensor.i2c_read = i2c_read;
+    mag_sensor.i2c_write = i2c_write;
+
+    /* need to init sensor after adding function pointers */
+    int rc = 0;
+    rc = LSM303_sensor_init(&mag_sensor);
+    if(rc < 0){
+        Display_printf(display, 0, 0, "Error Initializing LM303\n");
+        while(1);
+    }
+    LSM303_setMagRate(&mag_sensor,LSM303_MAGRATE_75);
+
 
     float mag_x = 0.0;
     float mag_y = 0.0;
@@ -111,54 +112,34 @@ void *mainThread(void *arg0)
 
         float avg_x = 0.0;
         float avg_y = 0.0;
-        uint8_t count = 0;
-        uint8_t n = 20;
+//        uint8_t count = 0;
+//        uint8_t n = 20;
+//
+//        while(count < n){
+//            LSM303_getOrientation(&mag_sensor,&mag_x, &mag_y, &mag_z);
+////            print_data(mag_x,mag_y,mag_z,0.0);
+//            avg_x += mag_x;
+//            avg_y += mag_y;
+//            count++;
+//            Task_sleep(50);
+//        }
+//        count = 0;
 
-        while(count < n){
-            LSM303_getOrientation(&mag_sensor,&mag_x, &mag_y, &mag_z);
-//            print_data(mag_x,mag_y,mag_z,0.0);
-            avg_x += mag_x;
-            avg_y += mag_y;
-            count++;
-            Task_sleep(50);
-        }
+        LSM303_getOrientation(&mag_sensor,&mag_x, &mag_y, &mag_z);
+        avg_x = mag_x;
+        avg_y = mag_y;
 
         float heading = (atan2(mag_y,mag_x) * 180) / PI;
         if(heading < 0.0){
             heading += 360.0;
         }
-        avg_x = avg_x/n;
-        avg_y = avg_y/n;
 
-        print_data(avg_x,avg_y,0.0,0.0);
+        print_data(mag_x,mag_y,0.0,0.0);
 
         Display_printf(display,0,0,"Heading: %.2f",heading);
+        Task_sleep(500);
 
     }
-//    uint8_t wrtest[2];
-//    uint8_t rdtest[2];
-//    while(1){
-//
-//        uint8_t reg = (uint8_t)LSM303_REGISTER_MAG_CRA_REG_M;
-//        for(uint8_t i=0;i<3;i++){
-//
-//            wrtest[0] = reg+i;
-//            wrtest[1] = 0x00;
-//
-//            i2c_write(MAG_ADDR,wrtest,2);
-//
-//            wrtest[0] = reg+i;
-//            rdtest[0] = 0x00;
-//            i2c_write(MAG_ADDR,&wrtest[0],1);
-//            i2c_read(MAG_ADDR,&rdtest[0],1);
-//
-//            Display_printf(display,0,0,"Addr: %d Wr: %d Rd: %d",reg+i,wrtest[1],rdtest[0]);
-//            Task_sleep(500);
-//
-//        }
-//
-//    }
-
 
     I2C_close(i2c);
     Display_printf(display, 0, 0, "I2C closed!");
