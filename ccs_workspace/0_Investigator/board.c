@@ -88,7 +88,7 @@ void gator_board_init(void){
     /* spi init */
     SPI_Params_init(&spiParams);
     spiParams.frameFormat = SPI_POL0_PHA0;
-    spiParams.bitRate = 8000000; //acam maxes out at 8 MHz
+    spiParams.bitRate = 4000000; //acam maxes out at 8 MHz
     spi = SPI_open(CONFIG_SPI_0, &spiParams);
     if (spi == NULL) {
 //        Display_printf(display, 0, 0, "Error initializing master SPI\n");

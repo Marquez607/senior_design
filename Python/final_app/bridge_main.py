@@ -132,13 +132,13 @@ def main():
     jpegProc = mp.Process(target=jCli.jpeg_client,args=(args.ip,args.vport,camPipe))
     jpegProc.start()
 
-    # # #need to fork bridge page here, bridge will handle other Investagor tcp connections
-    # cmdProc = mp.Process(target=cmdCli.cmd_process,args=(args.ip,args.cport,cmdPipe))
-    # cmdProc.start()
+    # #need to fork bridge page here, bridge will handle other Investagor tcp connections
+    cmdProc = mp.Process(target=cmdCli.cmd_process,args=(args.ip,args.cport,cmdPipe))
+    cmdProc.start()
 
-    # #start jpeg client for Investigator 
-    # updateProc = mp.Process(target=cmdCli.update_process,args=(args.ip,args.uport,updatePipe))
-    # updateProc.start()
+    #start jpeg client for Investigator 
+    updateProc = mp.Process(target=cmdCli.update_process,args=(args.ip,args.uport,updatePipe))
+    updateProc.start()
 
     #===================== FLASK RUN ==================================#
 

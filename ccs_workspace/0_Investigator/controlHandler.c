@@ -10,6 +10,8 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <stddef.h>
+#include <stdio.h>
+#include <string.h>
 
 /* POSIX Header files */
 #include <pthread.h>
@@ -29,11 +31,11 @@
 #include "sensor_drivers/LSM303DLH.h"
 
 typedef uint8_t motor_cmd_t;
-const motor_cmd_t TURN_RIGHT = 0x30;
-const motor_cmd_t TURN_LEFT  = 0x31;
-const motor_cmd_t MOVE_FORW  = 0x32;
-const motor_cmd_t MOVE_RVRS  = 0x33;
-const motor_cmd_t MOTOR_STOP = 0x34;
+const motor_cmd_t TURN_RIGHT = 'R';
+const motor_cmd_t TURN_LEFT  = 'L';
+const motor_cmd_t MOVE_FORW  = 'F';
+const motor_cmd_t MOVE_RVRS  = 'R';
+const motor_cmd_t MOTOR_STOP = 'S';
 
 typedef enum state{
     ST_WAIT_CMD, /* wait for command via pipe */
@@ -54,6 +56,14 @@ static void col_handler(state_t *next);
 /* reset handler */
 static void reset_handler(state_t *next);
 
+/* tell client current pos */
+static void send_new_pos(void);
+
+/** global variales **/
+
+static pdu_t rx_pdu;
+static pdu_t tx_pdu;
+
 void controlThread(void *arg0){
 
     state_t state = ST_WAIT_CMD;
@@ -62,9 +72,11 @@ void controlThread(void *arg0){
 
         switch(state){
         case ST_WAIT_CMD:
+            Display_printf(display, 0, 0, "WAIT STATE\n");
             wait_handler(&state,&cmd);
             break;
         case ST_EXE_CMD:
+            Display_printf(display, 0, 0, "EXE STATE\n");
             exe_handler(&state,cmd);
             break;
         case ST_COL:
@@ -78,19 +90,58 @@ void controlThread(void *arg0){
             break;
         }
 
-        uint8_t test = 0x55;
-        uart_write(&test,1);
-        Task_sleep(100);
+//        uint8_t test = 0x55;
+//        uart_write(&test,1);
+//        Task_sleep(100);
     }
 }
 
 /* wait handler */
 static void wait_handler(state_t *next, pdu_cmd_t *out_cmd ){
 
+    pdu_fifo_get(&rx_pdu_fifo_g,&rx_pdu);
+
+    switch (input.cmd){
+    case MOVE:
+        break;
+    case STOP:
+        break;
+    case RESET:
+        break;
+    default:
+        break;
+    }
+
+    /* echo the pdu back for now */
+    pdu_fifo_put(&tx_pdu_fifo_g,&rx_pdu);
+
+
+    *next = ST_EXE_CMD;
 }
 
 /* exe handler */
 static void exe_handler(state_t *next, pdu_cmd_t in_cmd ){
+
+    /* do some work */
+    send_new_pos();
+
+    *next = ST_WAIT_CMD;
+}
+
+/* tell client current pos */
+/* basically uses all global data */
+static void send_new_pos(void){
+
+    pdu_t out_pdu;
+
+    out_pdu.cmd = UPDATE;
+    get_position(&out_pdu.x,&out_pdu.y);
+
+    sprintf(out_pdu.msg,"POS UPDATE: {%u , %u} ",out_pdu.x,out_pdu.y);
+    out_pdu.msg_len = strlen(out_pdu.msg);
+
+    /* send update */
+    pdu_fifo_put(&tx_pdu_fifo_g,&out_pdu);
 
 }
 

@@ -17,6 +17,7 @@ const Crypto1        = Crypto.addInstance();
 const DMA            = scripting.addModule("/ti/drivers/DMA");
 const GPIO           = scripting.addModule("/ti/drivers/GPIO", {}, false);
 const GPIO1          = GPIO.addInstance();
+const GPIO2          = GPIO.addInstance();
 const I2C            = scripting.addModule("/ti/drivers/I2C", {}, false);
 const I2C1           = I2C.addInstance();
 const Power          = scripting.addModule("/ti/drivers/Power");
@@ -60,6 +61,11 @@ GPIO1.mode               = "Output";
 GPIO1.pull               = "Pull Up";
 GPIO1.initialOutputState = "High";
 GPIO1.gpioPin.$assign    = "boosterpack.18";
+
+GPIO2.$name          = "SPEAKER";
+GPIO2.mode           = "Output";
+GPIO2.outputStrength = "High";
+GPIO2.pull           = "Pull Down";
 
 I2C1.$name     = "CONFIG_I2C_0";
 I2C1.$hardware = system.deviceData.board.components.LP_I2C;
@@ -118,6 +124,7 @@ Display1.uart.uart.txPin.$suggestSolution        = "55";
 Display1.uart.uart.txDmaChannel.$suggestSolution = "UDMA_CH11";
 Display1.uart.uart.rxPin.$suggestSolution        = "57";
 Display1.uart.uart.rxDmaChannel.$suggestSolution = "UDMA_CH10";
+GPIO2.gpioPin.$suggestSolution                   = "boosterpack.19";
 I2C1.i2c.$suggestSolution                        = "I2C0";
 I2C1.i2c.sdaPin.$suggestSolution                 = "boosterpack.10";
 I2C1.i2c.sclPin.$suggestSolution                 = "boosterpack.9";

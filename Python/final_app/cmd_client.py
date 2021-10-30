@@ -85,7 +85,7 @@ def wait_for_server(server_ip,port,buffer_size):
     print("CONNECTED TO SERVER")
     return server
 
-def cmd_process(ip,port,in_fifo,debug = True):
+def cmd_process(ip,port,in_fifo,debug = False):
     tx_pdu = pdu()
     server = wait_for_server(ip,port,PDU_SIZE+2)
 
@@ -108,10 +108,11 @@ def cmd_process(ip,port,in_fifo,debug = True):
                 tx_pdu.msg = "TEST MSG"
                 data = tx_pdu.put_buff()
                 server.send(data)  
+                time.sleep(1)
         except:
             server = wait_for_server(ip,port,PDU_SIZE+2)
 
-def update_process(ip,port,out_fifo):
+def update_process(ip,port,out_fifo,debug=False):
     '''
     process receives updates from wheelson 
     '''
@@ -122,10 +123,11 @@ def update_process(ip,port,out_fifo):
         try:
             data = server.receive()
             rx_pdu.get_buff(data)
-
-            # print(f"RX CMD : {rx_pdu.cmd}")
-            # print(f"RX MSG LEN: {rx_pdu.msg_len}")
-            # print(f"RX MSG: {rx_pdu.msg[0:rx_pdu.msg_len]}")
+            debug = True
+            if debug:
+                print(f"RX CMD : {rx_pdu.cmd}")
+                print(f"RX MSG LEN: {rx_pdu.msg_len}")
+                print(f"RX MSG: {rx_pdu.msg[0:rx_pdu.msg_len]}")
 
             if out_fifo is not None:
                 # push to fifo 
@@ -159,9 +161,9 @@ update_proc = None
 def exit_handler():
     print("exit_handler : killing all processes")
     if cmd_proc is not None: 
-        cmd_proc.kill()
+        cmd_proc.terminate()
     if update_proc is not None:
-        update_proc.kill()
+        update_proc.terminate()
 
 if __name__ == "__main__": #if running source file directly
     atexit.register(exit_handler)
@@ -169,9 +171,9 @@ if __name__ == "__main__": #if running source file directly
     ip,cport,uport = parse_args()
     
     #fork command process
-    cmd_proc = mp.Process(target=cmd_process,args=(ip,cport,None))
+    cmd_proc = mp.Process(target=cmd_process,args=(ip,cport,None,True))
     cmd_proc.start()
 
     #fork update process
-    update_proc = mp.Process(target=update_process,args=(ip,uport,None))
+    update_proc = mp.Process(target=update_process,args=(ip,uport,None,True))
     update_proc.start()

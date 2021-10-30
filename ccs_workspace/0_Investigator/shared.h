@@ -46,11 +46,11 @@ void get_position(uint8_t *x, uint8_t *y);
 /*
  * update current global position variable
  */
-void change_position(uint8_t *x, uint8_t *y);
+void change_position(uint8_t x, uint8_t y);
 
 /*********************************** MESSAGE SYSTEM ********************************/
 
-#define PDU_FIFO_SIZE 256
+#define PDU_FIFO_SIZE 64
 #define PDU_SIZE sizeof(pdu_t)
 #define PDU_START_BYTE0 0x5E
 #define PDU_START_BYTE1 0xFF

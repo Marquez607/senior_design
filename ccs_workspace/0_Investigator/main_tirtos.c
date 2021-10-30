@@ -139,6 +139,16 @@ int main(void)
         while(1);
     }
 
+    /* Start the control Handler */
+    pthread_attr_init(&pAttrs);
+    priParam.sched_priority = DEFAULT_TASK_PRI;
+    retc|= pthread_attr_setschedparam(&pAttrs, &priParam);
+    retc |= pthread_attr_setstacksize(&pAttrs, TASK_STACK_SIZE);
+    retc = pthread_create(&controlThreadObj, &pAttrs, controlThread, NULL);
+    if(retc)
+    {
+        while(1);
+    }
     BIOS_start();
 
     return (0);

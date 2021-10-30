@@ -9,6 +9,9 @@
 #include <semaphore.h>
 #include <string.h>
 
+#include <ti/display/Display.h>
+
+extern Display_Handle display;
 
 /************************** WHEELSON LOCATION **********************************/
 
@@ -44,10 +47,10 @@ void get_position(uint8_t *x, uint8_t *y){
 /*
  * update current global position variable
  */
-void change_position(uint8_t *x, uint8_t *y){
+void change_position(uint8_t x, uint8_t y){
     sem_wait(&position_g.mutex);
-    position_g.x = *x;
-    position_g.y = *y;
+    position_g.x = x;
+    position_g.y = y;
     sem_post(&position_g.mutex);
 }
 
@@ -98,12 +101,15 @@ int pdu_fifo_put(pdu_fifo_t *fifo,pdu_t *input){
     memcpy(&fifo->buffer[fifo->head],input,sizeof(pdu_t));
     fifo->head++;
     fifo->head%=fifo->size;
+    fifo->avail++;
 
     /* post threads blocked on reading */
     if(fifo->avail == 1){
         sem_post(&fifo->empty);
     }
     sem_post(&fifo->mutex);
+
+    return 0;
 }
 
 /*
@@ -124,13 +130,17 @@ int pdu_fifo_get(pdu_fifo_t *fifo,pdu_t *out){
     memcpy(out,&fifo->buffer[fifo->tail],sizeof(pdu_t));
     fifo->tail++;
     fifo->tail%=fifo->size;
+    fifo->avail--;
 
     /* post threads blocked on writing */
     if(fifo->avail == fifo->size-1){
         sem_post(&fifo->full);
     }
     sem_post(&fifo->mutex);
+
+    return 0;
 }
+
 
 /*
  * fills buffer with pdu
@@ -149,6 +159,7 @@ int pdu_fill_buffer(uint8_t *out_buff,pdu_t *in_pdu){
 int pdu_read_buffer(uint8_t *in_buff,pdu_t *out_pdu){
 
     if(in_buff[0] != PDU_START_BYTE0 || in_buff[1] != PDU_START_BYTE1){
+        Display_printf(display, 0, 0, "BAD PDU");
         return -1;
     }
     memcpy((uint8_t*)out_pdu,in_buff+2,PDU_SIZE);
