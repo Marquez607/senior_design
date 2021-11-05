@@ -114,8 +114,8 @@ void *mainThread(void *arg0)
     while(1)
     {
         GPIO_write(SPEAKER_ENABLE, 1);
-//        Task_sleep(1000);
-//        GPIO_write(SPEAKER_ENABLE, 0);
-//        Task_sleep(1000);
+        Task_sleep(1000);
+        GPIO_write(SPEAKER_ENABLE, 0);
+        Task_sleep(1000);
     }
 }

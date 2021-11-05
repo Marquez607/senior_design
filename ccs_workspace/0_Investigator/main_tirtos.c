@@ -90,6 +90,7 @@ int main(void)
 
     /* wheelson initial position on power up */
     init_position(&position_g,0,0);
+    init_heading();
 
     /* pdu fifo inits */
     pdu_fifo_init(&tx_pdu_fifo_g,tx_pdu_buffer_g,PDU_FIFO_SIZE);

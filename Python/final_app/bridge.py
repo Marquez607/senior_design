@@ -6,8 +6,10 @@ from pywebio.session import *
 import time
 import atexit
 
+import cmd_client as cCli #needed for pdu framing
+
 WHEELSON_ICON = '🚗'   #wheelson gps location
-CMD_CENTER_ICON = '💻' #server gps location
+CMD_CENTER_ICON = '💻'
 WAYPOINT_ICON = '📍'
 TRASH_ICON = '🗑'
 
@@ -27,21 +29,14 @@ cmd_map = [
     for _ in range(CMD_MAP_SIZE)
 ]
 
-cmd_fifo = mp.Queue()
-wheelson_loc_fifo = mp.Queue()
+cmdPipe_g = None
+updatePipe_g = None
 wheelson_proc = None #had to use a separate process because python multithreading sucks
+port_g = None
 
 wheelson_pos = WHEELSON_DEFAULT_POS
 
 session_count = 0
-
-#================================== WHEELSON PDU ==========================================#
-class wheelsonPDU():
-    def __init__(self,data=None,header=None):
-        self.LOC_HEADER = 0
-        self.MSG_HEADER = 1
-        self.data = data 
-        self.header = header
 
 #================================== WEB PAGE THREAD =======================================#
 def webpage(): 
@@ -56,6 +51,7 @@ def webpage():
     set_env(output_animation=False)
 
     chat_msg = []
+    #table = []
     msg_box = output()
 
     def print_term(content):
@@ -67,6 +63,28 @@ def webpage():
 
     print = print_term
 
+    def send_reset(blank):
+        pdu = cCli.pdu()
+        pdu.cmd = pdu.RESET
+        pdu.x = x 
+        pdu.y = y          
+        pdu.msg = "RESET_CMD"
+        pdu.msg_len = len(pdu.msg) + 1
+        
+        # add to command pipe
+        cmdPipe_g.put(pdu)    
+
+    def send_stop(blank):
+        pdu = cCli.pdu()
+        pdu.cmd = pdu.STOP
+        pdu.x = x 
+        pdu.y = y          
+        pdu.msg = "STOP_CMD"
+        pdu.msg_len = len(pdu.msg) + 1
+        
+        # add to command pipe
+        cmdPipe_g.put(pdu)       
+
     def place_waypoint(pos):
         x,y = pos
         cmd_map[x][y] = "WAYPOINT"
@@ -74,14 +92,22 @@ def webpage():
         # add to command list
         print(f"CMD SENT: MOVE {x},{y}")
 
+        #pack pdu
+        pdu = cCli.pdu()
+        pdu.cmd = pdu.MOVE
+        pdu.x = x 
+        pdu.y = y          
+        pdu.msg = "MOVE_CMD"
+        pdu.msg_len = len(pdu.msg) + 1
+        
         # add to command pipe
-        cmd_fifo.put(pos)
+        cmdPipe_g.put(pdu)
 
         show_cmd_map() 
 
     def move_wheelson(pos):
         global wheelson_pos
-        global cmd_fifo
+        global cmdPipe_g 
 
         x,y = pos 
 
@@ -109,23 +135,46 @@ def webpage():
         refresh_term()
 
     put_markdown("""# Welcome to the Bridge
-    The Bridge is an online interface for issuing commands and receiving updates from the Wheelson IoT robot platform""",lstrip=True)
-    
+    The Bridge is an web interface for issuing commands and receiving updates from the Wheelson IoT robotics platform""",lstrip=True)
+
+    put_html("<iframe src= \"http://localhost:4041/video\" width=\"320\" height=\"240\"></iframe>")
+
     show_cmd_map()
+
+    # # put_button("SEND RESET",onclick=send_reset)
+    # put_buttons([dict(label="SEND STOP",value=(),color='light' )],onclick=send_stop)
+
     while True:
         time.sleep(1)
-        #read from command pipe
-        rx_pdu = wheelson_loc_fifo.get()
-        if rx_pdu:
-            if rx_pdu.header == rx_pdu.LOC_HEADER:
-                new_pos = rx_pdu.data
+        #read from update pipe
+        rx_pdu = updatePipe_g.get()
+        if rx_pdu is not None:
+            if rx_pdu.cmd == rx_pdu.UPDATE or rx_pdu.cmd == rx_pdu.BLOCK:
+                new_pos = (rx_pdu.x ,rx_pdu.y)
                 move_wheelson(new_pos)
                 x,y = new_pos
-                print(f"WHEELSON UPDATE: LOC {x},{y}")
+                print(rx_pdu.msg)
                 show_cmd_map()
-            elif rx_pdu.header == rx_pdu.MSG_HEADER:
-                print(f"WHEELSON MSG: {rx_pdu.data}")
-                show_cmd_map()
+            # elif rx_pdu.header == rx_pdu.MSG_HEADER:
+            #     print(f"WHEELSON MSG: {rx_pdu.data}")
+            #     show_cmd_map()
+            rx_pdu = None
+
+def bridgeProcess(cmdPipe,updatePipe,port=4040,debug=False):
+
+    global cmdPipe_g
+    global updatePipe_g
+
+    cmdPipe_g = cmdPipe
+    updatePipe_g = updatePipe
+
+    if debug: #debug uses simulated robot
+        atexit.register(exit_handler) #in final app this won't be necessary 
+        wheelson_proc = mp.Process(target=wheelson_sim,args=(cmdPipe,updatePipe))
+        wheelson_proc.start()
+    
+    start_server(webpage,port=port)    
+    
 
 #================================== WHEELSON SIMULATOR PAGE THREAD =======================================#
 def wheelson_sim(cmd_fifo,wheelson_loc_fifo):
@@ -143,12 +192,14 @@ def wheelson_sim(cmd_fifo,wheelson_loc_fifo):
     while True:
        
         #get command 
-        cmd = cmd_fifo.get()
-        x,y, = cmd
-        print(f"CMD RECEIVED: MOVE {x},{y}")
+        cmd_pdu = cmd_fifo.get()
+        print(cmd_pdu)
+        cmd = (cmd_pdu.x,cmd_pdu.y)
+
+        print(f"CMD RECEIVED: MOVE {cmd_pdu.x},{cmd_pdu.y}")
 
         if cmd is not None: #simulate moving to new waypoint
-            pdu = wheelsonPDU()
+            pdu = cCli.pdu()
             while current_pos[0] != cmd[0] or current_pos[1] != cmd[1]:
                 x,y = current_pos
                 if x > cmd[0]:
@@ -162,14 +213,17 @@ def wheelson_sim(cmd_fifo,wheelson_loc_fifo):
                     y = y + 1
                 current_pos = (x,y)
                 time.sleep(2)
-                pdu.data = current_pos
-                pdu.header = pdu.LOC_HEADER
+
+                #pack and send pdu
+                pdu.x,pdu.y = current_pos
+                pdu.cmd = pdu.UPDATE
                 wheelson_loc_fifo.put(pdu)
             
             #mission complete
-            fin_pdu = wheelsonPDU()
-            fin_pdu.data = f"FINISHED CMD MOVE TO {cmd[0]},{cmd[1]}"
-            fin_pdu.header = pdu.MSG_HEADER
+            fin_pdu = cCli.pdu()
+            fin_pdu.msg = f"FINISHED CMD MOVE TO {cmd[0]},{cmd[1]}"
+            fin_pdu.msg_len = len(fin_pdu.msg) + 1 # +1 for NULL terminator
+            fin_pdu.msg = pdu.UPDATE
             wheelson_loc_fifo.put(fin_pdu)
             cmd = None
 
@@ -179,7 +233,10 @@ def exit_handler():
         wheelson_proc.terminate()
 
 if __name__ == '__main__':
-    atexit.register(exit_handler)
-    wheelson_proc = mp.Process(target=wheelson_sim,args=(cmd_fifo,wheelson_loc_fifo))
-    wheelson_proc.start()
-    start_server(webpage,port=4042)     
+    # global cmdPipe_g
+    # global updatePipe_g
+
+    cmdPipe_g = mp.Queue()
+    updatePipe_g = mp.Queue()
+   
+    bridgeProcess(cmdPipe_g,updatePipe_g,debug=True)

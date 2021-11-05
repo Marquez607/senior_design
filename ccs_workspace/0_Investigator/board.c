@@ -7,6 +7,10 @@
 
 #include "board.h"
 
+/* std includes */
+#include <stdbool.h>
+#include <stdint.h>
+
 /* Driver Header files */
 #include <ti/drivers/GPIO.h>
 #include <ti/drivers/I2C.h>
@@ -187,11 +191,53 @@ int uart_write(uint8_t *data,uint32_t size){
     sem_wait(&uart_mutex);
     UART_write(uart, data, size);
     sem_post(&uart_mutex);
+    return 0;
 }
 int uart_read(uint8_t *data,uint32_t size){
     sem_wait(&uart_mutex);
     UART_read(uart, data, size);
     sem_post(&uart_mutex);
+    return 0;
 }
+
+/********************************** LCD **********************************************/
+
+int lcd_reset(void){
+    return lcd_write(LCD_RESET);
+}
+int lcd_write(uint8_t data){
+    uint8_t buff = data;
+    int rc = i2c_write(MSP_SLAVE_ADDR,&buff,1);
+    return rc;
+}
+int lcd_string(char *str){
+
+    int rc = 0;
+    while(*str){
+        rc = lcd_write(*str);
+        if(rc < 0){
+            return rc;
+        }
+        str++;
+    }
+    return rc;
+}
+
+/********************************* GPIO **********************************************/
+
+/* turns on noise maker */
+void turn_on_speaker(void){
+    GPIO_write(SPEAKER, 1);
+}
+
+void turn_off_speaker(void){
+    GPIO_write(SPEAKER, 0);
+}
+
+/* read u alert pin */
+bool read_u_alert(void){
+    return (bool)GPIO_read(U_ALERT);
+}
+
 
 

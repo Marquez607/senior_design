@@ -64,7 +64,7 @@ void *camThread(void *arg0)
 
         /* wait for a capture to finish */
         while(!ACAM_get_bit(&acam,ARDUCHIP_TRIG, CAP_DONE_MASK));
-        Display_printf(display,0,0,"Capture Finished");
+//        Display_printf(display,0,0,"Capture Finished");
         camCapture(&acam);
         Task_sleep(1);
     }

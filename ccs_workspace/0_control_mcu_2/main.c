@@ -16,6 +16,8 @@
 #define CYCLES_TO_MS 1000 /* 1000 cyles = 1 ms */
 #define CYCLES_TO_100US 100
 #define US_TO_CM 0.034f
+#define ULTRA_TIMEOUT 10 /* if longer than x ms before response timeout */
+#define INT_MAX 2^(15)
 
 #define ULTRA_PORT GPIO_PORT_P3 //all ultra sonics on same port
 #define ULTRA_TRIG0 GPIO_PIN0 /* right */
@@ -217,7 +219,6 @@ int16_t check_ultra(ultra_t dev){
     /* note: counts distance in increments of 100 us */
 
     trig_ultra(dev);
-    bool done = false;
 
     /* wait to go high */
     int8_t res = GPIO_INPUT_PIN_LOW;
@@ -229,6 +230,9 @@ int16_t check_ultra(ultra_t dev){
     while(res == GPIO_INPUT_PIN_HIGH){
         res = check_echo_ultra(dev);
         __delay_cycles(CYCLES_TO_100US);
+        if(count > ULTRA_TIMEOUT){
+            return INT_MAX; /* return huge number */
+        }
         count++;
     }
 
@@ -280,7 +284,6 @@ int8_t check_echo_ultra(ultra_t dev){
 
 void delayUS(uint32_t usec){
 
-    usec >> 3;
     for(uint32_t i=0;i<usec;i++){
         __delay_cycles(1);
     }

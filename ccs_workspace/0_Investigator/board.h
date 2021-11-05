@@ -55,4 +55,23 @@ void acam_delay_ms(uint32_t ms);
 void acam_spi_cs_high(void);
 void acam_spi_cs_low(void);
 
+/********************************** LCD **********************************************/
+
+#define MSP_SLAVE_ADDR 0x48
+#define LCD_RESET 0xFF /* lcd reset command to slave */
+
+int lcd_reset(void);
+int lcd_write(uint8_t data);
+int lcd_string(char *str);
+
+/********************************* GPIO **********************************************/
+
+/* turns on noise maker */
+void turn_on_speaker(void);
+void turn_off_speaker(void);
+
+/* read u alert pin */
+bool read_u_alert(void);
+
+
 #endif /* BOARD_H_ */

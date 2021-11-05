@@ -27,4 +27,4 @@ def bmi():
             break
 
 if __name__ == '__main__':
-    pywebio.start_server(bmi, port=55)
+    pywebio.start_server(bmi, port=4055)

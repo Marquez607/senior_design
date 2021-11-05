@@ -15,15 +15,37 @@ extern Display_Handle display;
 
 /************************** WHEELSON LOCATION **********************************/
 
+/* which way wheelson is facing */
+wheelson_heading_t heading_g;
 
-/* where wheelson is currently in our "world" */
+/*
+ * initialize the heading semaphore
+ */
+void init_heading(void){
+    sem_init(&heading_g.mutex,0,1); /*unlocked at start */
+}
+
+/*
+ * change current heading
+ */
+void update_heading(float heading){
+    sem_wait(&heading_g.mutex);
+    heading_g.heading = heading;
+    sem_post(&heading_g.mutex);
+}
+
+/*
+ * get current heading
+ */
+float get_heading(void){
+    float ret;
+    sem_wait(&heading_g.mutex);
+    ret = heading_g.heading;
+    sem_post(&heading_g.mutex);
+    return ret;
+}
+
 wheelson_pos_t position_g;
-
-/* " compass " bearing */
-uint32_t heading_g;
-
-/* maybe we'll need to set a relative "north" for ease of use */
-uint32_t heading_offset_g;
 
 /* only needs to get called on boot up or whenever client decides
  * to reset relative coordinate system
@@ -57,12 +79,12 @@ void change_position(uint8_t x, uint8_t y){
 
 /*********************************** MESSAGE SYSTEM ********************************/
 
-/* const variables */
-const pdu_cmd_t MOVE = 0;  /* can be queued up */
-const pdu_cmd_t STOP = 1;  /* should be heeded immediately */
-const pdu_cmd_t RESET = 2; /* reset orientation and stop */
-const pdu_cmd_t BLOCK = 3; /* robot has encountered obstacle */
-const pdu_cmd_t UPDATE = 4;/* robot sending update to client */
+///* const variables */
+//const pdu_cmd_t C_MOVE = 0;  /* can be queued up */
+//const pdu_cmd_t C_STOP = 1;  /* should be heeded immediately */
+//const pdu_cmd_t C_RESET = 2; /* reset orientation and stop */
+//const pdu_cmd_t C_BLOCK = 3; /* robot has encountered obstacle */
+//const pdu_cmd_t C_UPDATE = 4;/* robot sending update to client */
 
 pdu_t rx_pdu_buffer_g[PDU_FIFO_SIZE];
 pdu_t tx_pdu_buffer_g[PDU_FIFO_SIZE];

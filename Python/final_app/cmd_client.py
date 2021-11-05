@@ -85,7 +85,7 @@ def wait_for_server(server_ip,port,buffer_size):
     print("CONNECTED TO SERVER")
     return server
 
-def cmd_process(ip,port,in_fifo,debug = False):
+def cmd_process(ip,port,in_fifo,debug = True):
     tx_pdu = pdu()
     server = wait_for_server(ip,port,PDU_SIZE+2)
 
@@ -96,7 +96,7 @@ def cmd_process(ip,port,in_fifo,debug = False):
 
             if in_fifo is not None:
                 # push to fifo 
-                in_fifo.get(tx_pdu)
+                tx_pdu = in_fifo.get(tx_pdu)
                 data = tx_pdu.put_buff()
                 server.send(data)
             
@@ -123,11 +123,11 @@ def update_process(ip,port,out_fifo,debug=False):
         try:
             data = server.receive()
             rx_pdu.get_buff(data)
-            debug = True
             if debug:
                 print(f"RX CMD : {rx_pdu.cmd}")
                 print(f"RX MSG LEN: {rx_pdu.msg_len}")
                 print(f"RX MSG: {rx_pdu.msg[0:rx_pdu.msg_len]}")
+                print(f"UPDATE COORDS {rx_pdu.x},{rx_pdu.y}")
 
             if out_fifo is not None:
                 # push to fifo 

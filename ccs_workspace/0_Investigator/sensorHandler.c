@@ -29,13 +29,7 @@
 #include "board.h"
 #include "sensor_drivers/LSM303DLH.h"
 
-#define MSP_SLAVE_ADDR 0x48
-#define LCD_RESET 0xFF /* lcd reset command to slave */
 #define PI 3.14159f
-
-static int lcd_reset(void);
-static int lcd_write(uint8_t data);
-static int lcd_string(char *str);
 
 extern Display_Handle display;
 
@@ -58,42 +52,21 @@ void *sensorThread(void *arg0)
     float mag_x = 0.0;
     float mag_y = 0.0;
     float mag_z = 0.0;
-    char lcd_str[20];
     while(1){
 
         LSM303_getOrientation(&mag_sensor,&mag_x, &mag_y, &mag_z);
         float heading = (atan2(mag_y,mag_x) * 180) / PI;
+        mag_x += 25;
         if(heading < 0.0){
             heading += 360.0;
         }
 
-        sprintf(lcd_str,"Head: %.1f",heading);
+        update_heading(heading);
+//        Display_printf(display,0,0,"HEADING %.1f",heading);
 
-        lcd_reset();
-        lcd_string(lcd_str);
-        Task_sleep(1000);
+        Task_sleep(50); /* read at 20 hz */
 
     }
 }
 
-static int lcd_reset(void){
-    return lcd_write(LCD_RESET);
-}
-static int lcd_write(uint8_t data){
-    uint8_t buff = data;
-    int rc = i2c_write(MSP_SLAVE_ADDR,&buff,1);
-    return rc;
-}
-static int lcd_string(char *str){
-
-    int rc = 0;
-    while(*str){
-        rc = lcd_write(*str);
-        if(rc < 0){
-            return rc;
-        }
-        str++;
-    }
-    return rc;
-}
 

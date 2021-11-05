@@ -7,6 +7,8 @@
 #include <unistd.h>
 #include <stdbool.h>
 #include <math.h>
+#include <stdio.h>
+#include <string.h>
 
 /* Driver Header files */
 #include <ti/drivers/GPIO.h>
@@ -39,6 +41,10 @@ static I2C_Handle      i2c;
 static I2C_Params      i2cParams;
 static I2C_Transaction i2cTransaction;
 
+static int lcd_reset(void);
+static int lcd_write(uint8_t data);
+static int lcd_string(char *str);
+
 /*
  *  ======== mainThread ========
  */
@@ -58,7 +64,7 @@ void *mainThread(void *arg0)
 
     /* Create I2C for usage */
     I2C_Params_init(&i2cParams);
-    i2cParams.bitRate = I2C_100kHz;
+    i2cParams.bitRate = I2C_400kHz;
     i2c = I2C_open(CONFIG_I2C_TMP, &i2cParams);
     if (i2c == NULL) {
         Display_printf(display, 0, 0, "Error Initializing I2C\n");
@@ -88,47 +94,21 @@ void *mainThread(void *arg0)
     float mag_y = 0.0;
     float mag_z = 0.0;
 
-//    while(1){
-//        char test = 'U';
-//        i2c_write(MSP_ADDR,&test,1);
-//        Task_sleep(500);
-//    }
 
-    char str[32];
+    char str[20];
     /* lcd reset */
     str[0] = 0xFF;
     i2c_write(MSP_ADDR,str,1);
     /* write string to lcd */
     char *pstr = str;
     sprintf(str,"MAG TEST");
-    while(*pstr){
-        i2c_write(MSP_ADDR,pstr++,1);
-    }
-
-    /* i2c init */
+    lcd_string(str);
 
 
     while(1){
 
-        float avg_x = 0.0;
-        float avg_y = 0.0;
-//        uint8_t count = 0;
-//        uint8_t n = 20;
-//
-//        while(count < n){
-//            LSM303_getOrientation(&mag_sensor,&mag_x, &mag_y, &mag_z);
-////            print_data(mag_x,mag_y,mag_z,0.0);
-//            avg_x += mag_x;
-//            avg_y += mag_y;
-//            count++;
-//            Task_sleep(50);
-//        }
-//        count = 0;
-
         LSM303_getOrientation(&mag_sensor,&mag_x, &mag_y, &mag_z);
-        avg_x = mag_x;
-        avg_y = mag_y;
-
+        mag_x += 25.0;
         float heading = (atan2(mag_y,mag_x) * 180) / PI;
         if(heading < 0.0){
             heading += 360.0;
@@ -136,13 +116,15 @@ void *mainThread(void *arg0)
 
         print_data(mag_x,mag_y,0.0,0.0);
 
-        Display_printf(display,0,0,"Heading: %.2f",heading);
-        Task_sleep(500);
+        Display_printf(display,0,0,"Head: %.1f",heading);
 
+        lcd_reset();
+        lcd_string(str);
+        Task_sleep(500);
     }
 
-    I2C_close(i2c);
-    Display_printf(display, 0, 0, "I2C closed!");
+//    I2C_close(i2c);
+//    Display_printf(display, 0, 0, "I2C closed!");
 
     return (NULL);
 }
@@ -189,5 +171,25 @@ static int i2c_read(uint8_t slave_addr, uint8_t *buffer, uint32_t size){
 
 static void print_data(float x, float y, float z, float t){
     Display_printf(display, 0, 0, "x: %.1f y: %.1f z: %.1f t: %.1f",x,y,z,t);
+}
+static int lcd_reset(void){
+    return lcd_write(0xFF);
+}
+static int lcd_write(uint8_t data){
+    uint8_t buff = data;
+    int rc = i2c_write(MSP_ADDR,&buff,1);
+    return rc;
+}
+static int lcd_string(char *str){
+
+    int rc = 0;
+    while(*str){
+        rc = lcd_write(*str);
+        if(rc < 0){
+            return rc;
+        }
+        str++;
+    }
+    return rc;
 }
 

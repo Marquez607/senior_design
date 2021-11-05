@@ -19,8 +19,41 @@
 
 /************************** WHEELSON LOCATION **********************************/
 
+/* approximate bearings */
+/* the robot compass is nowhere near this accurate
+ * will need to allow generous tolerances like +/- 30 deg
+ *
+ * or hand calibrate directions
+ */
+/* NOTE: polar mapping */
+#define HEAD_N 90
+#define HEAD_S 260
+#define HEAD_E 150
+#define HEAD_W 0
+
 /* " compass " bearing */
-extern uint32_t heading_g;
+typedef struct wheelson_heading{
+    float heading;
+    sem_t mutex;
+}wheelson_heading_t;
+
+/* which way wheelson is facing */
+extern wheelson_heading_t heading_g;
+
+/*
+ * initialize the heading semaphore
+ */
+void init_heading(void);
+
+/*
+ * change current heading
+ */
+void update_heading(float heading);
+
+/*
+ * get current heading
+ */
+float get_heading(void);
 
 /* current position */
 /* NOTE: this is how wheelson knows where it is */
@@ -57,12 +90,20 @@ void change_position(uint8_t x, uint8_t y);
 
 /* PDU Codes */
 /* wanted to ensure byte sized commands */
-typedef uint8_t pdu_cmd_t;
-extern const pdu_cmd_t MOVE;  /* can be queued up */
-extern const pdu_cmd_t STOP;  /* should be heeded immediately */
-extern const pdu_cmd_t RESET; /* reset orientation and stop , can also change position here*/
-extern const pdu_cmd_t BLOCK; /* robot has encountered obstacle */
-extern const pdu_cmd_t UPDATE;/* robot sending update to client */
+//typedef uint8_t pdu_cmd_t;
+//extern const pdu_cmd_t C_MOVE;  /* can be queued up */
+//extern const pdu_cmd_t C_STOP;  /* should be heeded immediately */
+//extern const pdu_cmd_t C_RESET; /* reset orientation and stop , can also change position here*/
+//extern const pdu_cmd_t C_BLOCK; /* robot has encountered obstacle */
+//extern const pdu_cmd_t C_UPDATE;/* robot sending update to client */
+
+typedef enum pdu_cmd{
+    PDU_MOVE,
+    PDU_STOP,
+    PDU_RESET,
+    PDU_BLOCK,
+    PDU_UPDATE
+}pdu_cmd_t;
 
 /* PDU */
 /* protocol data unit for exchanging messages between robot and client */
@@ -123,6 +164,7 @@ int pdu_read_buffer(uint8_t *in_buff,pdu_t *out_pdu);
 extern uint8_t cam_data[NUM_CAM_BUFFERS][CAM_BUFFER_SIZE];
 extern ppipc_buff_t cam_buffers[NUM_CAM_BUFFERS]; /* we'll use 2 camera buffers */
 extern ppipc_buff_tab_t cam_buff_tab;
+
 
 
 #endif /* SHARED_H_ */
