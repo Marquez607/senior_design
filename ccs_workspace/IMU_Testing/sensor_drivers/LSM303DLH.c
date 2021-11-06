@@ -192,10 +192,10 @@ void LSM303_readMagnetometerData(lsm303_t *sensor){
 	/* setup indeces for mag data */
 	uint8_t xhi = 0;
 	uint8_t xlo = 1;
-	uint8_t zhi = 4;
-	uint8_t zlo = 5;
-	uint8_t yhi = 2;
-	uint8_t ylo = 3;
+	uint8_t zhi = 2;
+	uint8_t zlo = 3;
+	uint8_t yhi = 4;
+	uint8_t ylo = 5;
 
 	// Shift values to create properly formed integer (low uint8_t first)
 	sensor->magData.x = (float)( (int16_t)(magDataRaw[xlo] | ((int16_t)magDataRaw[xhi] << 8)) );

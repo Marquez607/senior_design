@@ -27,9 +27,9 @@
  */
 /* NOTE: polar mapping */
 #define HEAD_N 90
-#define HEAD_S 260
-#define HEAD_E 150
-#define HEAD_W 0
+#define HEAD_S 220
+#define HEAD_E 180
+#define HEAD_W 120
 
 /* " compass " bearing */
 typedef struct wheelson_heading{

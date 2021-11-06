@@ -55,14 +55,14 @@ void *sensorThread(void *arg0)
     while(1){
 
         LSM303_getOrientation(&mag_sensor,&mag_x, &mag_y, &mag_z);
-        float heading = (atan2(mag_y,mag_x) * 180) / PI;
         mag_x += 25;
+        float heading = (atan2(mag_y,mag_x) * 180) / PI;
         if(heading < 0.0){
             heading += 360.0;
         }
 
         update_heading(heading);
-//        Display_printf(display,0,0,"HEADING %.1f",heading);
+        Display_printf(display,0,0,"HEADING %.1f",heading);
 
         Task_sleep(50); /* read at 20 hz */
 
