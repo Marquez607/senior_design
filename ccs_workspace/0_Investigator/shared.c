@@ -15,6 +15,15 @@ extern Display_Handle display;
 
 /************************** WHEELSON LOCATION **********************************/
 
+extern uint8_t HEAD_N = 85;
+extern uint8_t HEAD_S = 60;
+extern uint8_t HEAD_E = 160;
+extern uint8_t HEAD_W = 360;
+
+extern uint16_t FORWARD_TIME_MS = 250; /*time between sending a rotate command */
+extern uint16_t ROTATE_TIME_MS = 2000; /* amount of time that counts as one dist unit */
+extern uint16_t HEADING_ERROR_DEG = 5; /* allowed heading error when rotating */
+
 /* which way wheelson is facing */
 wheelson_heading_t heading_g;
 
@@ -181,7 +190,7 @@ int pdu_fill_buffer(uint8_t *out_buff,pdu_t *in_pdu){
 int pdu_read_buffer(uint8_t *in_buff,pdu_t *out_pdu){
 
     if(in_buff[0] != PDU_START_BYTE0 || in_buff[1] != PDU_START_BYTE1){
-        Display_printf(display, 0, 0, "BAD PDU");
+//        Display_printf(display, 0, 0, "BAD PDU");
         return -1;
     }
     memcpy((uint8_t*)out_pdu,in_buff+2,PDU_SIZE);

@@ -130,7 +130,7 @@ def main():
     #====================== TCP HANDLERS =============================#
 
     #start jpeg client for Investigator 
-    jpegProc = mp.Process(target=jCli.jpeg_client,args=(args.ip,args.vport,camPipe,False))
+    jpegProc = mp.Process(target=jCli.jpeg_client,args=(args.ip,args.vport,camPipe))
     jpegProc.start()
 
     # #need to fork bridge page here, bridge will handle other Investagor tcp connections

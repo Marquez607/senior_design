@@ -5,6 +5,7 @@ import multiprocessing as mp
 from pywebio.session import *
 import time
 import atexit
+import numpy as np
 
 import cmd_client as cCli #needed for pdu framing
 
@@ -38,6 +39,8 @@ wheelson_pos = WHEELSON_DEFAULT_POS
 
 session_count = 0
 
+nprint = print #preserve original print
+
 #================================== WEB PAGE THREAD =======================================#
 def webpage(): 
     global cmd_map,session_count
@@ -60,7 +63,6 @@ def webpage():
     def refresh_term():
         for m in chat_msg: 
             msg_box.append(put_markdown(m,sanitize=True))
-
     print = print_term
 
     def send_reset(blank):
@@ -103,25 +105,31 @@ def webpage():
         # add to command pipe
         cmdPipe_g.put(pdu)
 
+        cmd_map[wheelson_pos[0]][wheelson_pos[1]] = "WHEELSON"
         show_cmd_map() 
 
-    def move_wheelson(pos):
+    def move_wheelson(x,y):
         global wheelson_pos
-        global cmdPipe_g 
+        # global cmdPipe_g 
 
-        x,y = pos 
+        # print(f"{x},{y}")
+        # nprint(type(x),type(y))
 
         #set new wheelson location
-        cmd_map[x][y] = "WHEELSON"
-        
+        cmd_map[int(x)][int(y)] = "WHEELSON"    
+
         #erase previous location 
         cmd_map[wheelson_pos[0]][wheelson_pos[1]] = -1
-        wheelson_pos = pos
 
-        show_cmd_map()
+        wheelson_pos = (int(x),int(y))
+
+        # nprint(cmd_map)
+
+        # show_cmd_map()
 
     @use_scope('cmd_map', clear=True)
     def show_cmd_map():
+        cmd_map[wheelson_pos[0]][wheelson_pos[1]] = "WHEELSON"  
         table = [
             [
                 put_buttons([dict(label=' ', value=(x, y), color='light')], onclick=place_waypoint) if cell == -1 else ICONS[cell]
@@ -145,20 +153,20 @@ def webpage():
     # put_buttons([dict(label="SEND STOP",value=(),color='light' )],onclick=send_stop)
 
     while True:
-        time.sleep(1)
+        time.sleep(0.5)
         #read from update pipe
         rx_pdu = updatePipe_g.get()
         if rx_pdu is not None:
-            if rx_pdu.cmd == rx_pdu.UPDATE or rx_pdu.cmd == rx_pdu.BLOCK:
-                new_pos = (rx_pdu.x ,rx_pdu.y)
-                move_wheelson(new_pos)
-                x,y = new_pos
-                print(rx_pdu.msg)
-                show_cmd_map()
-            # elif rx_pdu.header == rx_pdu.MSG_HEADER:
-            #     print(f"WHEELSON MSG: {rx_pdu.data}")
-            #     show_cmd_map()
-            rx_pdu = None
+            if (rx_pdu.cmd is rx_pdu.UPDATE) or (rx_pdu.cmd is rx_pdu.BLOCK):
+                #print(f"{rx_pdu.x} ,{rx_pdu.y}")
+                move_wheelson(rx_pdu.x ,rx_pdu.y)
+                try:
+                    str_msg = "".join([chr(el) for el in rx_pdu.msg[0:rx_pdu.msg_len]])
+                    print(f"{ str_msg }")
+                except:
+                    print(rx_pdu.msg)
+        show_cmd_map()
+        rx_pdu = None
 
 def bridgeProcess(cmdPipe,updatePipe,port=4040,debug=False):
 

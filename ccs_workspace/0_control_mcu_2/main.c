@@ -73,7 +73,7 @@ static uint8_t RXData;
 static any_lcd_t lcd;
 
 /* configured over i2c */
-static int8_t too_close_cm = 20; /* 10 cm */
+static int8_t too_close_cm = 30; /* 10 cm */
 
 void main (void)
 {
@@ -113,6 +113,7 @@ void main (void)
         else{
             u_alert_low();
         }
+
     }
 }
 
@@ -231,7 +232,7 @@ int16_t check_ultra(ultra_t dev){
         res = check_echo_ultra(dev);
         __delay_cycles(CYCLES_TO_100US);
         if(count > ULTRA_TIMEOUT){
-            return INT_MAX; /* return huge number */
+            return 100; /* return huge number */
         }
         count++;
     }

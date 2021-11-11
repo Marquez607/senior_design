@@ -1,3 +1,10 @@
-2021/10/30-10:20:49.231 4880 Reusing MANIFEST C:\Users\Marqu\OneDrive\Desktop\senior_prep_workspace\senior_prep_backup\ccs_workspace\.jxbrowser.userdata\Default\Local Storage\leveldb/MANIFEST-000001
-2021/10/30-10:20:49.246 4880 Recovering log #22
-2021/10/30-10:20:49.247 4880 Reusing old log C:\Users\Marqu\OneDrive\Desktop\senior_prep_workspace\senior_prep_backup\ccs_workspace\.jxbrowser.userdata\Default\Local Storage\leveldb/000022.log 
+2021/11/09-12:08:33.194 2b0c Reusing MANIFEST C:\Users\Marqu\OneDrive\Desktop\senior_prep_workspace\senior_prep_backup\ccs_workspace\.jxbrowser.userdata\Default\Local Storage\leveldb/MANIFEST-000001
+2021/11/09-12:08:33.204 2b0c Recovering log #24
+2021/11/09-12:08:33.205 2b0c Reusing old log C:\Users\Marqu\OneDrive\Desktop\senior_prep_workspace\senior_prep_backup\ccs_workspace\.jxbrowser.userdata\Default\Local Storage\leveldb/000024.log 
+2021/11/09-12:08:33.206 2b0c Delete type=2 #14
+2021/11/09-12:08:33.206 2b0c Delete type=2 #17
+2021/11/09-12:08:33.206 2b0c Delete type=2 #19
+2021/11/09-12:08:33.206 2b0c Delete type=0 #20
+2021/11/09-12:08:33.206 2b0c Delete type=2 #22
+2021/11/09-12:08:33.206 2b0c Delete type=0 #22
+2021/11/09-12:08:33.206 2b0c Delete type=2 #23
