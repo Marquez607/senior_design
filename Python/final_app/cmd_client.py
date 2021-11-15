@@ -75,6 +75,41 @@ class pdu():
             ret.append( ord(self.msg[i] ) )
         ret.append(0)
         return bytearray(ret)
+
+    def put_buff_new_heading(self,N,S,E,W):
+        '''
+        special function for modifying heading quasi constants for headings
+        compass is kind of bad so we have to recalibrate what is N,S,E,W for 
+        proper functionality
+        '''
+        ret = []
+        ret.append(PDU_START_BYTE0)
+        ret.append(PDU_START_BYTE1)
+        self.cmd = self.CHANGE_HEAD = 5
+        ret.append(self.cmd)
+
+        self.x = 0
+        self.y = 0
+        ret.append(self.x) 
+        ret.append(self.y)
+
+        #compile new values into a array of 8 bytes
+        #sending 4 16 bit values
+        self.msg = [
+                    N>>8 & 0x00FF, N & 0x00FF,
+                    S>>8 & 0x00FF, S & 0x00FF,
+                    E>>8 & 0x00FF, E & 0x00FF,
+                    W>>8 & 0x00FF, W & 0x00FF,
+                ]
+
+        self.msg_len = len(self.msg)
+
+        ret.append(self.msg_len)
+        for i in range(0,self.msg_len-1):
+            ret.append( (self.msg[i] ) )
+        ret.append(0)
+        return bytearray(ret)
+
         
 def wait_for_server(server_ip,port,buffer_size):    
     '''

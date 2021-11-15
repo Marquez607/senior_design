@@ -140,7 +140,7 @@ def webpage():
         put_row([ 
             put_table(table),put_scrollable(msg_box, height=300, keep_bottom=True)
         ])
-        refresh_term()
+        # refresh_term()
 
     put_markdown("""# Welcome to the Bridge
     The Bridge is an web interface for issuing commands and receiving updates from the Wheelson IoT robotics platform""",lstrip=True)
@@ -155,17 +155,26 @@ def webpage():
     while True:
         time.sleep(0.5)
         #read from update pipe
+        new_pos = False 
         rx_pdu = updatePipe_g.get()
         if rx_pdu is not None:
             if (rx_pdu.cmd is rx_pdu.UPDATE) or (rx_pdu.cmd is rx_pdu.BLOCK):
-                #print(f"{rx_pdu.x} ,{rx_pdu.y}")
-                move_wheelson(rx_pdu.x ,rx_pdu.y)
+                #check if position changed before updating the map 
+                curr_x,curr_y = wheelson_pos
+                if curr_x != rx_pdu.x or curr_y != rx_pdu.y:
+                    move_wheelson(rx_pdu.x ,rx_pdu.y)
+                    new_pos = True 
+                #
                 try:
                     str_msg = "".join([chr(el) for el in rx_pdu.msg[0:rx_pdu.msg_len]])
                     print(f"{ str_msg }")
                 except:
                     print(rx_pdu.msg)
-        show_cmd_map()
+
+        if new_pos: #if position changed, update command map
+            show_cmd_map()
+        
+        refresh_term()
         rx_pdu = None
 
 def bridgeProcess(cmdPipe,updatePipe,port=4040,debug=False):

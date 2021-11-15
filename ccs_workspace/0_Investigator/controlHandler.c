@@ -39,8 +39,6 @@ const motor_cmd_t MOVE_FORW  = 'F';
 const motor_cmd_t MOVE_RVRS  = 'R';
 const motor_cmd_t MOTOR_STOP = 'S';
 
-bool blocked_flag = false;
-
 typedef enum state{
     ST_WAIT_CMD, /* wait for command via pipe */
     ST_EXE_CMD,  /* execution state ; will send updates here */
@@ -103,6 +101,9 @@ static int calc_next_coord(uint8_t new_x,
 static pdu_t rx_pdu;
 static pdu_t tx_pdu;
 
+bool blocked_flag = false;
+
+
 void controlThread(void *arg0){
 
     lcd_reset();
@@ -112,6 +113,9 @@ void controlThread(void *arg0){
     while(1){
 
         Display_printf(display,0,0,"NEW COMMAND");
+        if(blocked_flag == true){
+            state = ST_COL;
+        }
         switch(state){
         case ST_WAIT_CMD:
             lcd_reset();
@@ -238,7 +242,7 @@ static void exe_handler(state_t *next){
 
             get_position(&curr_x, &curr_y);
 
-            Display_printf(display, 0, 0,"E X E \n");
+//            Display_printf(display, 0, 0,"E X E \n");
 
 
             /* we've reached the correct location */
@@ -246,7 +250,7 @@ static void exe_handler(state_t *next){
                 done = true; /* done with moving */
             }
 
-            /* get next coord */
+//            /* get next coord */
             calc_next_coord(new_x,new_y,&next_x,&next_y);
 
             /* get heading based on coord */

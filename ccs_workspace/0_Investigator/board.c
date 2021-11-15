@@ -196,13 +196,13 @@ void acam_delay_ms(uint32_t ms){
 
 int uart_write(uint8_t *data,uint32_t size){
 //    sem_wait(&uart_mutex);
-    UART_write(uart, data, size);
+    UART_writePolling(uart, data, size);
 //    sem_post(&uart_mutex);
     return 0;
 }
 int uart_read(uint8_t *data,uint32_t size){
 //    sem_wait(&uart_mutex);
-    UART_read(uart, data, size);
+    UART_readPolling(uart, data, size);
 //    sem_post(&uart_mutex);
     return 0;
 }
