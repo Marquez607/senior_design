@@ -44,6 +44,8 @@ sem_t uart_mutex;
 
 Display_Handle display;
 
+extern void safetyHandler(uint_least8_t index);
+
 /**************************
  * Name: gator_board_init()
  * Desc: initialize project IO
@@ -110,12 +112,17 @@ void gator_board_init(void){
     uartParams.readReturnMode = UART_RETURN_FULL;
     uartParams.baudRate = 115200;
     uart = UART_open(CONFIG_UART_0, &uartParams);
-
     if (uart == NULL) {
         /* UART_open() failed */
 //        Display_printf(display, 0, 0, "UART FAILED\n");
         while (1);
     }
+
+    /* safety interrupt init */
+    GPIO_setConfig(U_ALERT, GPIO_CFG_IN_PD | GPIO_CFG_IN_INT_BOTH_EDGES);
+    GPIO_setCallback(U_ALERT,safetyHandler);
+    GPIO_enableInt(U_ALERT);
+
     Display_printf(display, 0, 0, "Hardware initialized\n");
 }
 /*
@@ -188,15 +195,15 @@ void acam_delay_ms(uint32_t ms){
 }
 
 int uart_write(uint8_t *data,uint32_t size){
-    sem_wait(&uart_mutex);
-    UART_write(uart, data, size);
-    sem_post(&uart_mutex);
+//    sem_wait(&uart_mutex);
+    UART_writePolling(uart, data, size);
+//    sem_post(&uart_mutex);
     return 0;
 }
 int uart_read(uint8_t *data,uint32_t size){
-    sem_wait(&uart_mutex);
-    UART_read(uart, data, size);
-    sem_post(&uart_mutex);
+//    sem_wait(&uart_mutex);
+    UART_readPolling(uart, data, size);
+//    sem_post(&uart_mutex);
     return 0;
 }
 

@@ -24,12 +24,24 @@
  * will need to allow generous tolerances like +/- 30 deg
  *
  * or hand calibrate directions
+ *
+ * make sure robot is aligned to either N,S,E,W
+ * 0,0 is most "north" and most "west" point
  */
 /* NOTE: polar mapping */
-#define HEAD_N 90
-#define HEAD_S 220
-#define HEAD_E 180
-#define HEAD_W 120
+extern uint8_t HEAD_N;
+extern uint8_t HEAD_S;
+extern uint8_t HEAD_E;
+extern uint8_t HEAD_W;
+
+extern uint16_t FORWARD_TIME_MS;
+extern uint16_t ROTATE_TIME_MS;
+extern uint16_t HEADING_ERROR_DEG;
+
+//#define ROTATE_TIME_MS 250 /*time between sending a rotate command */
+//#define FORWARD_TIME_MS 2000/* amount of time that counts as one dist unit */
+//#define HEADING_ERROR_DEG 5 /* allowed heading error when rotating */
+
 
 /* " compass " bearing */
 typedef struct wheelson_heading{
@@ -102,7 +114,12 @@ typedef enum pdu_cmd{
     PDU_STOP,
     PDU_RESET,
     PDU_BLOCK,
-    PDU_UPDATE
+    PDU_UPDATE,
+    PDU_CHANGE_HEAD, /* change heading configurations in msg portion */
+    PDU_GO_FORWARD,
+    PDU_GO_REV,
+    PDU_TURN_LEFT,
+    PDU_TURN_RIGHT
 }pdu_cmd_t;
 
 /* PDU */

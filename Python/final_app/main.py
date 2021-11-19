@@ -51,13 +51,13 @@ def gen():
     '''
     global camPipe
     while True:
-        # t0 = time.time()
+        t0 = time.time()
         frame = bytearray(camPipe.get())
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
         # time.sleep(0.05) #limite to 20 FPS
-        # t1 = time.time()
-        # print(f"FPS = {1/(t1-t0)}")
+        t1 = time.time()
+        print(f"FPS = {1/(t1-t0)}")
                 
 @app.route('/video')
 def video_feed():
@@ -130,7 +130,7 @@ def main():
     #====================== TCP HANDLERS =============================#
 
     #start jpeg client for Investigator 
-    jpegProc = mp.Process(target=jCli.jpeg_client,args=(args.ip,args.vport,camPipe,False))
+    jpegProc = mp.Process(target=jCli.jpeg_client,args=(args.ip,args.vport,camPipe))
     jpegProc.start()
 
     # #need to fork bridge page here, bridge will handle other Investagor tcp connections

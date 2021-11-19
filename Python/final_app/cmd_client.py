@@ -34,6 +34,11 @@ class pdu():
         self.RESET  = 2
         self.BLOCK  = 3
         self.UPDATE = 4
+        self.CHANGE_HEAD = 5
+        self.GO_FWRD = 6
+        self.GO_REV = 7
+        self.TURN_LEFT = 8
+        self.TURN_RIGHT = 9
 
     
     def get_buff(self,bytes):
@@ -70,6 +75,41 @@ class pdu():
             ret.append( ord(self.msg[i] ) )
         ret.append(0)
         return bytearray(ret)
+
+    def put_buff_new_heading(self,N,S,E,W):
+        '''
+        special function for modifying heading quasi constants for headings
+        compass is kind of bad so we have to recalibrate what is N,S,E,W for 
+        proper functionality
+        '''
+        ret = []
+        ret.append(PDU_START_BYTE0)
+        ret.append(PDU_START_BYTE1)
+        self.cmd = self.CHANGE_HEAD = 5
+        ret.append(self.cmd)
+
+        self.x = 0
+        self.y = 0
+        ret.append(self.x) 
+        ret.append(self.y)
+
+        #compile new values into a array of 8 bytes
+        #sending 4 16 bit values
+        self.msg = [
+                    N>>8 & 0x00FF, N & 0x00FF,
+                    S>>8 & 0x00FF, S & 0x00FF,
+                    E>>8 & 0x00FF, E & 0x00FF,
+                    W>>8 & 0x00FF, W & 0x00FF,
+                ]
+
+        self.msg_len = len(self.msg)
+
+        ret.append(self.msg_len)
+        for i in range(0,self.msg_len-1):
+            ret.append( (self.msg[i] ) )
+        ret.append(0)
+        return bytearray(ret)
+
         
 def wait_for_server(server_ip,port,buffer_size):    
     '''
@@ -85,7 +125,7 @@ def wait_for_server(server_ip,port,buffer_size):
     print("CONNECTED TO SERVER")
     return server
 
-def cmd_process(ip,port,in_fifo,debug = True):
+def cmd_process(ip,port,in_fifo,debug = False):
     tx_pdu = pdu()
     server = wait_for_server(ip,port,PDU_SIZE+2)
 
@@ -94,22 +134,24 @@ def cmd_process(ip,port,in_fifo,debug = True):
             # data = server.receive()
             # tx_pdu.get_buff(data)
 
-            if in_fifo is not None:
+            if not debug:
                 # push to fifo 
                 tx_pdu = in_fifo.get(tx_pdu)
                 data = tx_pdu.put_buff()
                 server.send(data)
             
             elif debug: #test pdu
-                tx_pdu.cmd = tx_pdu.MOVE 
+                # print("SENDING")
+                tx_pdu.cmd = tx_pdu.STOP
                 tx_pdu.x = 10
                 tx_pdu.y = 10
                 tx_pdu.msg_len = 9
                 tx_pdu.msg = "TEST MSG"
                 data = tx_pdu.put_buff()
                 server.send(data)  
-                time.sleep(1)
+                time.sleep(2)
         except:
+            print("SERVER CONN FAILED")
             server = wait_for_server(ip,port,PDU_SIZE+2)
 
 def update_process(ip,port,out_fifo,debug=False):
@@ -126,12 +168,17 @@ def update_process(ip,port,out_fifo,debug=False):
             if debug:
                 print(f"RX CMD : {rx_pdu.cmd}")
                 print(f"RX MSG LEN: {rx_pdu.msg_len}")
-                print(f"RX MSG: {rx_pdu.msg[0:rx_pdu.msg_len]}")
+
+                str_msg = "".join([chr(el) for el in rx_pdu.msg[0:rx_pdu.msg_len]])
+                print(f"RX MSG: {str_msg}")
+                # print(f"RX MSG: {rx_pdu.msg[0:rx_pdu.msg_len]}")
                 print(f"UPDATE COORDS {rx_pdu.x},{rx_pdu.y}")
 
             if out_fifo is not None:
                 # push to fifo 
                 out_fifo.put(rx_pdu)
+            else:
+                print("NO FIFO")
         except:
             # print(e)    #server probably dropped
             # print("WAITIN FOR SERVER CONNECTION")
@@ -144,10 +191,11 @@ def parse_args():
     if using as script, you can pass in the ip and port via these flags
     '''
     parser = argparse.ArgumentParser(description='command sending/update receiving over socket')
-    parser.add_argument('-c','--cport',required=True,dest='cport', type=int,
-                        help='port number of command server')
-    parser.add_argument('-u','--uport',required=True,dest='uport', type=int,
-                        help='port number of update server')
+    parser.add_argument('-c','--cport',required=False,dest='cport', type=int,default=1002,
+                        help='port number of command server on robot')   
+
+    parser.add_argument('-u','--uport',required=False,dest='uport', type=int,default=1001,
+                        help='port number of update server on robot')
     parser.add_argument('-i','--ip',required=True,dest='ip',
                         help='IP address of wheelson server')
     args = parser.parse_args()

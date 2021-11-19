@@ -35,6 +35,11 @@ extern Display_Handle display;
 
 static lsm303_t mag_sensor;
 
+/* send some kind of message to the client */
+static void send_msg(char *msg);
+
+static void send_heading(void);
+
 void *sensorThread(void *arg0)
 {
     LSM303_struct_init(&mag_sensor);
@@ -52,6 +57,8 @@ void *sensorThread(void *arg0)
     float mag_x = 0.0;
     float mag_y = 0.0;
     float mag_z = 0.0;
+
+    uint8_t count = 0;
     while(1){
 
         LSM303_getOrientation(&mag_sensor,&mag_x, &mag_y, &mag_z);
@@ -62,11 +69,41 @@ void *sensorThread(void *arg0)
         }
 
         update_heading(heading);
-        Display_printf(display,0,0,"HEADING %.1f",heading);
+
+        if(count < 40){
+            count++;
+        }else{
+//            Display_printf(display, 0, 0, "Send Heading.\n");
+            count = 0;
+            send_heading(); /* send current heading every second */
+        }
 
         Task_sleep(50); /* read at 20 hz */
 
     }
+}
+
+/* send some kind of message to the client */
+static void send_msg(char *msg){
+
+    pdu_t out_pdu;
+
+    out_pdu.cmd = PDU_UPDATE;
+    get_position(&out_pdu.x,&out_pdu.y);
+
+    sprintf(out_pdu.msg,"%s",msg);
+    out_pdu.msg_len = strlen(out_pdu.msg);
+
+    /* send update */
+    pdu_fifo_put(&tx_pdu_fifo_g,&out_pdu);
+
+}
+
+static void send_heading(void){
+    char msg[32];
+    float heading = get_heading();
+    sprintf(msg,"HEADING: %.1f",heading);
+    send_msg(msg);
 }
 
 
