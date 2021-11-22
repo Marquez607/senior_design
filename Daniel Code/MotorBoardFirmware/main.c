@@ -24,7 +24,7 @@ void main(void)
     disableAlarm();
 
     // Power on delay for stuff to stabilize
-    for(uint16_t delay2=0; delay2 < 15; delay2++){
+    for(uint16_t delay2=0; delay2 < 30; delay2++){
         for(uint16_t delay=0; delay < UINT16_MAX; delay++); // Software Delay
     }
 
@@ -46,13 +46,29 @@ void main(void)
     //Initialize compare mode to generate PWM1
     // Need the struct to be allocated within main
     Timer_A_initCompareModeParam PWMParam = {0};
+    enableAlarm();
+    for(uint16_t delay=0; delay < UINT16_MAX; delay++);
     disableAlarm();
+
     while (1)
     {
         // UWU
         //toggleAlarm();
         //GPIO_setOutputLowOnPin(GPIO_PORT_P3, GPIO_PIN2);
         EUSCI_A_UART_transmitData(EUSCI_A0_BASE, 'a');
+        for(uint16_t delay2 = 0; delay2 < 10; delay2++){
+            for(uint16_t delay=0; delay < UINT16_MAX; delay++); // Software Delay
+        }
+
+        PWMMotor(MOTOR1, FORWARD, TEST_DUTY, &PWMParam);
+        for(uint16_t delay2 = 0; delay2 < 50; delay2++){
+            for(uint16_t delay=0; delay < UINT16_MAX; delay++); // Software Delay
+        }
+        PWMMotor(MOTOR2, FORWARD, TEST_DUTY, &PWMParam);
+        for(uint16_t delay2 = 0; delay2 < 50; delay2++){
+            for(uint16_t delay=0; delay < UINT16_MAX; delay++); // Software Delay
+        }
+        /*
         GPIO_setOutputLowOnPin(GPIO_PORT_P8, GPIO_PIN3);
         for(uint16_t delay=0; delay < UINT16_MAX; delay++);
         GPIO_setOutputHighOnPin(GPIO_PORT_P4, GPIO_PIN0);
@@ -68,27 +84,30 @@ void main(void)
         for(uint16_t delay2 = 0; delay2 < 10; delay2++){
             for(uint16_t delay=0; delay < UINT16_MAX; delay++); // Software Delay
         }
+        */
         /*
+        //toggleAlarm();
         PWMMotor(MOTOR1, FORWARD, TEST_DUTY, &PWMParam);
         for(uint16_t delay2 = 0; delay2 < 10; delay2++){
             for(uint16_t delay=0; delay < UINT16_MAX; delay++); // Software Delay
         }
-
+        //toggleAlarm();
         PWMMotor(MOTOR1, BACKWARD, TEST_DUTY, &PWMParam);
         for(uint16_t delay2 = 0; delay2 < 10; delay2++){
             for(uint16_t delay=0; delay < UINT16_MAX; delay++); // Software Delay
         }
-
+        //toggleAlarm();
         PWMMotor(MOTOR2, FORWARD, TEST_DUTY, &PWMParam);
         for(uint16_t delay2 = 0; delay2 < 10; delay2++){
             for(uint16_t delay=0; delay < UINT16_MAX; delay++); // Software Delay
         }
-
+        //toggleAlarm();
         PWMMotor(MOTOR2, BACKWARD, TEST_DUTY, &PWMParam);
         for(uint16_t delay2 = 0; delay2 < 10; delay2++){
             for(uint16_t delay=0; delay < UINT16_MAX; delay++); // Software Delay
         }
-    */
+        */
+
     }
 
 }

@@ -1,0 +1,639 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html">
+<style type="text/css">
+		h1, h2, h3, h4, h5, h6 {
+			font-family : segoe ui;
+			color : black;
+			background-color : #EDE7D9;
+			padding: 0.3em;
+		}
+
+		h1 {
+			font-size: 1.2em;
+		}		
+
+		h2 {
+			font-size: 1.2em;
+		}
+
+		body {
+			font-family : segoe ui;
+		}
+
+		td, th {
+			padding: 0.5em;
+			text-align : left;
+			width: 10em;
+		}
+		th {
+			background-color : #EEEEEE;
+
+		}
+		th.column1, td.column1 {
+			text-align: left;
+			width : auto;
+		}
+		table {
+			width : 100%;
+			font-size: 0.9em;
+		}
+
+		.DRC_summary_header {
+			padding-bottom : 0.1em;
+			border : 0px solid black;
+			width: 100%;
+			align: left;
+		}
+
+		.DRC_summary_header_col1,
+		.DRC_summary_header_col2, 
+		.DRC_summary_header_col3 {
+			color : black;
+			font-size:100%;
+			padding : 0em;
+			padding-top : 0.2em;
+			padding-bottom 0.2em;
+			border : 0px solid black;
+			vertical-align: top;
+			text-align: left;
+		}
+
+		.DRC_summary_header_col1 {
+			font-weight: bold;
+			width: 8em;
+		}
+
+		.DRC_summary_header_col2 {
+			width: 0.1em;
+		
+		}
+
+		.DRC_summary_header_col3 {
+			width : auto;
+		}
+
+		.header_holder {
+		    Width = 100%;
+		    border = 0px solid green;
+		    padding = 0;
+		}
+
+
+		.front_matter, .front_matter_column1, .front_matter_column2, .front_matter_column3
+		{
+			left : 0;
+			top : 0;
+			padding: 0em;
+			padding-top : 0.1em;
+			border : 0px solid black;
+			width : 100%;
+			vertical-align: top;
+			text-align: left;
+		}
+
+		.front_matter_column1 {
+			width : 8em;
+			font-weight: bold;
+		}
+
+		.front_matter_column2 {
+			width: 0.1em;
+		}
+
+		.front_matter_column3 {
+			width : auto;
+		}
+
+		.total_column1, .total_column {
+			font-weight : bold;
+		}
+		.total_column1 {
+			text-align : left;
+		}
+		.warning, .error {
+			color : red;
+			font-weight : bold;
+		}
+		tr.onmouseout_odd {
+			background-color : #white;
+		}
+		tr.onmouseout_even { 
+			background-color : #FAFAFA;
+		}
+		tr.onmouseover_odd, tr.onmouseover_even { 
+			background-color : #EEEEEE;
+		} 
+		a:link, a:visited, .q a:link,.q a:active,.q {
+			color: #21489e; 
+		}
+		a:link.callback, a:visited.callback { 
+			color: #21489e;
+		}
+		a:link.customize, a:visited.customize {
+			color: #C0C0C0;
+			position: absolute; 
+			right: 10px;
+		}	
+		p.contents_level1 {
+			font-weight : bold;
+			font-size : 110%;
+			margin : 0.5em;
+		}
+		p.contents_level2 {
+			position : relative;
+			left : 20px;
+			margin : 0.5em;
+		}
+	</style><script type="text/javascript">
+		function coordToMils(coord) {
+			var number = coord / 10000;
+			
+			if (number != number.toFixed(3))
+				number = number.toFixed(3);
+
+			return number + 'mil'
+		}
+
+		function coordToMM(coord) {
+			var number = 0.0254 * coord / 10000;
+			
+			if (number != number.toFixed(4))
+				number = number.toFixed(4);
+			
+			return number + 'mm'
+		}
+	
+		function convertCoord(coordNode, units) {
+			for (var i = 0; i < coordNode.childNodes.length; i++) {
+				coordNode.removeChild(coordNode.childNodes[i]);
+			}
+
+			var coord = coordNode.getAttribute('value');
+			if (coord != null) {
+				if (units == 'mm') {
+					textNode = document.createTextNode(coordToMM(coord));
+					coordNode.appendChild(textNode);
+				} else if (units == 'mil') {
+					textNode = document.createTextNode(coordToMils(coord));		
+					coordNode.appendChild(textNode);	
+				}
+			}
+		}
+	
+		function convertUnits(unitNode, units) {
+			for (var i = 0; i < unitNode.childNodes.length; i++) {
+				unitNode.removeChild(unitNode.childNodes[i]);		
+			}
+		
+			textNode = document.createTextNode(units); 
+			unitNode.appendChild(textNode);
+		}
+	
+		function changeUnits(radio_input, units) {
+			if (radio_input.checked) {
+			
+				var elements = document.getElementsByName('coordinate');
+				if (elements) {
+					for (var i = 0; i < elements.length; i++) {
+						convertCoord(elements[i], units);
+					}
+				}
+	
+				var elements = document.getElementsByName('units');
+				if (elements) {
+					for (var i = 0; i < elements.length; i++) {
+						convertUnits(elements[i], units);
+					}
+				}
+			}
+		}
+	</script><title>Design Rule Verification Report</title>
+</head>
+<body onload=""><img ALT="Altium" src="
+			file://C:\Users\Public\Documents\Altium\AD20\Templates\AD_logo.png
+		"><h1>Design Rule Verification Report</h1>
+<table class="header_holder">
+<td class="column1">
+<table class="front_matter">
+<tr class="front_matter">
+<td class="front_matter_column1">Date:</td>
+<td class="front_matter_column2"></td>
+<td class="front_matter_column3">10/22/2021</td>
+</tr>
+<tr class="front_matter">
+<td class="front_matter_column1">Time:</td>
+<td class="front_matter_column2"></td>
+<td class="front_matter_column3">6:46:17 PM</td>
+</tr>
+<tr class="front_matter">
+<td class="front_matter_column1">Elapsed Time:</td>
+<td class="front_matter_column2"></td>
+<td class="front_matter_column3">00:00:01</td>
+</tr>
+<tr class="front_matter">
+<td class="front_matter_column1">Filename:</td>
+<td class="front_matter_column2"></td>
+<td class="front_matter_column3"><a href="file:///C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc" class="file"><acronym title="C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc">C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc</acronym></a></td>
+</tr>
+</table>
+</td>
+<td class="column2">
+<table class="DRC_summary_header">
+<tr>
+<td class="DRC_summary_header_col1">Warnings:</td>
+<td class="DRC_summary_header_col2"></td>
+<td class="DRC_summary_header_col3">0</td></tr>
+<tr>
+<td class="DRC_summary_header_col1">Rule Violations:</td>
+<td class="DRC_summary_header_col2"></td>
+<td class="DRC_summary_header_col3" style="color : red">101</td></tr>
+</table>
+</td>
+</table><a name="IDYLOAWMP4WAJLEHL2FSELHREGNOKYC1OIIITWWCL0F3EEWCEQH5MN"><h2>Summary</h2></a><table>
+<tr>
+<th class="column1">Warnings</th>
+<th class="column2">Count</th>
+</tr>
+<tr>
+<td style="font-weight : bold; text-align : right" class="column1">Total</td>
+<td style="font-weight : bold" class="column2">0</td>
+</tr>
+</table><br><table>
+<tr>
+<th class="column1">Rule Violations</th>
+<th class="column2">Count</th>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDB15TBWEWTPNRKGYXAU4PRJCWWJHNA21LWJJ3UFCC2FIAAPW4JLKO">Clearance Constraint (Gap=5mil) (All),(All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDH55YUSSDXPRSDODEBGL5QA3LHN1K3X1EA20NI3DLEE41RXS1LQP">Short-Circuit Constraint (Allowed=No) (All),(All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDWBL0NT2R4ZS3CMJFE5HNVZRPEKDTO3AUPW3IVXM0SKS52VBSWPZI">Un-Routed Net Constraint ( (All) )</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#ID5HQVTW0KM1YDDCXQTFKUFLQZJPJB4ARYR5HMW3PJAMY5NAUMZYXC">Modified Polygon (Allow modified: No), (Allow shelved: No)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDKWJPWI3FDW2JDO0KKJRBK03MKBVWW1RJSDZNBND1F0JMZJZNDBOH">Width Constraint (Min=10mil) (Max=50mil) (Preferred=10mil) (All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDPMSMWYRD0VYYPOAPBETHGLJ54NK4A2UZYBO3CGFMKKPJELUUUQXK">Power Plane Connect Rule(Relief Connect )(Expansion=20mil) (Conductor Width=10mil) (Air Gap=10mil) (Entries=4) (All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDQO1OQ4WIZRQCOHX13DSJSDITKD55CKFWEHLVUTHVRJSOQP5HXGZG">Hole Size Constraint (Min=1mil) (Max=100mil) (All)</a></td>
+<td class="column2">6</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDVI4ZQEHMBTPSBD4VHZO2BWATXEZIOP3F1ZUQQHFXCLVFPDEY0ZL">Hole To Hole Clearance (Gap=10mil) (All),(All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDL2FLVOSB22U5LT3GS2BDTKF3GPLG11YPJTN01KOLSUJF3XGF1IC">Minimum Solder Mask Sliver (Gap=2mil) (All),(All)</a></td>
+<td class="column2">63</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDJCGH2ZHIM1NYPPEB1UUNDDSRLBCKJPTRTSGDOK3V0KK3Z1GA2I">Silk To Solder Mask (Clearance=5mil) (IsPad),(All)</a></td>
+<td class="column2">32</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDVMQXJWKZZSVGED0URUTPKTNB1KDXR50A5RXKDRIUC03QZX0YVLJL">Silk to Silk (Clearance=5mil) (All),(All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDHGU2FEAKM1FKJ2NNMK2ZF3GIUPDH213AN1FUNFPIF52VFLA4FTPM">Net Antennae (Tolerance=0mil) (All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDGQWQSGTHW2VJMGSNJJUMWGMY2PQJWX2WD4PDVAI5XYSHDAGU0XTE">Height Constraint (Min=0mil) (Max=1000mil) (Prefered=500mil) (All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr>
+<td style="font-weight : bold; text-align : right" class="column1">Total</td>
+<td style="font-weight : bold" class="column2">101</td>
+</tr>
+</table><br><a name="IDQO1OQ4WIZRQCOHX13DSJSDITKD55CKFWEHLVUTHVRJSOQP5HXGZG"><table>
+<tr>
+<th style="text-align : left" colspan="1" class="rule">Hole Size Constraint (Min=1mil) (Max=100mil) (All)</th>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2395.675mil|Location2.X=2526.925mil|Location1.Y=1244.375mil|Location2.Y=1375.625mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2395.675mil|Location2.X=2526.925mil|Location1.Y=1244.375mil|Location2.Y=1375.625mil|Absolute=True">Hole Size Constraint: (130mil &gt; 100mil) Pad P5-1(2461.3mil,1310mil) on Multi-Layer Actual Hole Size = 130mil</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2183.075mil|Location2.X=2314.325mil|Location1.Y=1244.375mil|Location2.Y=1375.625mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2183.075mil|Location2.X=2314.325mil|Location1.Y=1244.375mil|Location2.Y=1375.625mil|Absolute=True">Hole Size Constraint: (130mil &gt; 100mil) Pad P5-2(2248.7mil,1310mil) on Multi-Layer Actual Hole Size = 130mil</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1407.446mil|Location2.X=1542.554mil|Location1.Y=1157.446mil|Location2.Y=1292.554mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1407.446mil|Location2.X=1542.554mil|Location1.Y=1157.446mil|Location2.Y=1292.554mil|Absolute=True">Hole Size Constraint: (133.858mil &gt; 100mil) Via (1475mil,1225mil) from Top Layer to Bottom Layer Actual Hole Size = 133.858mil</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1432.446mil|Location2.X=1567.554mil|Location1.Y=3182.446mil|Location2.Y=3317.554mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1432.446mil|Location2.X=1567.554mil|Location1.Y=3182.446mil|Location2.Y=3317.554mil|Absolute=True">Hole Size Constraint: (133.858mil &gt; 100mil) Via (1500mil,3250mil) from Top Layer to Bottom Layer Actual Hole Size = 133.858mil</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4407.446mil|Location2.X=4542.554mil|Location1.Y=3182.446mil|Location2.Y=3317.554mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4407.446mil|Location2.X=4542.554mil|Location1.Y=3182.446mil|Location2.Y=3317.554mil|Absolute=True">Hole Size Constraint: (133.858mil &gt; 100mil) Via (4475mil,3250mil) from Top Layer to Bottom Layer Actual Hole Size = 133.858mil</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4417.446mil|Location2.X=4552.554mil|Location1.Y=1157.446mil|Location2.Y=1292.554mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4417.446mil|Location2.X=4552.554mil|Location1.Y=1157.446mil|Location2.Y=1292.554mil|Absolute=True">Hole Size Constraint: (133.858mil &gt; 100mil) Via (4485mil,1225mil) from Top Layer to Bottom Layer Actual Hole Size = 133.858mil</acronym></a><br></td>
+</tr>
+</table></a><hr color="#EEEEEE"><a href="#top" style="font-size: 0.9em">Back to top</a><br><br><a name="IDL2FLVOSB22U5LT3GS2BDTKF3GPLG11YPJTN01KOLSUJF3XGF1IC"><table>
+<tr>
+<th style="text-align : left" colspan="1" class="rule">Minimum Solder Mask Sliver (Gap=2mil) (All),(All)</th>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3969.281mil|Location2.X=3972.531mil|Location1.Y=1861.486mil|Location2.Y=1864.736mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3969.281mil|Location2.X=3972.531mil|Location1.Y=1861.486mil|Location2.Y=1864.736mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.66mil &lt; 2mil) Between Pad IC1-1(3980.748mil,1891.654mil) on Top Layer And Pad IC1-2(3961.064mil,1891.654mil) on Top Layer [Top Solder] Mask Sliver [0.66mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3792.115mil|Location2.X=3795.365mil|Location1.Y=1861.486mil|Location2.Y=1864.736mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3792.115mil|Location2.X=3795.365mil|Location1.Y=1861.486mil|Location2.Y=1864.736mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.66mil &lt; 2mil) Between Pad IC1-10(3803.582mil,1891.654mil) on Top Layer And Pad IC1-11(3783.898mil,1891.654mil) on Top Layer [Top Solder] Mask Sliver [0.66mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3811.8mil|Location2.X=3815.05mil|Location1.Y=1861.486mil|Location2.Y=1864.736mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3811.8mil|Location2.X=3815.05mil|Location1.Y=1861.486mil|Location2.Y=1864.736mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.662mil &lt; 2mil) Between Pad IC1-10(3803.582mil,1891.654mil) on Top Layer And Pad IC1-9(3823.268mil,1891.654mil) on Top Layer [Top Solder] Mask Sliver [0.662mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3772.43mil|Location2.X=3775.68mil|Location1.Y=1861.486mil|Location2.Y=1864.736mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3772.43mil|Location2.X=3775.68mil|Location1.Y=1861.486mil|Location2.Y=1864.736mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.662mil &lt; 2mil) Between Pad IC1-11(3783.898mil,1891.654mil) on Top Layer And Pad IC1-12(3764.212mil,1891.654mil) on Top Layer [Top Solder] Mask Sliver [0.662mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3752.745mil|Location2.X=3755.995mil|Location1.Y=1861.486mil|Location2.Y=1864.736mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3752.745mil|Location2.X=3755.995mil|Location1.Y=1861.486mil|Location2.Y=1864.736mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.66mil &lt; 2mil) Between Pad IC1-12(3764.212mil,1891.654mil) on Top Layer And Pad IC1-13(3744.528mil,1891.654mil) on Top Layer [Top Solder] Mask Sliver [0.66mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3733.06mil|Location2.X=3736.31mil|Location1.Y=1861.486mil|Location2.Y=1864.736mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3733.06mil|Location2.X=3736.31mil|Location1.Y=1861.486mil|Location2.Y=1864.736mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.662mil &lt; 2mil) Between Pad IC1-13(3744.528mil,1891.654mil) on Top Layer And Pad IC1-14(3724.842mil,1891.654mil) on Top Layer [Top Solder] Mask Sliver [0.662mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3713.375mil|Location2.X=3716.625mil|Location1.Y=1861.486mil|Location2.Y=1864.736mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3713.375mil|Location2.X=3716.625mil|Location1.Y=1861.486mil|Location2.Y=1864.736mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.66mil &lt; 2mil) Between Pad IC1-14(3724.842mil,1891.654mil) on Top Layer And Pad IC1-15(3705.158mil,1891.654mil) on Top Layer [Top Solder] Mask Sliver [0.66mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3693.69mil|Location2.X=3696.94mil|Location1.Y=1861.486mil|Location2.Y=1864.736mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3693.69mil|Location2.X=3696.94mil|Location1.Y=1861.486mil|Location2.Y=1864.736mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.662mil &lt; 2mil) Between Pad IC1-15(3705.158mil,1891.654mil) on Top Layer And Pad IC1-16(3685.472mil,1891.654mil) on Top Layer [Top Solder] Mask Sliver [0.662mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3674.005mil|Location2.X=3677.255mil|Location1.Y=1861.486mil|Location2.Y=1864.736mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3674.005mil|Location2.X=3677.255mil|Location1.Y=1861.486mil|Location2.Y=1864.736mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.66mil &lt; 2mil) Between Pad IC1-16(3685.472mil,1891.654mil) on Top Layer And Pad IC1-17(3665.788mil,1891.654mil) on Top Layer [Top Solder] Mask Sliver [0.66mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3654.32mil|Location2.X=3657.57mil|Location1.Y=1861.486mil|Location2.Y=1864.736mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3654.32mil|Location2.X=3657.57mil|Location1.Y=1861.486mil|Location2.Y=1864.736mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.662mil &lt; 2mil) Between Pad IC1-17(3665.788mil,1891.654mil) on Top Layer And Pad IC1-18(3646.102mil,1891.654mil) on Top Layer [Top Solder] Mask Sliver [0.662mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3634.635mil|Location2.X=3637.885mil|Location1.Y=1861.486mil|Location2.Y=1864.736mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3634.635mil|Location2.X=3637.885mil|Location1.Y=1861.486mil|Location2.Y=1864.736mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.66mil &lt; 2mil) Between Pad IC1-18(3646.102mil,1891.654mil) on Top Layer And Pad IC1-19(3626.418mil,1891.654mil) on Top Layer [Top Solder] Mask Sliver [0.66mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3614.95mil|Location2.X=3618.2mil|Location1.Y=1861.486mil|Location2.Y=1864.736mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3614.95mil|Location2.X=3618.2mil|Location1.Y=1861.486mil|Location2.Y=1864.736mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.662mil &lt; 2mil) Between Pad IC1-19(3626.418mil,1891.654mil) on Top Layer And Pad IC1-20(3606.732mil,1891.654mil) on Top Layer [Top Solder] Mask Sliver [0.662mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3949.596mil|Location2.X=3952.846mil|Location1.Y=1861.486mil|Location2.Y=1864.736mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3949.596mil|Location2.X=3952.846mil|Location1.Y=1861.486mil|Location2.Y=1864.736mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.662mil &lt; 2mil) Between Pad IC1-2(3961.064mil,1891.654mil) on Top Layer And Pad IC1-3(3941.378mil,1891.654mil) on Top Layer [Top Solder] Mask Sliver [0.662mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3595.265mil|Location2.X=3598.515mil|Location1.Y=1861.486mil|Location2.Y=1864.736mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3595.265mil|Location2.X=3598.515mil|Location1.Y=1861.486mil|Location2.Y=1864.736mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.66mil &lt; 2mil) Between Pad IC1-20(3606.732mil,1891.654mil) on Top Layer And Pad IC1-21(3587.048mil,1891.654mil) on Top Layer [Top Solder] Mask Sliver [0.66mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3575.58mil|Location2.X=3578.83mil|Location1.Y=1861.486mil|Location2.Y=1864.736mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3575.58mil|Location2.X=3578.83mil|Location1.Y=1861.486mil|Location2.Y=1864.736mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.662mil &lt; 2mil) Between Pad IC1-21(3587.048mil,1891.654mil) on Top Layer And Pad IC1-22(3567.362mil,1891.654mil) on Top Layer [Top Solder] Mask Sliver [0.662mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3555.895mil|Location2.X=3559.145mil|Location1.Y=1861.486mil|Location2.Y=1864.736mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3555.895mil|Location2.X=3559.145mil|Location1.Y=1861.486mil|Location2.Y=1864.736mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.66mil &lt; 2mil) Between Pad IC1-22(3567.362mil,1891.654mil) on Top Layer And Pad IC1-23(3547.678mil,1891.654mil) on Top Layer [Top Solder] Mask Sliver [0.66mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3536.21mil|Location2.X=3539.46mil|Location1.Y=1861.486mil|Location2.Y=1864.736mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3536.21mil|Location2.X=3539.46mil|Location1.Y=1861.486mil|Location2.Y=1864.736mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.662mil &lt; 2mil) Between Pad IC1-23(3547.678mil,1891.654mil) on Top Layer And Pad IC1-24(3527.992mil,1891.654mil) on Top Layer [Top Solder] Mask Sliver [0.662mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3516.525mil|Location2.X=3519.775mil|Location1.Y=1861.486mil|Location2.Y=1864.736mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3516.525mil|Location2.X=3519.775mil|Location1.Y=1861.486mil|Location2.Y=1864.736mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.66mil &lt; 2mil) Between Pad IC1-24(3527.992mil,1891.654mil) on Top Layer And Pad IC1-25(3508.308mil,1891.654mil) on Top Layer [Top Solder] Mask Sliver [0.66mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3496.84mil|Location2.X=3500.09mil|Location1.Y=1861.486mil|Location2.Y=1864.736mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3496.84mil|Location2.X=3500.09mil|Location1.Y=1861.486mil|Location2.Y=1864.736mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.662mil &lt; 2mil) Between Pad IC1-25(3508.308mil,1891.654mil) on Top Layer And Pad IC1-26(3488.622mil,1891.654mil) on Top Layer [Top Solder] Mask Sliver [0.662mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3477.155mil|Location2.X=3480.405mil|Location1.Y=1861.486mil|Location2.Y=1864.736mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3477.155mil|Location2.X=3480.405mil|Location1.Y=1861.486mil|Location2.Y=1864.736mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.66mil &lt; 2mil) Between Pad IC1-26(3488.622mil,1891.654mil) on Top Layer And Pad IC1-27(3468.938mil,1891.654mil) on Top Layer [Top Solder] Mask Sliver [0.66mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3457.47mil|Location2.X=3460.72mil|Location1.Y=1861.486mil|Location2.Y=1864.736mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3457.47mil|Location2.X=3460.72mil|Location1.Y=1861.486mil|Location2.Y=1864.736mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.662mil &lt; 2mil) Between Pad IC1-27(3468.938mil,1891.654mil) on Top Layer And Pad IC1-28(3449.252mil,1891.654mil) on Top Layer [Top Solder] Mask Sliver [0.662mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3457.47mil|Location2.X=3460.72mil|Location1.Y=1568.178mil|Location2.Y=1571.428mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3457.47mil|Location2.X=3460.72mil|Location1.Y=1568.178mil|Location2.Y=1571.428mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.662mil &lt; 2mil) Between Pad IC1-29(3449.252mil,1598.346mil) on Top Layer And Pad IC1-30(3468.938mil,1598.346mil) on Top Layer [Top Solder] Mask Sliver [0.662mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3929.91mil|Location2.X=3933.16mil|Location1.Y=1861.486mil|Location2.Y=1864.736mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3929.91mil|Location2.X=3933.16mil|Location1.Y=1861.486mil|Location2.Y=1864.736mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.662mil &lt; 2mil) Between Pad IC1-3(3941.378mil,1891.654mil) on Top Layer And Pad IC1-4(3921.692mil,1891.654mil) on Top Layer [Top Solder] Mask Sliver [0.662mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3477.155mil|Location2.X=3480.405mil|Location1.Y=1568.178mil|Location2.Y=1571.428mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3477.155mil|Location2.X=3480.405mil|Location1.Y=1568.178mil|Location2.Y=1571.428mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.66mil &lt; 2mil) Between Pad IC1-30(3468.938mil,1598.346mil) on Top Layer And Pad IC1-31(3488.622mil,1598.346mil) on Top Layer [Top Solder] Mask Sliver [0.66mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3496.84mil|Location2.X=3500.09mil|Location1.Y=1568.178mil|Location2.Y=1571.428mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3496.84mil|Location2.X=3500.09mil|Location1.Y=1568.178mil|Location2.Y=1571.428mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.662mil &lt; 2mil) Between Pad IC1-31(3488.622mil,1598.346mil) on Top Layer And Pad IC1-32(3508.308mil,1598.346mil) on Top Layer [Top Solder] Mask Sliver [0.662mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3516.525mil|Location2.X=3519.775mil|Location1.Y=1568.178mil|Location2.Y=1571.428mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3516.525mil|Location2.X=3519.775mil|Location1.Y=1568.178mil|Location2.Y=1571.428mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.66mil &lt; 2mil) Between Pad IC1-32(3508.308mil,1598.346mil) on Top Layer And Pad IC1-33(3527.992mil,1598.346mil) on Top Layer [Top Solder] Mask Sliver [0.66mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3536.21mil|Location2.X=3539.46mil|Location1.Y=1568.178mil|Location2.Y=1571.428mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3536.21mil|Location2.X=3539.46mil|Location1.Y=1568.178mil|Location2.Y=1571.428mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.662mil &lt; 2mil) Between Pad IC1-33(3527.992mil,1598.346mil) on Top Layer And Pad IC1-34(3547.678mil,1598.346mil) on Top Layer [Top Solder] Mask Sliver [0.662mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3555.895mil|Location2.X=3559.145mil|Location1.Y=1568.178mil|Location2.Y=1571.428mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3555.895mil|Location2.X=3559.145mil|Location1.Y=1568.178mil|Location2.Y=1571.428mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.66mil &lt; 2mil) Between Pad IC1-34(3547.678mil,1598.346mil) on Top Layer And Pad IC1-35(3567.362mil,1598.346mil) on Top Layer [Top Solder] Mask Sliver [0.66mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3575.58mil|Location2.X=3578.83mil|Location1.Y=1568.178mil|Location2.Y=1571.428mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3575.58mil|Location2.X=3578.83mil|Location1.Y=1568.178mil|Location2.Y=1571.428mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.662mil &lt; 2mil) Between Pad IC1-35(3567.362mil,1598.346mil) on Top Layer And Pad IC1-36(3587.048mil,1598.346mil) on Top Layer [Top Solder] Mask Sliver [0.662mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3595.265mil|Location2.X=3598.515mil|Location1.Y=1568.178mil|Location2.Y=1571.428mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3595.265mil|Location2.X=3598.515mil|Location1.Y=1568.178mil|Location2.Y=1571.428mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.66mil &lt; 2mil) Between Pad IC1-36(3587.048mil,1598.346mil) on Top Layer And Pad IC1-37(3606.732mil,1598.346mil) on Top Layer [Top Solder] Mask Sliver [0.66mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3614.95mil|Location2.X=3618.2mil|Location1.Y=1568.178mil|Location2.Y=1571.428mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3614.95mil|Location2.X=3618.2mil|Location1.Y=1568.178mil|Location2.Y=1571.428mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.662mil &lt; 2mil) Between Pad IC1-37(3606.732mil,1598.346mil) on Top Layer And Pad IC1-38(3626.418mil,1598.346mil) on Top Layer [Top Solder] Mask Sliver [0.662mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3634.635mil|Location2.X=3637.885mil|Location1.Y=1568.178mil|Location2.Y=1571.428mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3634.635mil|Location2.X=3637.885mil|Location1.Y=1568.178mil|Location2.Y=1571.428mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.66mil &lt; 2mil) Between Pad IC1-38(3626.418mil,1598.346mil) on Top Layer And Pad IC1-39(3646.102mil,1598.346mil) on Top Layer [Top Solder] Mask Sliver [0.66mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3654.32mil|Location2.X=3657.57mil|Location1.Y=1568.178mil|Location2.Y=1571.428mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3654.32mil|Location2.X=3657.57mil|Location1.Y=1568.178mil|Location2.Y=1571.428mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.662mil &lt; 2mil) Between Pad IC1-39(3646.102mil,1598.346mil) on Top Layer And Pad IC1-40(3665.788mil,1598.346mil) on Top Layer [Top Solder] Mask Sliver [0.662mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3910.225mil|Location2.X=3913.475mil|Location1.Y=1861.486mil|Location2.Y=1864.736mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3910.225mil|Location2.X=3913.475mil|Location1.Y=1861.486mil|Location2.Y=1864.736mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.66mil &lt; 2mil) Between Pad IC1-4(3921.692mil,1891.654mil) on Top Layer And Pad IC1-5(3902.008mil,1891.654mil) on Top Layer [Top Solder] Mask Sliver [0.66mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3674.005mil|Location2.X=3677.255mil|Location1.Y=1568.178mil|Location2.Y=1571.428mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3674.005mil|Location2.X=3677.255mil|Location1.Y=1568.178mil|Location2.Y=1571.428mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.66mil &lt; 2mil) Between Pad IC1-40(3665.788mil,1598.346mil) on Top Layer And Pad IC1-41(3685.472mil,1598.346mil) on Top Layer [Top Solder] Mask Sliver [0.66mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3693.69mil|Location2.X=3696.94mil|Location1.Y=1568.178mil|Location2.Y=1571.428mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3693.69mil|Location2.X=3696.94mil|Location1.Y=1568.178mil|Location2.Y=1571.428mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.662mil &lt; 2mil) Between Pad IC1-41(3685.472mil,1598.346mil) on Top Layer And Pad IC1-42(3705.158mil,1598.346mil) on Top Layer [Top Solder] Mask Sliver [0.662mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3713.375mil|Location2.X=3716.625mil|Location1.Y=1568.178mil|Location2.Y=1571.428mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3713.375mil|Location2.X=3716.625mil|Location1.Y=1568.178mil|Location2.Y=1571.428mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.66mil &lt; 2mil) Between Pad IC1-42(3705.158mil,1598.346mil) on Top Layer And Pad IC1-43(3724.842mil,1598.346mil) on Top Layer [Top Solder] Mask Sliver [0.66mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3733.06mil|Location2.X=3736.31mil|Location1.Y=1568.178mil|Location2.Y=1571.428mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3733.06mil|Location2.X=3736.31mil|Location1.Y=1568.178mil|Location2.Y=1571.428mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.662mil &lt; 2mil) Between Pad IC1-43(3724.842mil,1598.346mil) on Top Layer And Pad IC1-44(3744.528mil,1598.346mil) on Top Layer [Top Solder] Mask Sliver [0.662mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3752.745mil|Location2.X=3755.995mil|Location1.Y=1568.178mil|Location2.Y=1571.428mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3752.745mil|Location2.X=3755.995mil|Location1.Y=1568.178mil|Location2.Y=1571.428mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.66mil &lt; 2mil) Between Pad IC1-44(3744.528mil,1598.346mil) on Top Layer And Pad IC1-45(3764.212mil,1598.346mil) on Top Layer [Top Solder] Mask Sliver [0.66mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3772.43mil|Location2.X=3775.68mil|Location1.Y=1568.178mil|Location2.Y=1571.428mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3772.43mil|Location2.X=3775.68mil|Location1.Y=1568.178mil|Location2.Y=1571.428mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.662mil &lt; 2mil) Between Pad IC1-45(3764.212mil,1598.346mil) on Top Layer And Pad IC1-46(3783.898mil,1598.346mil) on Top Layer [Top Solder] Mask Sliver [0.662mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3792.115mil|Location2.X=3795.365mil|Location1.Y=1568.178mil|Location2.Y=1571.428mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3792.115mil|Location2.X=3795.365mil|Location1.Y=1568.178mil|Location2.Y=1571.428mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.66mil &lt; 2mil) Between Pad IC1-46(3783.898mil,1598.346mil) on Top Layer And Pad IC1-47(3803.582mil,1598.346mil) on Top Layer [Top Solder] Mask Sliver [0.66mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3811.8mil|Location2.X=3815.05mil|Location1.Y=1568.178mil|Location2.Y=1571.428mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3811.8mil|Location2.X=3815.05mil|Location1.Y=1568.178mil|Location2.Y=1571.428mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.662mil &lt; 2mil) Between Pad IC1-47(3803.582mil,1598.346mil) on Top Layer And Pad IC1-48(3823.268mil,1598.346mil) on Top Layer [Top Solder] Mask Sliver [0.662mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3831.485mil|Location2.X=3834.735mil|Location1.Y=1568.178mil|Location2.Y=1571.428mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3831.485mil|Location2.X=3834.735mil|Location1.Y=1568.178mil|Location2.Y=1571.428mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.66mil &lt; 2mil) Between Pad IC1-48(3823.268mil,1598.346mil) on Top Layer And Pad IC1-49(3842.952mil,1598.346mil) on Top Layer [Top Solder] Mask Sliver [0.66mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3851.17mil|Location2.X=3854.42mil|Location1.Y=1568.178mil|Location2.Y=1571.428mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3851.17mil|Location2.X=3854.42mil|Location1.Y=1568.178mil|Location2.Y=1571.428mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.662mil &lt; 2mil) Between Pad IC1-49(3842.952mil,1598.346mil) on Top Layer And Pad IC1-50(3862.638mil,1598.346mil) on Top Layer [Top Solder] Mask Sliver [0.662mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3890.54mil|Location2.X=3893.79mil|Location1.Y=1861.486mil|Location2.Y=1864.736mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3890.54mil|Location2.X=3893.79mil|Location1.Y=1861.486mil|Location2.Y=1864.736mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.662mil &lt; 2mil) Between Pad IC1-5(3902.008mil,1891.654mil) on Top Layer And Pad IC1-6(3882.322mil,1891.654mil) on Top Layer [Top Solder] Mask Sliver [0.662mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3870.855mil|Location2.X=3874.105mil|Location1.Y=1568.178mil|Location2.Y=1571.428mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3870.855mil|Location2.X=3874.105mil|Location1.Y=1568.178mil|Location2.Y=1571.428mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.66mil &lt; 2mil) Between Pad IC1-50(3862.638mil,1598.346mil) on Top Layer And Pad IC1-51(3882.322mil,1598.346mil) on Top Layer [Top Solder] Mask Sliver [0.66mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3890.54mil|Location2.X=3893.79mil|Location1.Y=1568.178mil|Location2.Y=1571.428mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3890.54mil|Location2.X=3893.79mil|Location1.Y=1568.178mil|Location2.Y=1571.428mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.662mil &lt; 2mil) Between Pad IC1-51(3882.322mil,1598.346mil) on Top Layer And Pad IC1-52(3902.008mil,1598.346mil) on Top Layer [Top Solder] Mask Sliver [0.662mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3910.225mil|Location2.X=3913.475mil|Location1.Y=1568.178mil|Location2.Y=1571.428mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3910.225mil|Location2.X=3913.475mil|Location1.Y=1568.178mil|Location2.Y=1571.428mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.66mil &lt; 2mil) Between Pad IC1-52(3902.008mil,1598.346mil) on Top Layer And Pad IC1-53(3921.692mil,1598.346mil) on Top Layer [Top Solder] Mask Sliver [0.66mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3929.91mil|Location2.X=3933.16mil|Location1.Y=1568.178mil|Location2.Y=1571.428mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3929.91mil|Location2.X=3933.16mil|Location1.Y=1568.178mil|Location2.Y=1571.428mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.662mil &lt; 2mil) Between Pad IC1-53(3921.692mil,1598.346mil) on Top Layer And Pad IC1-54(3941.378mil,1598.346mil) on Top Layer [Top Solder] Mask Sliver [0.662mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3949.596mil|Location2.X=3952.846mil|Location1.Y=1568.178mil|Location2.Y=1571.428mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3949.596mil|Location2.X=3952.846mil|Location1.Y=1568.178mil|Location2.Y=1571.428mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.662mil &lt; 2mil) Between Pad IC1-54(3941.378mil,1598.346mil) on Top Layer And Pad IC1-55(3961.064mil,1598.346mil) on Top Layer [Top Solder] Mask Sliver [0.662mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3969.281mil|Location2.X=3972.531mil|Location1.Y=1568.178mil|Location2.Y=1571.428mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3969.281mil|Location2.X=3972.531mil|Location1.Y=1568.178mil|Location2.Y=1571.428mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.66mil &lt; 2mil) Between Pad IC1-55(3961.064mil,1598.346mil) on Top Layer And Pad IC1-56(3980.748mil,1598.346mil) on Top Layer [Top Solder] Mask Sliver [0.66mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3870.855mil|Location2.X=3874.105mil|Location1.Y=1861.486mil|Location2.Y=1864.736mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3870.855mil|Location2.X=3874.105mil|Location1.Y=1861.486mil|Location2.Y=1864.736mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.66mil &lt; 2mil) Between Pad IC1-6(3882.322mil,1891.654mil) on Top Layer And Pad IC1-7(3862.638mil,1891.654mil) on Top Layer [Top Solder] Mask Sliver [0.66mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3851.17mil|Location2.X=3854.42mil|Location1.Y=1861.486mil|Location2.Y=1864.736mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3851.17mil|Location2.X=3854.42mil|Location1.Y=1861.486mil|Location2.Y=1864.736mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.662mil &lt; 2mil) Between Pad IC1-7(3862.638mil,1891.654mil) on Top Layer And Pad IC1-8(3842.952mil,1891.654mil) on Top Layer [Top Solder] Mask Sliver [0.662mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3831.485mil|Location2.X=3834.735mil|Location1.Y=1861.486mil|Location2.Y=1864.736mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3831.485mil|Location2.X=3834.735mil|Location1.Y=1861.486mil|Location2.Y=1864.736mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.66mil &lt; 2mil) Between Pad IC1-8(3842.952mil,1891.654mil) on Top Layer And Pad IC1-9(3823.268mil,1891.654mil) on Top Layer [Top Solder] Mask Sliver [0.66mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3059.084mil|Location2.X=3062.334mil|Location1.Y=1498.375mil|Location2.Y=1501.625mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3059.084mil|Location2.X=3062.334mil|Location1.Y=1498.375mil|Location2.Y=1501.625mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.583mil &lt; 2mil) Between Pad L1-2(2895mil,1445mil) on Top Layer And Via (3090mil,1500mil) from Top Layer to Bottom Layer [Top Solder] Mask Sliver [0.583mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3237.273mil|Location2.X=3240.523mil|Location1.Y=1508.119mil|Location2.Y=1511.369mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3237.273mil|Location2.X=3240.523mil|Location1.Y=1508.119mil|Location2.Y=1511.369mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (1.448mil &lt; 2mil) Between Pad U1-1(3248.74mil,1525mil) on Top Layer And Pad U1-2(3229.056mil,1525mil) on Top Layer [Top Solder] Mask Sliver [1.448mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3237.273mil|Location2.X=3240.523mil|Location1.Y=1395.127mil|Location2.Y=1398.377mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3237.273mil|Location2.X=3240.523mil|Location1.Y=1395.127mil|Location2.Y=1398.377mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (1.448mil &lt; 2mil) Between Pad U1-10(3248.74mil,1412.008mil) on Top Layer And Pad U1-9(3229.056mil,1412.008mil) on Top Layer [Top Solder] Mask Sliver [1.448mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3217.588mil|Location2.X=3220.838mil|Location1.Y=1508.119mil|Location2.Y=1511.369mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3217.588mil|Location2.X=3220.838mil|Location1.Y=1508.119mil|Location2.Y=1511.369mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (1.45mil &lt; 2mil) Between Pad U1-2(3229.056mil,1525mil) on Top Layer And Pad U1-3(3209.37mil,1525mil) on Top Layer [Top Solder] Mask Sliver [1.45mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3197.903mil|Location2.X=3201.153mil|Location1.Y=1508.119mil|Location2.Y=1511.369mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3197.903mil|Location2.X=3201.153mil|Location1.Y=1508.119mil|Location2.Y=1511.369mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (1.448mil &lt; 2mil) Between Pad U1-3(3209.37mil,1525mil) on Top Layer And Pad U1-4(3189.686mil,1525mil) on Top Layer [Top Solder] Mask Sliver [1.448mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3178.218mil|Location2.X=3181.468mil|Location1.Y=1508.119mil|Location2.Y=1511.369mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3178.218mil|Location2.X=3181.468mil|Location1.Y=1508.119mil|Location2.Y=1511.369mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (1.45mil &lt; 2mil) Between Pad U1-4(3189.686mil,1525mil) on Top Layer And Pad U1-5(3170mil,1525mil) on Top Layer [Top Solder] Mask Sliver [1.45mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3178.218mil|Location2.X=3181.468mil|Location1.Y=1395.127mil|Location2.Y=1398.377mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3178.218mil|Location2.X=3181.468mil|Location1.Y=1395.127mil|Location2.Y=1398.377mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (1.45mil &lt; 2mil) Between Pad U1-6(3170mil,1412.008mil) on Top Layer And Pad U1-7(3189.686mil,1412.008mil) on Top Layer [Top Solder] Mask Sliver [1.45mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3197.903mil|Location2.X=3201.153mil|Location1.Y=1395.127mil|Location2.Y=1398.377mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3197.903mil|Location2.X=3201.153mil|Location1.Y=1395.127mil|Location2.Y=1398.377mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (1.448mil &lt; 2mil) Between Pad U1-7(3189.686mil,1412.008mil) on Top Layer And Pad U1-8(3209.37mil,1412.008mil) on Top Layer [Top Solder] Mask Sliver [1.448mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3217.588mil|Location2.X=3220.838mil|Location1.Y=1395.127mil|Location2.Y=1398.377mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3217.588mil|Location2.X=3220.838mil|Location1.Y=1395.127mil|Location2.Y=1398.377mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (1.45mil &lt; 2mil) Between Pad U1-8(3209.37mil,1412.008mil) on Top Layer And Pad U1-9(3229.056mil,1412.008mil) on Top Layer [Top Solder] Mask Sliver [1.45mil]</acronym></a><br></td>
+</tr>
+</table></a><hr color="#EEEEEE"><a href="#top" style="font-size: 0.9em">Back to top</a><br><br><a name="IDJCGH2ZHIM1NYPPEB1UUNDDSRLBCKJPTRTSGDOK3V0KK3Z1GA2I"><table>
+<tr>
+<th style="text-align : left" colspan="1" class="rule">Silk To Solder Mask (Clearance=5mil) (IsPad),(All)</th>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2268.852mil|Location2.X=2275.102mil|Location1.Y=2061.107mil|Location2.Y=2067.357mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2268.852mil|Location2.X=2275.102mil|Location1.Y=2061.107mil|Location2.Y=2067.357mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (3.352mil &lt; 5mil) Between Arc (2175.02mil,2090mil) on Top Overlay And Pad Q13-3(2275mil,2090mil) on Multi-Layer [Top Overlay] to [Top Solder] clearance [3.352mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2268.852mil|Location2.X=2275.102mil|Location1.Y=2361.107mil|Location2.Y=2367.357mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2268.852mil|Location2.X=2275.102mil|Location1.Y=2361.107mil|Location2.Y=2367.357mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (3.352mil &lt; 5mil) Between Arc (2175.02mil,2390mil) on Top Overlay And Pad Q14-3(2275mil,2390mil) on Multi-Layer [Top Overlay] to [Top Solder] clearance [3.352mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2067.963mil|Location2.X=2072.296mil|Location1.Y=2072.845mil|Location2.Y=2077.178mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2067.963mil|Location2.X=2072.296mil|Location1.Y=2072.845mil|Location2.Y=2077.178mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (Collision &lt; 5mil) Between Arc (2175mil,2090mil) on Top Overlay And Pad Q13-1(2075mil,2090mil) on Multi-Layer [Top Overlay] to [Top Solder] clearance [0mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2067.963mil|Location2.X=2072.296mil|Location1.Y=2372.845mil|Location2.Y=2377.178mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2067.963mil|Location2.X=2072.296mil|Location1.Y=2372.845mil|Location2.Y=2377.178mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (Collision &lt; 5mil) Between Arc (2175mil,2390mil) on Top Overlay And Pad Q14-1(2075mil,2390mil) on Multi-Layer [Top Overlay] to [Top Solder] clearance [0mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3777.049mil|Location2.X=3781.383mil|Location1.Y=2264.008mil|Location2.Y=2268.341mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3777.049mil|Location2.X=3781.383mil|Location1.Y=2264.008mil|Location2.Y=2268.341mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (Collision &lt; 5mil) Between Arc (3795mil,2369.98mil) on Top Overlay And Pad Q7-3(3795mil,2270mil) on Multi-Layer [Top Overlay] to [Top Solder] clearance [0mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3776.055mil|Location2.X=3782.305mil|Location1.Y=2467.254mil|Location2.Y=2473.504mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3776.055mil|Location2.X=3782.305mil|Location1.Y=2467.254mil|Location2.Y=2473.504mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.768mil &lt; 5mil) Between Arc (3795mil,2370mil) on Top Overlay And Pad Q7-1(3795mil,2470mil) on Multi-Layer [Top Overlay] to [Top Solder] clearance [0.768mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4021.054mil|Location2.X=4027.304mil|Location1.Y=2472.262mil|Location2.Y=2478.512mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4021.054mil|Location2.X=4027.304mil|Location1.Y=2472.262mil|Location2.Y=2478.512mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.784mil &lt; 5mil) Between Arc (4040mil,2375.02mil) on Top Overlay And Pad Q6-3(4040mil,2475mil) on Multi-Layer [Top Overlay] to [Top Solder] clearance [0.784mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4022.05mil|Location2.X=4026.383mil|Location1.Y=2269.025mil|Location2.Y=2273.358mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4022.05mil|Location2.X=4026.383mil|Location1.Y=2269.025mil|Location2.Y=2273.358mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (Collision &lt; 5mil) Between Arc (4040mil,2375mil) on Top Overlay And Pad Q6-1(4040mil,2275mil) on Multi-Layer [Top Overlay] to [Top Solder] clearance [0mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3064.824mil|Location2.X=3071.074mil|Location1.Y=2532.742mil|Location2.Y=2538.992mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3064.824mil|Location2.X=3071.074mil|Location1.Y=2532.742mil|Location2.Y=2538.992mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (4.102mil &lt; 5mil) Between Pad D1-2(3081.496mil,2538.11mil) on Multi-Layer And Region (6 hole(s)) Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [4.102mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3219.322mil|Location2.X=3226.653mil|Location1.Y=2527.592mil|Location2.Y=2535.325mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3219.322mil|Location2.X=3226.653mil|Location1.Y=2527.592mil|Location2.Y=2535.325mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (1.059mil &lt; 5mil) Between Pad D2-1(3237.36mil,2539.606mil) on Multi-Layer And Region (6 hole(s)) Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [1.059mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4050.6mil|Location2.X=4056.85mil|Location1.Y=1859.249mil|Location2.Y=1865.499mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4050.6mil|Location2.X=4056.85mil|Location1.Y=1859.249mil|Location2.Y=1865.499mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (3.45mil &lt; 5mil) Between Pad P3-4(4075mil,1860mil) on Multi-Layer And Region (0 hole(s)) Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [3.45mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2050.024mil|Location2.X=2054.357mil|Location1.Y=2099.805mil|Location2.Y=2104.138mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2050.024mil|Location2.X=2054.357mil|Location1.Y=2099.805mil|Location2.Y=2104.138mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (Collision &lt; 5mil) Between Pad Q13-1(2075mil,2090mil) on Multi-Layer And Region (6 hole(s)) Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [0mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2161.389mil|Location2.X=2168.84mil|Location1.Y=2109.409mil|Location2.Y=2117.03mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2161.389mil|Location2.X=2168.84mil|Location1.Y=2109.409mil|Location2.Y=2117.03mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (3.692mil &lt; 5mil) Between Pad Q13-2(2175mil,2090mil) on Multi-Layer And Region (6 hole(s)) Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [3.692mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2256.153mil|Location2.X=2262.403mil|Location1.Y=2088.409mil|Location2.Y=2094.659mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2256.153mil|Location2.X=2262.403mil|Location1.Y=2088.409mil|Location2.Y=2094.659mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (3.068mil &lt; 5mil) Between Pad Q13-3(2275mil,2090mil) on Multi-Layer And Region (6 hole(s)) Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [3.068mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2062.74mil|Location2.X=2068.99mil|Location1.Y=2413.418mil|Location2.Y=2419.668mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2062.74mil|Location2.X=2068.99mil|Location1.Y=2413.418mil|Location2.Y=2419.668mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (4.914mil &lt; 5mil) Between Pad Q14-1(2075mil,2390mil) on Multi-Layer And Region (6 hole(s)) Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [4.914mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2162.74mil|Location2.X=2168.99mil|Location1.Y=2413.418mil|Location2.Y=2419.668mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2162.74mil|Location2.X=2168.99mil|Location1.Y=2413.418mil|Location2.Y=2419.668mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (4.914mil &lt; 5mil) Between Pad Q14-2(2175mil,2390mil) on Multi-Layer And Region (6 hole(s)) Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [4.914mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2257.438mil|Location2.X=2263.688mil|Location1.Y=2367.888mil|Location2.Y=2374.138mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2257.438mil|Location2.X=2263.688mil|Location1.Y=2367.888mil|Location2.Y=2374.138mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (2.875mil &lt; 5mil) Between Pad Q14-3(2275mil,2390mil) on Multi-Layer And Region (6 hole(s)) Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [2.875mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4091.366mil|Location2.X=4098.786mil|Location1.Y=2590.267mil|Location2.Y=2597.93mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4091.366mil|Location2.X=4098.786mil|Location1.Y=2590.267mil|Location2.Y=2597.93mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (2.265mil &lt; 5mil) Between Pad Q4-1(4135mil,2635mil) on Multi-Layer And Region (55 hole(s)) Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [2.265mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4227.853mil|Location2.X=4234.103mil|Location1.Y=2602.11mil|Location2.Y=2608.36mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4227.853mil|Location2.X=4234.103mil|Location1.Y=2602.11mil|Location2.Y=2608.36mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (4.072mil &lt; 5mil) Between Pad Q4-2(4235mil,2635mil) on Multi-Layer And Region (55 hole(s)) Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [4.072mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4303.75mil|Location2.X=4310mil|Location1.Y=2602.06mil|Location2.Y=2608.31mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4303.75mil|Location2.X=4310mil|Location1.Y=2602.06mil|Location2.Y=2608.31mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (3.768mil &lt; 5mil) Between Pad Q4-3(4335mil,2635mil) on Multi-Layer And Region (55 hole(s)) Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [3.768mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3451.449mil|Location2.X=3457.699mil|Location1.Y=2618.682mil|Location2.Y=2624.932mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3451.449mil|Location2.X=3457.699mil|Location1.Y=2618.682mil|Location2.Y=2624.932mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (4.852mil &lt; 5mil) Between Pad Q5-1(3475mil,2635mil) on Multi-Layer And Region (55 hole(s)) Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [4.852mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3451.412mil|Location2.X=3457.662mil|Location1.Y=2505.702mil|Location2.Y=2511.952mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3451.412mil|Location2.X=3457.662mil|Location1.Y=2505.702mil|Location2.Y=2511.952mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (4.938mil &lt; 5mil) Between Pad Q5-2(3475mil,2535mil) on Multi-Layer And Region (0 hole(s)) Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [4.938mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3436.736mil|Location2.X=3441.069mil|Location1.Y=2547.358mil|Location2.Y=2551.691mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3436.736mil|Location2.X=3441.069mil|Location1.Y=2547.358mil|Location2.Y=2551.691mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (Collision &lt; 5mil) Between Pad Q5-2(3475mil,2535mil) on Multi-Layer And Region (1 hole(s)) Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [0mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3469.68mil|Location2.X=3475.93mil|Location1.Y=2472.631mil|Location2.Y=2478.881mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3469.68mil|Location2.X=3475.93mil|Location1.Y=2472.631mil|Location2.Y=2478.881mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (2.518mil &lt; 5mil) Between Pad Q5-3(3475mil,2435mil) on Multi-Layer And Region (0 hole(s)) Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [2.518mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3444.186mil|Location2.X=3450.436mil|Location1.Y=2449.824mil|Location2.Y=2456.074mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3444.186mil|Location2.X=3450.436mil|Location1.Y=2449.824mil|Location2.Y=2456.074mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (3.379mil &lt; 5mil) Between Pad Q5-3(3475mil,2435mil) on Multi-Layer And Region (1 hole(s)) Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [3.379mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4021.947mil|Location2.X=4026.28mil|Location1.Y=2252.556mil|Location2.Y=2256.889mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4021.947mil|Location2.X=4026.28mil|Location1.Y=2252.556mil|Location2.Y=2256.889mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (Collision &lt; 5mil) Between Pad Q6-1(4040mil,2275mil) on Multi-Layer And Region (55 hole(s)) Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [0mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4020.557mil|Location2.X=4026.807mil|Location1.Y=2372.061mil|Location2.Y=2378.311mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4020.557mil|Location2.X=4026.807mil|Location1.Y=2372.061mil|Location2.Y=2378.311mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (1.176mil &lt; 5mil) Between Pad Q6-2(4040mil,2375mil) on Multi-Layer And Region (55 hole(s)) Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [1.176mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4014mil|Location2.X=4020.25mil|Location1.Y=2481.879mil|Location2.Y=2488.129mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4014mil|Location2.X=4020.25mil|Location1.Y=2481.879mil|Location2.Y=2488.129mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.25mil &lt; 5mil) Between Pad Q6-3(4040mil,2475mil) on Multi-Layer And Region (55 hole(s)) Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [0.25mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3774.932mil|Location2.X=3781.182mil|Location1.Y=2446.597mil|Location2.Y=2452.847mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3774.932mil|Location2.X=3781.182mil|Location1.Y=2446.597mil|Location2.Y=2452.847mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (2.113mil &lt; 5mil) Between Pad Q7-1(3795mil,2470mil) on Multi-Layer And Region (55 hole(s)) Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [2.113mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3775.574mil|Location2.X=3781.824mil|Location1.Y=2245.355mil|Location2.Y=2251.605mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3775.574mil|Location2.X=3781.824mil|Location1.Y=2245.355mil|Location2.Y=2251.605mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (2.618mil &lt; 5mil) Between Pad Q7-3(3795mil,2270mil) on Multi-Layer And Region (55 hole(s)) Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [2.618mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4238.266mil|Location2.X=4242.6mil|Location1.Y=2353.267mil|Location2.Y=2357.6mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4238.266mil|Location2.X=4242.6mil|Location1.Y=2353.267mil|Location2.Y=2357.6mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (Collision &lt; 5mil) Between Pad Q8-1(4280mil,2395mil) on Multi-Layer And Region (55 hole(s)) Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [0mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4246.56mil|Location2.X=4252.81mil|Location1.Y=2320mil|Location2.Y=2326.25mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\danie\Documents\Schoolwork\EEL4924C- Senior Design 2\Motor Board\PCB_Project\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4246.56mil|Location2.X=4252.81mil|Location1.Y=2320mil|Location2.Y=2326.25mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (3.993mil &lt; 5mil) Between Pad Q8-2(4280mil,2295mil) on Multi-Layer And Region (55 hole(s)) Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [3.993mil]</acronym></a><br></td>
+</tr>
+</table></a><hr color="#EEEEEE"><a href="#top" style="font-size: 0.9em">Back to top</a><br><br></body>
+</html>

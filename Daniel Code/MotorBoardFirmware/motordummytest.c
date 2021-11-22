@@ -26,29 +26,54 @@ void main(void)
 
     GPIO_setAsOutputPin(GPIO_PORT_P4,GPIO_PIN0);
     GPIO_setAsOutputPin(GPIO_PORT_P8,GPIO_PIN3);
+    GPIO_setAsOutputPin(GPIO_PORT_P1,GPIO_PIN7);
+    GPIO_setAsOutputPin(GPIO_PORT_P1,GPIO_PIN6);
+    GPIO_setAsOutputPin(GPIO_PORT_P1,GPIO_PIN0);
     PMM_unlockLPM5();
 
     // Enable global interrupts
     __enable_interrupt();
 
+    GPIO_setOutputLowOnPin(GPIO_PORT_P8, GPIO_PIN3);
+    GPIO_setOutputHighOnPin(GPIO_PORT_P4, GPIO_PIN0);
+    GPIO_setOutputLowOnPin(GPIO_PORT_P1, GPIO_PIN6);
+    GPIO_setOutputHighOnPin(GPIO_PORT_P1, GPIO_PIN7);
 
     //Initialize compare mode to generate PWM1
     while (1)
     {
         // UWU
+        //GPIO_setOutputHighOnPin(GPIO_PORT_P4, GPIO_PIN0);
         GPIO_setOutputLowOnPin(GPIO_PORT_P8, GPIO_PIN3);
         GPIO_setOutputHighOnPin(GPIO_PORT_P4, GPIO_PIN0);
-
-        for(uint16_t delay2 = 0; delay2 < 5; delay2++){
+        GPIO_setOutputLowOnPin(GPIO_PORT_P1, GPIO_PIN6);
+        GPIO_setOutputHighOnPin(GPIO_PORT_P1, GPIO_PIN7);
+        GPIO_setAsOutputPin(GPIO_PORT_P1,GPIO_PIN0);
+        for(uint16_t delay2=0; delay2 < 10; delay2++){ // Software Delay
+        for(uint16_t delay=0; delay < UINT16_MAX; delay++); // Software Delay
+        }
+        GPIO_setOutputLowOnPin(GPIO_PORT_P8, GPIO_PIN3);
+        GPIO_setOutputLowOnPin(GPIO_PORT_P4, GPIO_PIN0);
+        GPIO_setOutputLowOnPin(GPIO_PORT_P1, GPIO_PIN6);
+        GPIO_setOutputLowOnPin(GPIO_PORT_P1, GPIO_PIN7);
+        for(uint16_t delay2=0; delay2 < 32; delay2++){ // Software Delay
             for(uint16_t delay=0; delay < UINT16_MAX; delay++); // Software Delay
         }
-
         GPIO_setOutputLowOnPin(GPIO_PORT_P4, GPIO_PIN0);
         GPIO_setOutputHighOnPin(GPIO_PORT_P8, GPIO_PIN3);
-
-        for(uint16_t delay2 = 0; delay2 < 5; delay2++){
+        GPIO_setOutputLowOnPin(GPIO_PORT_P1, GPIO_PIN7);
+        GPIO_setOutputHighOnPin(GPIO_PORT_P1, GPIO_PIN6);
+        for(uint16_t delay2=0; delay2 < 10; delay2++){ // Software Delay
+        for(uint16_t delay=0; delay < UINT16_MAX; delay++); // Software Delay
+        }
+        GPIO_setOutputLowOnPin(GPIO_PORT_P8, GPIO_PIN3);
+        GPIO_setOutputLowOnPin(GPIO_PORT_P4, GPIO_PIN0);
+        GPIO_setOutputLowOnPin(GPIO_PORT_P1, GPIO_PIN6);
+        GPIO_setOutputLowOnPin(GPIO_PORT_P1, GPIO_PIN7);
+        for(uint16_t delay2=0; delay2 < 32; delay2++){ // Software Delay
             for(uint16_t delay=0; delay < UINT16_MAX; delay++); // Software Delay
         }
+
     }
 
 }
