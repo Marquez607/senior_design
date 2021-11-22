@@ -1,0 +1,31 @@
+Added Component: Designator=P8(HDR1X4)
+Add component (AddParameter): Name = "LatestRevisionDate"; Value = "17-Jul-2002"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "LatestRevisionNote"; Value = "Re-released for DXP Platform."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Publisher"; Value = "Altium Limited"; VariantName = "[No Variations]"
+Added Component: Designator=P9(HDR1X4)
+Add component (AddParameter): Name = "LatestRevisionDate"; Value = "17-Jul-2002"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "LatestRevisionNote"; Value = "Re-released for DXP Platform."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Publisher"; Value = "Altium Limited"; VariantName = "[No Variations]"
+Added Pin To Net: NetName=FWD_HIGHSIDE Pin=P8-1
+Added Pin To Net: NetName=REV_HIGHSIDE Pin=P8-2
+Added Pin To Net: NetName=FWD_LOWSIDE Pin=P8-3
+Added Pin To Net: NetName=REV_LOWSIDE Pin=P8-4
+Added Pin To Net: NetName=FWD_HIGHSIDE Pin=P9-1
+Added Pin To Net: NetName=REV_HIGHSIDE Pin=P9-2
+Added Pin To Net: NetName=FWD_LOWSIDE Pin=P9-3
+Added Pin To Net: NetName=REV_LOWSIDE Pin=P9-4
+Change Net Name : Old Net Name=FWD_HIGHSIDE New Net Name=FWD_HIGHSIDE1
+Change Net Name : Old Net Name=FWD_HIGHSIDE New Net Name=FWD_HIGHSIDE2
+Change Net Name : Old Net Name=FWD_LOWSIDE New Net Name=FWD_LOWSIDE1
+Change Net Name : Old Net Name=FWD_LOWSIDE New Net Name=FWD_LOWSIDE2
+Change Net Name : Old Net Name=REV_HIGHSIDE New Net Name=REV_HIGHSIDE1
+Change Net Name : Old Net Name=REV_HIGHSIDE New Net Name=REV_HIGHSIDE2
+Change Net Name : Old Net Name=REV_LOWSIDE New Net Name=REV_LOWSIDE1
+Change Net Name : Old Net Name=REV_LOWSIDE New Net Name=REV_LOWSIDE2
+Added Member To Class: ClassName=U_Motor1 Member=Component P8 Header 4
+Added Member To Class: ClassName=U_Motor2 Member=Component P9 Header 4
+Added Room: Name=U_Alarm
+Added Room: Name=U_Motor1
+Added Room: Name=U_Motor2
+Added Room: Name=U_MSP430
+Added Room: Name=U_Power

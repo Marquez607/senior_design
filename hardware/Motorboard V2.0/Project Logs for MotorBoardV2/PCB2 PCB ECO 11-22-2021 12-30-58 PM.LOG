@@ -1,0 +1,13 @@
+Removed Pin From Net: NetName=REV_LOWSIDE Pin=P9-5
+Removed Pin From Net: NetName=FWD_LOWSIDE Pin=P9-6
+Change Component Footprint: Designator=P9 Old Footprint=HDR1X6 New Footprint=HDR1X4
+Change Component Comment : Designator=P8 Old Comment=Header 6 New Comment=Header 4
+Change Component Comment : Designator=P9 Old Comment=Header 6 New Comment=Header 4
+Change Net Name : Old Net Name=FWD_HIGHSIDE New Net Name=FWD_HIGHSIDE1
+Change Net Name : Old Net Name=FWD_HIGHSIDE New Net Name=FWD_HIGHSIDE2
+Change Net Name : Old Net Name=FWD_LOWSIDE New Net Name=FWD_LOWSIDE1
+Change Net Name : Old Net Name=FWD_LOWSIDE New Net Name=FWD_LOWSIDE2
+Change Net Name : Old Net Name=REV_HIGHSIDE New Net Name=REV_HIGHSIDE1
+Change Net Name : Old Net Name=REV_HIGHSIDE New Net Name=REV_HIGHSIDE2
+Change Net Name : Old Net Name=REV_LOWSIDE New Net Name=REV_LOWSIDE1
+Change Net Name : Old Net Name=REV_LOWSIDE New Net Name=REV_LOWSIDE2

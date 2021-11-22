@@ -1,0 +1,13 @@
+Removed Pin From Net: NetName=FWD_HIGHSIDE2 Pin=P8-1
+Removed Pin From Net: NetName=REV_HIGHSIDE2 Pin=P8-2
+Removed Pin From Net: NetName=FWD_LOWSIDE2 Pin=P8-3
+Removed Pin From Net: NetName=REV_LOWSIDE2 Pin=P8-4
+Added Pin To Net: NetName=FWD_HIGHSIDE1 Pin=P8-1
+Added Pin To Net: NetName=REV_HIGHSIDE1 Pin=P8-2
+Added Pin To Net: NetName=FWD_LOWSIDE1 Pin=P8-3
+Added Pin To Net: NetName=REV_LOWSIDE1 Pin=P8-4
+Added Room: Name=U_Alarm
+Added Room: Name=U_Motor1
+Added Room: Name=U_Motor2
+Added Room: Name=U_MSP430
+Added Room: Name=U_Power
