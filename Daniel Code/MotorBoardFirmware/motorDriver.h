@@ -35,6 +35,7 @@ void disableMotors(void);
 // dir is either FORWARD OR BACKWARD
 // dutyCycle is a percent out of 100
 void PWMMotor(uint8_t motor, uint8_t dir, uint16_t dutyCycle, Timer_A_initCompareModeParam* PWMParam);
+void turnOffMotor(uint8_t motor);
 
 // Don't care about the rest of this shit
 void MOTOR1ForwardFull(void);

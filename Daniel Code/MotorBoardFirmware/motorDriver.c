@@ -190,3 +190,20 @@ void PWMMotor(uint8_t motor, uint8_t dir, uint16_t dutyCycle, Timer_A_initCompar
     }
 }
 
+void turnOffMotor(uint8_t motor){
+    if(motor == MOTOR1){
+        Timer_A_stop(TIMER_A0_BASE);
+        GPIO_setAsOutputPin(GPIO_PORT_P4,GPIO_PIN0);
+        GPIO_setOutputLowOnPin(GPIO_PORT_P4, GPIO_PIN0);
+        GPIO_setAsOutputPin(GPIO_PORT_P8,GPIO_PIN3);
+        GPIO_setOutputLowOnPin(GPIO_PORT_P8, GPIO_PIN3);
+    }
+    else if(motor == MOTOR2){
+        Timer_A_stop(TIMER_A0_BASE);
+        GPIO_setAsOutputPin(GPIO_PORT_P1,GPIO_PIN7);
+        GPIO_setOutputLowOnPin(GPIO_PORT_P1, GPIO_PIN7);
+        GPIO_setAsOutputPin(GPIO_PORT_P1,GPIO_PIN6);
+        GPIO_setOutputLowOnPin(GPIO_PORT_P1, GPIO_PIN6);
+    }
+}
+

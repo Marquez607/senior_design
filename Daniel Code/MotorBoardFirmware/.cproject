@@ -91,7 +91,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="main.c|msp430fr413x_1.c|eusci_a_uart_ex1_loopbackAdvanced.c|timer_a_ex5_pwmMultipleUp.c|maincopy.c|timer_a_ex1_pwmSingle.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="motordummytest.c|main.c|msp430fr413x_1.c|eusci_a_uart_ex1_loopbackAdvanced.c|timer_a_ex5_pwmMultipleUp.c|maincopy.c|timer_a_ex1_pwmSingle.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
