@@ -12,6 +12,10 @@
 #include "timer_a.h"
 
 #define TIMER_A_PERIOD 0xFFFF
+#define TURN_DURATION 0xFFFF
+#define FORWARD_DURATION 0xFFFF
+#define BACKWARD_DURATION 0xFFFF
+#define TURN_POWER 50
 
 
 enum motorSelect{
@@ -24,7 +28,7 @@ enum motorDir{
     BACKWARD = 2,
 };
 
-void initMotors(void);
+void initMotors(Timer_A_initUpModeParam* motorInitParam, Timer_A_initCompareModeParam* timerCompInitParam);
 void enableMotor1(void);
 void enableMotor2(void);
 void disableMotor1(void);
@@ -36,6 +40,11 @@ void disableMotors(void);
 // dutyCycle is a percent out of 100
 void PWMMotor(uint8_t motor, uint8_t dir, uint16_t dutyCycle, Timer_A_initCompareModeParam* PWMParam);
 void turnOffMotor(uint8_t motor);
+void moveRight(Timer_A_initCompareModeParam* PWMParam);
+void moveLeft(Timer_A_initCompareModeParam* PWMParam);
+void moveForward(Timer_A_initCompareModeParam* PWMParam);
+void moveBackward(Timer_A_initCompareModeParam* PWMParam);
+
 
 // Don't care about the rest of this shit
 void MOTOR1ForwardFull(void);

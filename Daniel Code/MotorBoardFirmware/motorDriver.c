@@ -8,7 +8,7 @@
 #include "motorDriver.h"
 #include "timer_a.h"
 
-void initMotors(void){
+void initMotors(Timer_A_initUpModeParam* motorInitParam, Timer_A_initCompareModeParam* timerCompInitParam){
     // Set up MOTOR1 FWD Pin
     GPIO_setAsPeripheralModuleFunctionOutputPin(
         GPIO_PORT_P4,
@@ -53,29 +53,16 @@ void initMotors(void){
     enableMotor2();
 
     //Start timers
-    Timer_A_initUpModeParam param = {0};
-    param.clockSource = TIMER_A_CLOCKSOURCE_SMCLK;
-    param.clockSourceDivider = TIMER_A_CLOCKSOURCE_DIVIDER_1;
-    param.timerPeriod = TIMER_A_PERIOD;
-    param.timerInterruptEnable_TAIE = TIMER_A_TAIE_INTERRUPT_DISABLE;
-    param.captureCompareInterruptEnable_CCR0_CCIE =
-        TIMER_A_CCIE_CCR0_INTERRUPT_DISABLE;
-    param.timerClear = TIMER_A_DO_CLEAR;
-    param.startTimer = false;
-    Timer_A_initUpMode(TIMER_A1_BASE, &param);
-    Timer_A_initUpMode(TIMER_A0_BASE, &param);
 
-    Timer_A_initCompareModeParam initComp1Param = {0};
-    initComp1Param.compareRegister = TIMER_A_CAPTURECOMPARE_REGISTER_1;
-    initComp1Param.compareInterruptEnable = TIMER_A_CAPTURECOMPARE_INTERRUPT_DISABLE;
-    initComp1Param.compareOutputMode = TIMER_A_OUTPUTMODE_RESET_SET;
-    initComp1Param.compareValue = 0xFFF;
-    Timer_A_initCompareMode(TIMER_A1_BASE, &initComp1Param);
-    Timer_A_initCompareMode(TIMER_A0_BASE, &initComp1Param);
+    Timer_A_initUpMode(TIMER_A1_BASE, motorInitParam);
+    Timer_A_initUpMode(TIMER_A0_BASE, motorInitParam);
 
-    initComp1Param.compareRegister = TIMER_A_CAPTURECOMPARE_REGISTER_2;
-    Timer_A_initCompareMode(TIMER_A1_BASE, &initComp1Param);
-    Timer_A_initCompareMode(TIMER_A0_BASE, &initComp1Param);
+    Timer_A_initCompareMode(TIMER_A1_BASE, timerCompInitParam);
+    Timer_A_initCompareMode(TIMER_A0_BASE, timerCompInitParam);
+
+    timerCompInitParam->compareRegister = TIMER_A_CAPTURECOMPARE_REGISTER_2;
+    Timer_A_initCompareMode(TIMER_A1_BASE, timerCompInitParam);
+    Timer_A_initCompareMode(TIMER_A0_BASE, timerCompInitParam);
 
     Timer_A_stop(TIMER_A1_BASE);
     Timer_A_stop(TIMER_A0_BASE);
@@ -112,13 +99,13 @@ void PWMMotor(uint8_t motor, uint8_t dir, uint16_t dutyCycle, Timer_A_initCompar
     }
     PWMParam->compareInterruptEnable = TIMER_A_CAPTURECOMPARE_INTERRUPT_DISABLE;
     PWMParam->compareOutputMode = TIMER_A_OUTPUTMODE_RESET_SET;
-    PWMParam->compareValue = dutyCycle; // Translate percentage to a number relative to period reg
+    PWMParam->compareValue = (TIMER_A_PERIOD/100)*dutyCycle; // Translate percentage to a number relative to period reg
 
     if(motor == MOTOR1 && dir == FORWARD){
         PWMParam->compareRegister = TIMER_A_CAPTURECOMPARE_REGISTER_1; // 4.0 is CCR1 TimerA1
         Timer_A_setCompareValue(TIMER_A1_BASE,
             TIMER_A_CAPTURECOMPARE_REGISTER_2,
-            TIMER_A_PERIOD
+            PWMParam->compareValue
         );
         Timer_A_stop(TIMER_A1_BASE);
         GPIO_setAsOutputPin(GPIO_PORT_P4,GPIO_PIN0);
@@ -129,7 +116,7 @@ void PWMMotor(uint8_t motor, uint8_t dir, uint16_t dutyCycle, Timer_A_initCompar
            GPIO_PRIMARY_MODULE_FUNCTION
         );
         for(uint16_t delay=0; delay < UINT16_MAX/4; delay++); // Delay to not accidentally short H-Bridge
-        Timer_A_initCompareMode(TIMER_A1_BASE, &PWMParam);
+        Timer_A_initCompareMode(TIMER_A1_BASE, PWMParam);
         Timer_A_startCounter(TIMER_A1_BASE, TIMER_A_UP_MODE);
     }
     else if(motor == MOTOR1 && dir == BACKWARD){
@@ -137,7 +124,7 @@ void PWMMotor(uint8_t motor, uint8_t dir, uint16_t dutyCycle, Timer_A_initCompar
         Timer_A_stop(TIMER_A1_BASE);
         Timer_A_setCompareValue(TIMER_A1_BASE,
             TIMER_A_CAPTURECOMPARE_REGISTER_1,
-            TIMER_A_PERIOD
+            PWMParam->compareValue
         );
         GPIO_setAsOutputPin(GPIO_PORT_P8,GPIO_PIN3);
         GPIO_setOutputLowOnPin(GPIO_PORT_P8, GPIO_PIN3);
@@ -147,7 +134,7 @@ void PWMMotor(uint8_t motor, uint8_t dir, uint16_t dutyCycle, Timer_A_initCompar
             GPIO_PRIMARY_MODULE_FUNCTION
         );
         for(uint16_t delay=0; delay < UINT16_MAX; delay++); // Delay to not accidentally short H-Bridge
-        Timer_A_initCompareMode(TIMER_A1_BASE, &PWMParam);
+        Timer_A_initCompareMode(TIMER_A1_BASE, PWMParam);
         Timer_A_startCounter(TIMER_A1_BASE, TIMER_A_UP_MODE);
     }
     else if(motor == MOTOR2 && dir == FORWARD){
@@ -155,8 +142,8 @@ void PWMMotor(uint8_t motor, uint8_t dir, uint16_t dutyCycle, Timer_A_initCompar
 
         Timer_A_stop(TIMER_A0_BASE);
         Timer_A_setCompareValue(TIMER_A0_BASE,
-            TIMER_A_CAPTURECOMPARE_REGISTER_2,
-            TIMER_A_PERIOD
+            TIMER_A_CAPTURECOMPARE_REGISTER_1,
+            PWMParam->compareValue
         );
         GPIO_setAsOutputPin(GPIO_PORT_P1,GPIO_PIN6);
         GPIO_setOutputLowOnPin(GPIO_PORT_P1, GPIO_PIN6);
@@ -166,7 +153,7 @@ void PWMMotor(uint8_t motor, uint8_t dir, uint16_t dutyCycle, Timer_A_initCompar
             GPIO_PRIMARY_MODULE_FUNCTION
         );
         for(uint16_t delay=0; delay < UINT16_MAX; delay++); // Delay to not accidentally short H-Bridge
-        Timer_A_initCompareMode(TIMER_A0_BASE, &PWMParam);
+        Timer_A_initCompareMode(TIMER_A0_BASE, PWMParam);
         Timer_A_startCounter(TIMER_A0_BASE, TIMER_A_UP_MODE);
     }
     else if(motor == MOTOR2 && dir == BACKWARD){
@@ -174,8 +161,8 @@ void PWMMotor(uint8_t motor, uint8_t dir, uint16_t dutyCycle, Timer_A_initCompar
 
         Timer_A_stop(TIMER_A0_BASE);
         Timer_A_setCompareValue(TIMER_A0_BASE,
-            TIMER_A_CAPTURECOMPARE_REGISTER_1,
-            TIMER_A_PERIOD
+            TIMER_A_CAPTURECOMPARE_REGISTER_2,
+            PWMParam->compareValue
         );
         GPIO_setAsOutputPin(GPIO_PORT_P1,GPIO_PIN7);
         GPIO_setOutputLowOnPin(GPIO_PORT_P1, GPIO_PIN7);
@@ -185,7 +172,7 @@ void PWMMotor(uint8_t motor, uint8_t dir, uint16_t dutyCycle, Timer_A_initCompar
             GPIO_PRIMARY_MODULE_FUNCTION
         );
         for(uint16_t delay=0; delay < UINT16_MAX; delay++); // Delay to not accidentally short H-Bridge
-        Timer_A_initCompareMode(TIMER_A0_BASE, &PWMParam);
+        Timer_A_initCompareMode(TIMER_A0_BASE, PWMParam);
         Timer_A_startCounter(TIMER_A0_BASE, TIMER_A_UP_MODE);
     }
 }
@@ -205,5 +192,57 @@ void turnOffMotor(uint8_t motor){
         GPIO_setAsOutputPin(GPIO_PORT_P1,GPIO_PIN6);
         GPIO_setOutputLowOnPin(GPIO_PORT_P1, GPIO_PIN6);
     }
+}
+
+// Motor2 Forward Motor1 Backward
+void moveRight(Timer_A_initCompareModeParam* PWMParam){
+    PWMMotor(MOTOR2, FORWARD, TURN_POWER, PWMParam);
+    PWMMotor(MOTOR1, BACKWARD, TURN_POWER, PWMParam);
+
+    for(int loop2=0;loop2<10;loop2++){
+        for(int duration=0;duration<TURN_DURATION;duration++);
+    }
+
+    turnOffMotor(MOTOR1);
+    turnOffMotor(MOTOR2);
+}
+
+// Motor2 Backward Motor1 Forward
+void moveLeft(Timer_A_initCompareModeParam* PWMParam){
+    PWMMotor(MOTOR2, BACKWARD, TURN_POWER, PWMParam);
+    PWMMotor(MOTOR1, FORWARD, TURN_POWER, PWMParam);
+
+    for(int loop2=0;loop2<10;loop2++){
+        for(int duration=0;duration<TURN_DURATION;duration++);
+    }
+
+    turnOffMotor(MOTOR1);
+    turnOffMotor(MOTOR2);
+}
+
+// Both Motors Forward
+void moveForward(Timer_A_initCompareModeParam* PWMParam){
+    PWMMotor(MOTOR1, FORWARD, TURN_POWER, PWMParam);
+    PWMMotor(MOTOR2, FORWARD, TURN_POWER, PWMParam);
+
+    for(int loop2=0;loop2<10;loop2++){
+        for(int duration=0;duration<TURN_DURATION;duration++);
+    }
+
+    turnOffMotor(MOTOR1);
+    turnOffMotor(MOTOR2);
+}
+
+// Both Motors Backward
+void moveBackward(Timer_A_initCompareModeParam* PWMParam){
+    PWMMotor(MOTOR1, BACKWARD, TURN_POWER, PWMParam);
+    PWMMotor(MOTOR2, BACKWARD, TURN_POWER, PWMParam);
+
+    for(int loop2=0;loop2<10;loop2++){
+        for(int duration=0;duration<TURN_DURATION;duration++);
+    }
+
+    turnOffMotor(MOTOR1);
+    turnOffMotor(MOTOR2);
 }
 
