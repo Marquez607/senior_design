@@ -36,7 +36,7 @@ typedef uint8_t motor_cmd_t;
 const motor_cmd_t MOTOR_TURN_RIGHT = 'R';
 const motor_cmd_t MOTOR_TURN_LEFT  = 'L';
 const motor_cmd_t MOVE_FORW  = 'F';
-const motor_cmd_t MOVE_RVRS  = 'R';
+const motor_cmd_t MOVE_RVRS  = 'B';
 const motor_cmd_t MOTOR_STOP = 'S';
 
 typedef enum state{
