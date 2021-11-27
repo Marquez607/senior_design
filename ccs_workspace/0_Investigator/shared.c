@@ -20,8 +20,8 @@ extern uint8_t HEAD_S = 265;
 extern uint8_t HEAD_E = 345;
 extern uint8_t HEAD_W = 170;
 
-extern uint16_t FORWARD_TIME_MS = 250; /*time between sending a rotate command */
-extern uint16_t ROTATE_TIME_MS = 2000; /* amount of time that counts as one dist unit */
+extern uint16_t FORWARD_TIME_MS = 500; /* amount of time that counts as one dist unit */
+extern uint16_t ROTATE_TIME_MS = 100; /*time between sending a rotate command */
 extern uint16_t HEADING_ERROR_DEG = 5; /* allowed heading error when rotating */
 
 /* which way wheelson is facing */
