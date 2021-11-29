@@ -46,10 +46,9 @@ void main(void)
     while (1)
     {
         //EUSCI_A_UART_transmitData(EUSCI_A0_BASE, 'f');
-        for(uint16_t delay2=0; delay2 < 8; delay2++){         // THIS LOOP STOPS US FROM SHORTING
-            for(uint16_t delay=0; delay < UINT16_MAX; delay++);
-        }
+
         if(RXData != 0){
+            for(uint16_t delay=0; delay < UINT16_MAX; delay++);
             if(RXData == MOVE_FORW){
                 moveForward(&timerCompInitParam);
             }
