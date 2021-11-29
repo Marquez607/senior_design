@@ -29,10 +29,10 @@
  * 0,0 is most "north" and most "west" point
  */
 /* NOTE: polar mapping */
-extern uint8_t HEAD_N;
-extern uint8_t HEAD_S;
-extern uint8_t HEAD_E;
-extern uint8_t HEAD_W;
+extern uint16_t HEAD_N;
+extern uint16_t HEAD_S;
+extern uint16_t HEAD_E;
+extern uint16_t HEAD_W;
 
 extern uint16_t FORWARD_TIME_MS;
 extern uint16_t ROTATE_TIME_MS;

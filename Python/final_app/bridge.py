@@ -145,7 +145,7 @@ def webpage():
     put_markdown("""# Welcome to the Bridge
     The Bridge is an web interface for issuing commands and receiving updates from the Wheelson IoT robotics platform""",lstrip=True)
 
-    put_html("<iframe src= \"http://localhost:4041/video\" width=\"320\" height=\"240\"></iframe>")
+    put_html("<iframe src= \"http://localhost:4041/video\" width=\"330\" height=\"250\"></iframe>")
 
     show_cmd_map()
 

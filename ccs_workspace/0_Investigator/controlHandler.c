@@ -9,6 +9,7 @@
 
 #include <stdbool.h>
 #include <stdint.h>
+#include <stdlib.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <string.h>
@@ -96,6 +97,27 @@ static int calc_next_coord(uint8_t new_x,
                             uint8_t *next_x,
                             uint8_t *next_y);
 
+/**************************** FAKE HEADING *************************/
+
+/*
+ * Fake heading code is for dead reckoning system
+ * magnetometer was bad so robot just assumes direction
+ * based on number of times it has told motor board to rotate
+ * from "north"
+ */
+
+float fake_heading;
+
+/*
+ *
+ */
+float get_fake_heading();
+
+/*
+ *
+ */
+void update_fake_heading(float heading);
+
 /**************************** GLOBAL VARIABLES *************************/
 
 static pdu_t rx_pdu;
@@ -106,6 +128,7 @@ bool blocked_flag = false;
 
 void controlThread(void *arg0){
 
+    fake_heading = HEAD_N;
     lcd_reset();
     state_t state = ST_WAIT_CMD;
     pdu_cmd_t cmd = PDU_STOP;
@@ -131,6 +154,7 @@ void controlThread(void *arg0){
             break;
 
         case ST_COL:
+            lcd_reset();
             lcd_string("COLLIDE STATE");
             col_handler(&state);
             break;
@@ -260,6 +284,10 @@ static void exe_handler(state_t *next){
             rotate_to_heading(new_heading);
 
             Display_printf(display, 0, 0,"M O V I N G\n");
+            if(blocked_flag){
+                *next = ST_COL;
+                return;
+            }
 
             /* move for hard-coded amount of time */
             send_motor_cmd(MOVE_FORW);
@@ -378,23 +406,40 @@ static int rotate_to_heading(float new_heading){
 
     send_motor_cmd(MOTOR_STOP); /* stop robot */
 
-    float curr_heading = get_heading();
+    float curr_heading = get_fake_heading();
 
-    while(curr_heading > new_heading + HEADING_ERROR_DEG ||
-          curr_heading < new_heading - HEADING_ERROR_DEG){
+//    while(curr_heading > new_heading + HEADING_ERROR_DEG ||
+//          curr_heading < new_heading - HEADING_ERROR_DEG){
 
 //        Display_printf(display, 0, 0, "CURR HEADING : %.1f",curr_heading);
 //        Display_printf(display, 0, 0, "TAR HEADING : %.1f",new_heading);
 
+        int res = (curr_heading - new_heading)/90;
+        int num_turns = abs(res);
+        if (res == -3){ /* account for turning 90 deg left */
+            res = -1;
+        }
+
+        bool turn_left = false;
+        if (res < 0){
+            turn_left = true;
+        }
+
         /* if heading to right ,rotate right */
-        if(true){ //just turn right regardless
+        for(int i=0;i<num_turns;i++){ //just turn right regardless
 //            Display_printf(display, 0, 0, "MOVING RIGHT");
-            send_motor_cmd(MOTOR_TURN_RIGHT);
+            if(turn_left){
+                send_motor_cmd(MOTOR_TURN_LEFT);
+            }
+            else{
+                send_motor_cmd(MOTOR_TURN_RIGHT);
+            }
             Task_sleep(ROTATE_TIME_MS);
             send_motor_cmd(MOTOR_STOP);
         }
 
-        curr_heading = get_heading();
+        update_fake_heading(new_heading);
+        curr_heading = new_heading;
 
         /* if heading left, rotate left */
 //        if(curr_heading > new_heading + HEADING_ERROR_DEG){
@@ -407,7 +452,7 @@ static int rotate_to_heading(float new_heading){
 
 //        curr_heading = get_heading();
 //        send_heading();
-    }
+//    }
 
 //    Display_printf(display, 0, 0, "ROTATION DONE");
 
@@ -484,4 +529,11 @@ static int calc_next_coord(uint8_t new_x,
         return -1;
     }
 
+}
+
+float get_fake_heading(){
+    return fake_heading;
+}
+void update_fake_heading(float heading){
+    fake_heading = heading;
 }

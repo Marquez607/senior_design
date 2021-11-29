@@ -223,11 +223,17 @@ int16_t check_ultra(ultra_t dev){
 
     /* wait to go high */
     int8_t res = GPIO_INPUT_PIN_LOW;
+    uint32_t count = 0;
     while (res == GPIO_INPUT_PIN_LOW){
         res = check_echo_ultra(dev);
+        __delay_cycles(CYCLES_TO_100US);
+        if(count > 3*ULTRA_TIMEOUT){
+            return 100; /*return huge number */
+        }
+        count++;
     }
 
-    uint32_t count = 0;
+    count = 0;
     while(res == GPIO_INPUT_PIN_HIGH){
         res = check_echo_ultra(dev);
         __delay_cycles(CYCLES_TO_100US);
