@@ -283,7 +283,7 @@ static void exe_handler(state_t *next){
             /* rotate robot to heading */
             rotate_to_heading(new_heading);
 
-            Display_printf(display, 0, 0,"M O V I N G\n");
+//            Display_printf(display, 0, 0,"M O V I N G\n");
             if(blocked_flag){
                 *next = ST_COL;
                 return;
@@ -415,10 +415,12 @@ static int rotate_to_heading(float new_heading){
 //        Display_printf(display, 0, 0, "TAR HEADING : %.1f",new_heading);
 
         int res = (curr_heading - new_heading)/90;
-        int num_turns = abs(res);
+
         if (res == -3){ /* account for turning 90 deg left */
             res = -1;
         }
+
+        int num_turns = abs(res);
 
         bool turn_left = false;
         if (res < 0){

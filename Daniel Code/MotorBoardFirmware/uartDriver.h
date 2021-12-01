@@ -15,7 +15,7 @@ enum motor_cmd_t{
     MOTOR_TURN_RIGHT = 'R',
     MOTOR_TURN_LEFT  = 'L',
     MOVE_FORW  = 'F',
-    MOVE_RVRS  = 'R',
+    MOVE_RVRS  = 'B',
     MOTOR_STOP = 'S',
 };
 

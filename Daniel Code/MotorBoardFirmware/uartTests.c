@@ -1,64 +1,5 @@
-/* --COPYRIGHT--,BSD
- * Copyright (c) 2017, Texas Instruments Incorporated
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- *
- * *  Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- *
- * *  Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- *
- * *  Neither the name of Texas Instruments Incorporated nor the names of
- *    its contributors may be used to endorse or promote products derived
- *    from this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
- * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
- * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
- * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
- * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
- * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
- * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
- * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- * --/COPYRIGHT--*/
-//******************************************************************************
-//!  EUSCI_A0 External Loopback test using EUSCI_A_UART_init API
-//!
-//!  Description: This demo connects TX to RX of the MSP430 UART
-//!  The example code shows proper initialization of registers
-//!  and interrupts to receive and transmit data.
-//!
-//!  SMCLK = MCLK = BRCLK = DCOCLKDIV = ~1MHz, ACLK = 32.768kHz
-//!
-//!
-//!           MSP430FR2xx_4xx Board
-//!             -----------------
-//!       RST -|          UCA0TXD|----|
-//!            |                 |    |
-//!            |                 |    |
-//!            |          UCA0RXD|----|
-//!            |                 |
-//!
-//! This example uses the following peripherals and I/O signals. You must
-//! review these and change as needed for your own board:
-//! - UART peripheral
-//! - GPIO Port peripheral (for UART pins)
-//! - UCA0TXD
-//! - UCA0RXD
-//!
-//! This example uses the following interrupt handlers. To use this example
-//! in your own application you must add these interrupt handlers to your
-//! vector table.
-//! - USCI_A0_VECTOR.
-//******************************************************************************
+//  SMCLK = MCLK = BRCLK = DCOCLKDIV = ~1MHz, ACLK = 32.768kHz
+
 #include "driverlib.h"
 #include "Board.h"
 #include "alarmDriver.h"
@@ -80,27 +21,37 @@ void main(void)
     for(uint16_t  delay=0;delay<UINT16_MAX;delay++);
     disableAlarm();
 
+    // Motor Init
+    GPIO_setAsOutputPin(GPIO_PORT_P4,GPIO_PIN0);
+    GPIO_setAsOutputPin(GPIO_PORT_P8,GPIO_PIN3);
+    GPIO_setAsOutputPin(GPIO_PORT_P1,GPIO_PIN7);
+    GPIO_setAsOutputPin(GPIO_PORT_P1,GPIO_PIN6);
+
     // Enable global interrupts
     __enable_interrupt();
     while (1)
     {
+        EUSCI_A_UART_transmitData(EUSCI_A0_BASE, 'f');
         if(RXData != 0){
             if(RXData == MOTOR_STOP){
-                disableAlarm();
+                GPIO_toggleOutputOnPin(GPIO_PORT_P4,GPIO_PIN0);
             }
             else if(RXData == MOVE_FORW){
-                enableAlarm();
+                GPIO_toggleOutputOnPin(GPIO_PORT_P8,GPIO_PIN3);
             }
             else if(RXData == MOVE_RVRS){
-                enableAlarm();
+                GPIO_toggleOutputOnPin(GPIO_PORT_P1,GPIO_PIN7);
             }
             else if(RXData == MOTOR_TURN_LEFT){
-                enableAlarm();
+                GPIO_toggleOutputOnPin(GPIO_PORT_P1,GPIO_PIN6);
             }
             else if(RXData == MOTOR_TURN_RIGHT){
-                enableAlarm();
+                GPIO_toggleOutputOnPin(GPIO_PORT_P4,GPIO_PIN0);
             }
             RXData = 0; // Clear RX Data
+        }
+        for(uint16_t delay2=0; delay2 < 10; delay2++){ // Software Delay
+            for(uint16_t delay=0; delay < UINT16_MAX; delay++); // Software Delay
         }
     }
 }
@@ -123,12 +74,6 @@ void EUSCI_A0_ISR(void)
         case USCI_UART_UCRXIFG:
             RXData = EUSCI_A_UART_receiveData(EUSCI_A0_BASE);
             triggered = 1;
-            // Check value
-            if(!(RXData == TXData))
-            {
-                while(1);
-            }
-            check =1;
             break;
        case USCI_UART_UCTXIFG: break;
        case USCI_UART_UCSTTIFG: break;
