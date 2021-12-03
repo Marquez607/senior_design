@@ -31,6 +31,26 @@ void toggleAlarm(void){
     GPIO_toggleOutputOnPin(GPIO_PORT_P3, GPIO_PIN2);
 };
 
-void pulseAlarm(uint8_t duration){
+void startupSound(void){
+    pulseAlarm(2);
+    for(uint8_t repeatLoop=0;repeatLoop < 3;repeatLoop++){
+        for(uint16_t delay=0; delay<UINT16_MAX; delay++);
+    }
+    pulseAlarm(2);
+    for(uint8_t repeatLoop=0;repeatLoop < 3;repeatLoop++){
+        for(uint16_t delay=0; delay<UINT16_MAX; delay++);
+    }
+    pulseAlarm(2);
+    for(uint8_t repeatLoop=0;repeatLoop < 3;repeatLoop++){
+        for(uint16_t delay=0; delay<UINT16_MAX; delay++);
+    }
+    pulseAlarm(5);
+};
 
+void pulseAlarm(uint8_t duration){
+    enableAlarm();
+    for(uint8_t repeatLoop=0;repeatLoop < duration;repeatLoop++){
+        for(uint16_t delay=0; delay<UINT16_MAX; delay++);
+    }
+    disableAlarm();
 };

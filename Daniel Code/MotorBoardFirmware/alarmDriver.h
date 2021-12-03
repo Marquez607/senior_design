@@ -33,7 +33,9 @@ void disableAlarm(void);
  */
 void toggleAlarm(void);
 
-/*  Pulse the alarm for duration in ms
+void startupSound(void);
+
+/*  Pulse the alarm for duration in 0.065535s increments
  *
  */
 void pulseAlarm(uint8_t duration);

@@ -8,6 +8,8 @@
 #include "motorDriver.h"
 #include "timer_a.h"
 
+uint8_t motorStopFlag = 0;
+
 void initMotors(Timer_A_initUpModeParam* motorInitParam, Timer_A_initCompareModeParam* timerCompInitParam){
     // Set up MOTOR1 FWD Pin
     GPIO_setAsPeripheralModuleFunctionOutputPin(
@@ -91,6 +93,12 @@ void disableMotors(void){
     disableMotor2();
 }
 
+void setMotorStopFlag(void){
+    motorStopFlag = 1;
+}
+void clearMotorStopFlag(void){
+    motorStopFlag = 0;
+}
 
 //Generate PWM - Timer runs in Up mode
 void PWMMotor(uint8_t motor, uint8_t dir, uint16_t dutyCycle, Timer_A_initCompareModeParam* PWMParam){
@@ -115,7 +123,6 @@ void PWMMotor(uint8_t motor, uint8_t dir, uint16_t dutyCycle, Timer_A_initCompar
            GPIO_PIN3,
            GPIO_PRIMARY_MODULE_FUNCTION
         );
-        for(uint16_t delay=0; delay < UINT16_MAX/4; delay++); // Delay to not accidentally short H-Bridge
         Timer_A_initCompareMode(TIMER_A1_BASE, PWMParam);
         Timer_A_startCounter(TIMER_A1_BASE, TIMER_A_UP_MODE);
     }
@@ -133,7 +140,6 @@ void PWMMotor(uint8_t motor, uint8_t dir, uint16_t dutyCycle, Timer_A_initCompar
             GPIO_PIN0,
             GPIO_PRIMARY_MODULE_FUNCTION
         );
-        for(uint16_t delay=0; delay < UINT16_MAX; delay++); // Delay to not accidentally short H-Bridge
         Timer_A_initCompareMode(TIMER_A1_BASE, PWMParam);
         Timer_A_startCounter(TIMER_A1_BASE, TIMER_A_UP_MODE);
     }
@@ -152,7 +158,6 @@ void PWMMotor(uint8_t motor, uint8_t dir, uint16_t dutyCycle, Timer_A_initCompar
             GPIO_PIN7,
             GPIO_PRIMARY_MODULE_FUNCTION
         );
-        for(uint16_t delay=0; delay < UINT16_MAX; delay++); // Delay to not accidentally short H-Bridge
         Timer_A_initCompareMode(TIMER_A0_BASE, PWMParam);
         Timer_A_startCounter(TIMER_A0_BASE, TIMER_A_UP_MODE);
     }
@@ -171,7 +176,6 @@ void PWMMotor(uint8_t motor, uint8_t dir, uint16_t dutyCycle, Timer_A_initCompar
             GPIO_PIN6,
             GPIO_PRIMARY_MODULE_FUNCTION
         );
-        for(uint16_t delay=0; delay < UINT16_MAX; delay++); // Delay to not accidentally short H-Bridge
         Timer_A_initCompareMode(TIMER_A0_BASE, PWMParam);
         Timer_A_startCounter(TIMER_A0_BASE, TIMER_A_UP_MODE);
     }
@@ -200,7 +204,7 @@ void moveRight(Timer_A_initCompareModeParam* PWMParam){
     PWMMotor(MOTOR1, BACKWARD, TURN_POWER, PWMParam);
 
     for(int loop2=0;loop2<10;loop2++){
-        for(int duration=0;duration<TURN_DURATION;duration++);
+        for(int duration=0;duration<TURN_DURATION;duration++){if(motorStopFlag == 1){return;}}
     }
 
     turnOffMotor(MOTOR1);
@@ -213,7 +217,7 @@ void moveLeft(Timer_A_initCompareModeParam* PWMParam){
     PWMMotor(MOTOR1, FORWARD, TURN_POWER, PWMParam);
 
     for(int loop2=0;loop2<10;loop2++){
-        for(int duration=0;duration<TURN_DURATION;duration++);
+        for(int duration=0;duration<TURN_DURATION;duration++){if(motorStopFlag == 1){return;}}
     }
 
     turnOffMotor(MOTOR1);
@@ -226,7 +230,7 @@ void moveForward(Timer_A_initCompareModeParam* PWMParam){
     PWMMotor(MOTOR2, FORWARD, TURN_POWER, PWMParam);
 
     for(int loop2=0;loop2<10;loop2++){
-        for(int duration=0;duration<TURN_DURATION;duration++);
+        for(int duration=0;duration<TURN_DURATION;duration++){if(motorStopFlag == 1){return;}}
     }
 
     turnOffMotor(MOTOR1);
@@ -239,7 +243,7 @@ void moveBackward(Timer_A_initCompareModeParam* PWMParam){
     PWMMotor(MOTOR2, BACKWARD, TURN_POWER, PWMParam);
 
     for(int loop2=0;loop2<10;loop2++){
-        for(int duration=0;duration<TURN_DURATION;duration++);
+        for(int duration=0;duration<TURN_DURATION;duration++){if(motorStopFlag == 1){return;}}
     }
 
     turnOffMotor(MOTOR1);
