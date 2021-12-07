@@ -18,6 +18,12 @@ void main(void)
 
     initUart();
     initAlarm();
+    disableAlarm();
+
+    // Boot up delay
+    for(uint16_t bootupdelay=0; bootupdelay < 4; bootupdelay++){
+        for(uint16_t delay=0; delay<UINT16_MAX; delay++);
+    }
 
     Timer_A_initUpModeParam motorInitParam = {0};
     motorInitParam.clockSource = TIMER_A_CLOCKSOURCE_SMCLK;
@@ -36,19 +42,17 @@ void main(void)
     timerCompInitParam.compareValue = 0xFFFF*(4/5);
     initMotors(&motorInitParam, &timerCompInitParam);
 
-    enableAlarm();
-    for(uint16_t delay=0; delay<UINT16_MAX; delay++);
-    disableAlarm();
-
+    // Start up sound
+    startupSound();
 
     // Enable global interrupts
     __enable_interrupt();
     while (1)
     {
         //EUSCI_A_UART_transmitData(EUSCI_A0_BASE, 'f');
-
         if(RXData != 0){
             for(uint16_t delay=0; delay < UINT16_MAX; delay++);
+            clearMotorStopFlag();
             if(RXData == MOVE_FORW){
                 moveForward(&timerCompInitParam);
             }
@@ -84,6 +88,8 @@ void EUSCI_A0_ISR(void)
         case USCI_UART_UCRXIFG:
             RXData = EUSCI_A_UART_receiveData(EUSCI_A0_BASE);
             if(RXData == MOTOR_STOP){
+                disableAlarm();
+                setMotorStopFlag();
                 turnOffMotor(MOTOR1);
                 turnOffMotor(MOTOR2);
             }

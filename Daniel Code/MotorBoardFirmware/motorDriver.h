@@ -35,6 +35,9 @@ void disableMotor1(void);
 void disableMotor2(void);
 void disableMotors(void);
 
+void setMotorStopFlag(void);
+void clearMotorStopFlag(void);
+
 // Motor is either MOTOR1 or MOTOR2
 // dir is either FORWARD OR BACKWARD
 // dutyCycle is a percent out of 100
