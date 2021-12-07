@@ -18,7 +18,6 @@
 #include <semaphore.h>
 #include <unistd.h>
 
-
 /* Driver Header files */
 #include <ti/drivers/GPIO.h>
 #include <ti/drivers/I2C.h>

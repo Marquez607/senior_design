@@ -62,6 +62,9 @@ static void col_handler(state_t *next);
 /* reset handler */
 static void reset_handler(state_t *next);
 
+/* reroute handler */
+static void reroute_handler(state_t *next);
+
 /**************************** MSG FUNCTIONS *************************/
 
 /* tell client current pos */
@@ -149,8 +152,13 @@ void controlThread(void *arg0){
         case ST_EXE_CMD:
             lcd_reset();
             lcd_string("EXE STATE");
-//            Display_printf(display,0,0,"EXE STATE");
             exe_handler(&state);
+            break;
+
+        case ST_REROUTE:
+            lcd_reset();
+            lcd_string("REROUTE STATE");
+            reroute_handler(&state);
             break;
 
         case ST_COL:
@@ -236,6 +244,12 @@ static void wait_handler(state_t *next){
 
 }
 
+/* reroute handler */
+static void reroute_handler(state_t *next){
+
+
+}
+
 /* exe handler */
 static void exe_handler(state_t *next){
     /*
@@ -256,6 +270,8 @@ static void exe_handler(state_t *next){
 
     do{
         if(blocked_flag){
+//            send_blocked_msg();
+//            send_msg("FAILED: TRY REROUTE");
 
             *next = ST_COL;
             return;
@@ -290,6 +306,7 @@ static void exe_handler(state_t *next){
             }
 
             /* move for hard-coded amount of time */
+            send_msg("MOVING FORWARD");
             send_motor_cmd(MOVE_FORW);
             Task_sleep(FORWARD_TIME_MS);
             send_motor_cmd(MOTOR_STOP);
@@ -362,6 +379,8 @@ static void send_heading(void){
 /* collision handler */
 static void col_handler(state_t *next){
 
+    /* backup */
+
     /* while u_alert is in effect, stay here */
     while(read_u_alert()){
         send_motor_cmd(MOTOR_STOP);
@@ -432,9 +451,11 @@ static int rotate_to_heading(float new_heading){
 //            Display_printf(display, 0, 0, "MOVING RIGHT");
             if(turn_left){
                 send_motor_cmd(MOTOR_TURN_LEFT);
+                send_msg("TURNING LEFT");
             }
             else{
                 send_motor_cmd(MOTOR_TURN_RIGHT);
+                send_msg("TURNING RIGHT");
             }
             Task_sleep(ROTATE_TIME_MS);
             send_motor_cmd(MOTOR_STOP);
