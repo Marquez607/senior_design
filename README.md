@@ -31,19 +31,10 @@ https://medium.com/geekculture/classifying-waste-images-with-machine-learning-14
 Kaggle Waste Dataset:
 https://www.kaggle.com/techsash/waste-classification-data
 
-## WIFI CONNECTIVITY ( DRONE )
+## WIFI CONNECTIVIT
 For sanity's sake, the system will get deployed on using a LAN router we have control over
 I'll be using a static IP address for the robot/drone that I'll configure using the router. 
 Without a static IP, I'd probably have to seput some kind of website or blah blah blah 
-
-Another alternative is to have the router act as a server and set up port forwarding between
-the drone and whatever control device we have (phone/pc)
-
-### Router : TP-Link_BD55/TP-Link_BD55_5G
-### Network Password : 63741544
-
-### Guest Router : Tachyon_Test_LAN
-### Guest Network Password : Tachyon123#
 
 ## USER INTERFACE
 We can quickly make a webapp using pywebio:
