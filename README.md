@@ -17,7 +17,7 @@
 * Might only be necessary if we use the SysConfig ImageCreator 
 * https://dev.ti.com/tirex/explore/node?node=AFiRjv8UYvIlGLFBWWEcQw__fc2e6sr__LATEST
 
-## Machine Learning 
+<!-- ## Machine Learning 
 Part of the project could be incorporating a camera to detect something. Right now it'd be 
 cool if we could tell the drone to go to x,y gps location and look for trash. We can just 
 get some trash dataset and train an support vector machine (or some other light weight ML model)
@@ -29,9 +29,9 @@ Trash classification:
 https://medium.com/geekculture/classifying-waste-images-with-machine-learning-14b249f11544#66db
 
 Kaggle Waste Dataset:
-https://www.kaggle.com/techsash/waste-classification-data
+https://www.kaggle.com/techsash/waste-classification-data -->
 
-## WIFI CONNECTIVIT
+## WIFI CONNECTIVITY
 For sanity's sake, the system will get deployed on using a LAN router we have control over
 I'll be using a static IP address for the robot/drone that I'll configure using the router. 
 Without a static IP, I'd probably have to seput some kind of website or blah blah blah 
