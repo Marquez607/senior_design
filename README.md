@@ -1,4 +1,7 @@
-#W Wheelson IoT Drone Platform
+# Wheelson IoT Drone Platform
+Senior Design 2021 project by Marquez Jones and Daniel Olis \
+Project consisted of making wifi connected robot platform that provided video streaming to end user on web application written with PyWebio. 
+
 ## MCU DETAILS 
 ### CC3235S <- base MCU 
 * https://www.ti.com/product/CC3235S#design-development
